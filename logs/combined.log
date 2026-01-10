@@ -1,1 +1,16 @@
 {"error":{"cause":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{"localhost:27017":{"$clusterTime":null,"address":"localhost:27017","arbiters":[],"electionId":null,"error":{"beforeHandshake":false,"errorLabelSet":{}},"hosts":[],"iscryptd":false,"lastUpdateTime":28135689,"lastWriteDate":0,"logicalSessionTimeoutMinutes":null,"maxBsonObjectSize":null,"maxMessageSizeBytes":null,"maxWireVersion":0,"maxWriteBatchSize":null,"me":null,"minRoundTripTime":0,"minWireVersion":0,"passives":[],"primary":null,"roundTripTime":-1,"setName":null,"setVersion":null,"tags":{},"topologyVersion":null,"type":"Unknown"}},"setName":null,"stale":false,"type":"Unknown"},"errorLabelSet":{},"message":"connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{"localhost:27017":{"$clusterTime":null,"address":"localhost:27017","arbiters":[],"electionId":null,"error":{"beforeHandshake":false,"errorLabelSet":{}},"hosts":[],"iscryptd":false,"lastUpdateTime":28135689,"lastWriteDate":0,"logicalSessionTimeoutMinutes":null,"maxBsonObjectSize":null,"maxMessageSizeBytes":null,"maxWireVersion":0,"maxWriteBatchSize":null,"me":null,"minRoundTripTime":0,"minWireVersion":0,"passives":[],"primary":null,"roundTripTime":-1,"setName":null,"setVersion":null,"tags":{},"topologyVersion":null,"type":"Unknown"}},"setName":null,"stale":false,"type":"Unknown"}},"level":"error","message":"MongoDB connection error: ","timestamp":"2026-01-10 12:49:24"}
+{"error":{"code":18,"codeName":"AuthenticationFailed","connectionGeneration":0,"errorLabelSet":{},"errorResponse":{"code":18,"codeName":"AuthenticationFailed","errmsg":"Authentication failed.","ok":0},"ok":0},"level":"error","message":"MongoDB connection error: ","timestamp":"2026-01-10 13:05:44"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-10 13:06:25"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-10 13:06:25"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-10 13:50:41"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-10 13:50:41"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-10 13:52:16"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-10 13:52:16"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-10 14:09:16"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-10 14:09:16"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-10 14:11:24"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-10 14:11:24"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-10 14:35:30"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-10 14:35:30"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-10 15:05:40"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-10 15:05:40"}
