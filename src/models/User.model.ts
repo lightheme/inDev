@@ -1,17 +1,18 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface UserDocument extends Document {
-    telegramId: string;
+    telegramId: number;
     username?: string;
     firstName?: string;
     lastName?: string;
     balance: number;
     reservedBalance: number;
     createdAt: Date;
+    updatedAt: Date;
 };
 
 const UserSchema = new Schema<UserDocument>({
-    telegramId: { type: String, required: true, unique: true, index: true },
+    telegramId: { type: Number, required: true, unique: true, index: true },
     username: { type: String },
     firstName: { type: String },
     lastName: { type: String },
@@ -28,5 +29,5 @@ UserSchema.virtual('availableBalance').get(function() {
 // Если нужна конвертация в JSON
 UserSchema.set('toJSON', { virtuals: true });
 
-export const User = mongoose.model<UserDocument>('User', UserSchema);
+export const UserModel = mongoose.model<UserDocument>('User', UserSchema);
 

@@ -14,3 +14,31 @@
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-01-10 14:35:30"}
 {"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-10 15:05:40"}
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-01-10 15:05:40"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 06:30:19"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 06:30:19"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 06:31:57"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 06:31:57"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 06:42:21"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 06:42:21"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 06:50:47"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 06:50:47"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 06:50:57"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 06:50:57"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:27:24"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 07:27:24"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:28:49"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 07:28:49"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:35:29"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 07:35:29"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:44:26"}
+{"error":{"_message":"Auction validation failed","errors":{"rounds.1.endTime":{"kind":"required","message":"Path `endTime` is required.","name":"ValidatorError","path":"endTime","properties":{"message":"Path `endTime` is required.","path":"endTime","type":"required"}},"rounds.1.startTime":{"kind":"required","message":"Path `startTime` is required.","name":"ValidatorError","path":"startTime","properties":{"message":"Path `startTime` is required.","path":"startTime","type":"required"}}},"message":"Auction validation failed: rounds.1.endTime: Path `endTime` is required., rounds.1.startTime: Path `startTime` is required.","name":"ValidationError"},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 07:44:26"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:44:58"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 07:44:58"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:52:40"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:53:29"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:54:17"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:57:37"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 07:59:52"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 07:59:52"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:01:53"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:01:53"}
