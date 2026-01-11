@@ -64,3 +64,33 @@
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:39:23"}
 {"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:41:04"}
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:41:04"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 09:38:54"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 09:38:54"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 09:40:15"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 09:40:15"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 09:40:54"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 09:40:54"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 09:41:07"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 09:41:07"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 10:18:55"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 10:18:55"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 10:28:51"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 10:28:51"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 12:35:22"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 12:35:22"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 12:40:34"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 12:40:34"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 14:11:36"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 14:11:36"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 14:14:05"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 14:14:05"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 14:15:35"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 14:15:35"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 14:35:16"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 14:35:16"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 16:41:10"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 16:41:10"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 16:42:16"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 16:42:16"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 16:50:52"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 16:50:52"}

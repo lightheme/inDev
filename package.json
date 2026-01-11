@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-      "dev": "nodemon --exec ts-node src/server.ts",
-      "build": "tsc",
-      "start": "node dist/server/js",
-      "test": "jest"
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server/js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,7 @@
     "morgan": "^1.10.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
+    "uuid": "^13.0.0",
     "winston": "^3.19.0"
   },
   "devDependencies": {

@@ -29,12 +29,6 @@ export interface Round {
     endTime: Date;
     extendedTime: number;
     status: RoundStatus;
-    winnerIds?: string[];
+    winnerIds: string[];
 }
 
-export interface CreateAuctionDTO {
-    title: string;
-    totalGifts: number;
-    giftsPerRound: number[];
-    roundDurations: number[];  
-}
