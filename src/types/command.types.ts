@@ -2,7 +2,9 @@ export interface Command {
     type: string;
     payload: any;
     idempotencyKey: string;
-    timestamp: Date;
+
+    validate(): Promise<boolean>;
+    execute(): Promise<CommandResult>;
 }
 
 export interface CommandResult<T = any> {

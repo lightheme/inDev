@@ -15,6 +15,8 @@ declare global {
     }
 }
 
+const userService = new UserService();
+
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const initData = req.headers['x-telegram-init-data'] as string;
@@ -28,7 +30,17 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
         if(!telegramUser) {
             throw AppError('Invalid Telegram init data', 401);
         }
+        
+        const user = userService.getOrCreateUser(telegramUser);
 
-        const userService;
+        req.user = {
+            id: user.id,
+            telegramId: user.telegramId,
+            username: user.username
+        };
+
+        next();
+    } catch(error) {
+        next(error);
     }
-}
+};
