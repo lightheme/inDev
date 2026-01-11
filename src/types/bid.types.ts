@@ -8,10 +8,11 @@ export interface Bid {
     id: string;
     auctionId: string;
     userId: string;
-    roundId: string;
+    roundNumber: number;
     amount: number;
     placedAt: Date;
     status: BidStatus;
+    idempotencyKey: string;  
 }
 
 export interface PlaceBidDTO {

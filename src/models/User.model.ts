@@ -8,7 +8,6 @@ export interface UserDocument extends Document {
     balance: number;
     reservedBalance: number;
     createdAt: Date;
-    updatedAt: Date;
 };
 
 const UserSchema = new Schema<UserDocument>({
@@ -17,9 +16,8 @@ const UserSchema = new Schema<UserDocument>({
     firstName: { type: String },
     lastName: { type: String },
     balance: { type: Number, default: 0, min: 0 },
-    reservedBalance: { type: Number, default: 0, min: 0 }
-}, {
-    timestamps: true
+    reservedBalance: { type: Number, default: 0, min: 0 },
+    createdAt: { type: Date, default: Date.now }
 });
 
 UserSchema.virtual('availableBalance').get(function() {

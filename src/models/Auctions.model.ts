@@ -22,9 +22,8 @@ const AuctionSchema = new Schema<AuctionDocument>({
     totalGifts: { type: Number, required: true },
     status: { type: String, enum: Object.values(AuctionStatus), default: AuctionStatus.DRAFT },
     rounds: [RoundSchema],
-    currentRound: { type: Number, default: 0 } 
-}, {
-    timestamps: true
+    currentRound: { type: Number, default: 0 },
+    createdAt: { type: Date, default: Date.now }
 });
 
 AuctionSchema.index({ status: 1, 'rounds.status': 1 });

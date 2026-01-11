@@ -42,3 +42,25 @@
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 07:59:52"}
 {"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:01:53"}
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:01:53"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:27:23"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:27:23"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:29:23"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.bids index: idempotencyKey_1 dup key: { idempotencyKey: \"12345\" }","index":0,"keyPattern":{"idempotencyKey":1},"keyValue":{"idempotencyKey":"12345"}},"index":0,"keyPattern":{"idempotencyKey":1},"keyValue":{"idempotencyKey":"12345"}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 08:29:23"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:29:51"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:29:51"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:31:50"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.bids index: idempotencyKey_1 dup key: { idempotencyKey: \"12345\" }","index":0,"keyPattern":{"idempotencyKey":1},"keyValue":{"idempotencyKey":"12345"}},"index":0,"keyPattern":{"idempotencyKey":1},"keyValue":{"idempotencyKey":"12345"}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 08:31:50"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:34:19"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:34:20"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:35:51"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.bids index: idempotencyKey_1 dup key: { idempotencyKey: \"12345\" }","index":0,"keyPattern":{"idempotencyKey":1},"keyValue":{"idempotencyKey":"12345"}},"index":0,"keyPattern":{"idempotencyKey":1},"keyValue":{"idempotencyKey":"12345"}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 08:35:51"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:36:04"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:36:04"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:37:59"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 08:37:59"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:38:48"}
+{"error":{"code":11000,"errorLabelSet":{},"errorResponse":{"code":11000,"errmsg":"E11000 duplicate key error collection: auction.users index: telegramId_1 dup key: { telegramId: 12345 }","index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"index":0,"keyPattern":{"telegramId":1},"keyValue":{"telegramId":12345}},"level":"error","message":"Failed to start server: ","timestamp":"2026-01-11 08:38:48"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:39:23"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:39:23"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-11 08:41:04"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-11 08:41:04"}

@@ -4,12 +4,19 @@ import { config } from "./config/environment";
 import { logger } from "./utils/logger";
 import { AuctionModel } from "./models/Auctions.model";
 import { UserModel } from "./models/User.model";
+import { BidModel } from "./models/Bid.model";
 
 const startServer = async () => {
     try {
         await connectDatabase();
         // START TEST
-       const user = await UserModel.findOne({ telegramId: 12345 });
+        // const user = await UserModel.findOne({ telegramId: 12345 });
+        const user = new UserModel({
+            telegramId: 12345,
+            username: 'test',
+            balance: 100
+        });
+        await user.save();
 
         const auction = new AuctionModel({
             creatorId: user!._id,
@@ -28,6 +35,16 @@ const startServer = async () => {
         });
 
         await auction.save();
+
+        const bid = new BidModel({
+            auctionId: auction._id,
+            userId: user!._id,
+            roundNumber: 1,
+            amount: 1,
+            idempotencyKey: "12345"
+        });
+
+        await bid.save();
         // END TEST
 
         const app = createApp();

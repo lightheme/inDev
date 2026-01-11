@@ -20,7 +20,6 @@ export interface Auction {
     rounds: Round[];
     currentRound: number;
     createdAt: Date;
-    updatedAt: Date;
 }
 
 export interface Round {
