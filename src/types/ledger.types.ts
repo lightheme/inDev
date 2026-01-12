@@ -8,7 +8,8 @@ export enum LedgerEntryTypes {
 export enum LedgerRefType {
     AUCTION = 'auction',
     ROUND = 'round',
-    BID = 'bid'
+    BID = 'bid',
+    USER = 'user'
 }
 
 export interface LedgerEntry {
