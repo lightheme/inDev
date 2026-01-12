@@ -1,7 +1,6 @@
 import { Command, CommandResult } from "../types/command.types";
 import { LockManager } from "../locks/LockManager";
 import { logger } from "../utils/logger";
-import { valid } from "joi";
 
 export class CommandHandler {
     private lockManager: LockManager;
@@ -18,8 +17,8 @@ export class CommandHandler {
                 idempotencyKey: command.idempotencyKey
             });
             
-            const idValid = await command.validate();
-            if(!valid) {
+            const isValid = await command.validate();
+            if(!isValid) {
                 return {
                     success: false,
                     error: 'Command validation failed'
