@@ -1,7 +1,7 @@
 export enum AuctionStatus {
     DRAFT = 'draft',
     ACTIVE = 'active',
-    COMPETED = 'completed',
+    COMPLETED = 'completed',
     CANCELLED = 'cancelled'
 }
 
@@ -27,7 +27,7 @@ export interface Round {
     giftsToDistribute: number;
     startTime: Date;
     endTime: Date;
-    extendedTime: number;
+    duration: number;
     status: RoundStatus;
     winnerIds: string[];
 }

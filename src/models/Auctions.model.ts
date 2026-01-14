@@ -11,7 +11,7 @@ const RoundSchema = new Schema({
     giftsToDistribute: { type: Number, required: true },
     startTime: { type: Date, required: true },
     endTime: { type: Date, required: true },
-    extendedTime: { type: Number, default: 0 },
+    duration: { type: Number, default: 0 },
     status: { type: String, enum: Object.values(RoundStatus), default: RoundStatus.PENDING },
     winnerIds: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 }, { _id: false });

@@ -47,7 +47,7 @@ export class CommandHandler {
 
                 return result;
             } finally {
-                if(lock) {
+                if(lock && lockKey) {
                     await this.lockManager.releaseLock(lockKey);
                 }
             }

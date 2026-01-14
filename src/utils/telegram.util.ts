@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { config } from "../config/environment";
 
 export interface TelegramUser {
-    id: string;
+    id: number;
     first_name?: string;
     last_name?: string;
     username?: string;

@@ -8,6 +8,7 @@ export interface UserDocument extends Document {
     balance: number;
     reservedBalance: number;
     createdAt: Date;
+    availableBalance: number;
 };
 
 const UserSchema = new Schema<UserDocument>({
@@ -26,6 +27,8 @@ UserSchema.virtual('availableBalance').get(function() {
 
 // Если нужна конвертация в JSON
 UserSchema.set('toJSON', { virtuals: true });
+
+UserSchema.index({ telegramId: 1 }, { unique: true });
 
 export const UserModel = mongoose.model<UserDocument>('User', UserSchema);
 

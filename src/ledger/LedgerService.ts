@@ -55,4 +55,15 @@ export class LedgerService {
 
         return { balance, reservedBalance }
     }
+
+    async existsByCommandId(
+        commandId: string,
+        session: mongoose.ClientSession
+    ): Promise<boolean> {
+        return !!(await LedgerModel
+            .findOne({ commandId })
+            .session(session)
+            .select('_id')
+        );
+    }
 }
