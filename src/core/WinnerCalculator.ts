@@ -27,7 +27,7 @@ export class WinnerCalculator {
     const userBids = new Map<string, { totalAmount: number; earliestBid: Date; bids: any[] }>();
 
     for (const bid of bids) {
-      const userId = bid.userId.toString();
+      const userId = bid.userId._id.toString();
       
       if (!userBids.has(userId)) {
         userBids.set(userId, {

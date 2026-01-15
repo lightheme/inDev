@@ -16,7 +16,8 @@ const roundSchema = Joi.object({
 export const createAuctionSchema = Joi.object({
     title: Joi.string().min(3).max(100).required(),
     totalGifts: Joi.number().integer().min(1).max(1_000_000).required(),
-    rounds: Joi.array().items(roundSchema).min(1).required()    
+    giftsPerRound: Joi.array().items(Joi.number()).min(1).required(),
+    roundDurations: Joi.array().items(Joi.number()).min(1).required()
 });
 
 export const placeBidSchema = Joi.object({

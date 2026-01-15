@@ -41,7 +41,7 @@ export class AuctionEngine {
         creatorId: data.creatorId,
         title: data.title,
         totalGifts: data.totalGifts,
-        status: AuctionStatus.DRAFT,
+        status: AuctionStatus.ACTIVE,
         rounds,
         currentRound: 0
       });
