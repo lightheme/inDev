@@ -36,14 +36,38 @@ export class BidProcessor {
 
             await bid.save({ session });
 
-            await this.ledgerService.recordOperation({
-                userId: data.userId.toString(),
-                type: LedgerEntryTypes.RESERVE,
-                amount: data.amount,
-                refType: LedgerRefType.BID,
-                refId: bid._id.toString(),
-                commandId: "bid"
-            }, session);
+            await session.commitTransaction();
+
+            return bid;
+        } catch(error) {
+            await session.abortTransaction();
+            throw error;
+        } finally {
+            session.endSession();
+        }
+    }
+
+    async increaseBid(
+        data: {
+            bidId: string,
+            auctionId: mongoose.Types.ObjectId,
+            userId: mongoose.Types.ObjectId,
+            roundNumber: number,
+            amount: number,
+            idempotencyKey: string
+        }
+    ): Promise<BidDocument> {
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
+        try {
+            const bid = await this.findBidById(data.bidId, session);
+            if(!bid) {
+                throw new Error('No bid find');
+            }
+            bid.amount = Number(bid.amount) + Number(data.amount);
+            
+            await bid.save({ session });
 
             await session.commitTransaction();
 
@@ -56,6 +80,7 @@ export class BidProcessor {
         }
     }
 
+
     async findBidByIdempotencyKey(idempotencyKey: string): Promise<BidDocument | null> {
         return await BidModel.findOne({ idempotencyKey });
     }
@@ -67,6 +92,10 @@ export class BidProcessor {
             roundNumber,
             status: BidStatus.ACTIVE
         });
+    }
+
+    async findBidById(bidId: string, session: mongoose.ClientSession): Promise<BidDocument | null> {
+        return await BidModel.findOne({ _id: bidId }).session(session);
     }
 
     async getTotalBidAmount(userId: string, auctionId: string, roundNumber: number): Promise<number> {

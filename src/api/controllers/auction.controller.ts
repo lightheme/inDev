@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { CommandHandler } from '../../commands/CommandHandler';
 import { CreateAuctionCommand } from '../../commands/auction/CreateAuctionCommand';
 import { PlaceBidCommand } from '../../commands/bid/PlaceBidCommand';
+import { IncreaseBidCommand } from '../../commands/bid/IncreaseBidCommand';
 import { AuctionService } from '../../services/AuctionService';
 import { AppError } from '../../utils/errors';
 
@@ -95,6 +96,36 @@ export class AuctionController {
 
       if (!result.success) {
         throw new AppError(result.error || 'Failed to place bid', 400);
+      }
+
+      res.status(201).json({
+        success: true,
+        data: result.data
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  increaseBid = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = req.user!.id;
+      const { id: auctionId } = req.params;
+      const { amount, bidId } = req.body;
+      const idempotencyKey = (req.headers['idempotency-key'] as string) || `bid-${userId}-${auctionId}-${Date.now()}`;
+
+      const command = new IncreaseBidCommand({
+        bidId,
+        auctionId,
+        userId,
+        amount,
+        idempotencyKey
+      });
+
+      const result = await this.commandHandler.execute(command);
+
+      if (!result.success) {
+        throw new AppError(result.error || 'Failed to increase bid', 400);
       }
 
       res.status(201).json({

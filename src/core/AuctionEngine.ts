@@ -41,14 +41,15 @@ export class AuctionEngine {
         creatorId: data.creatorId,
         title: data.title,
         totalGifts: data.totalGifts,
-        status: AuctionStatus.ACTIVE,
+        status: AuctionStatus.DRAFT,
         rounds,
         currentRound: 0
       });
 
       await auction.save({ session });
       await session.commitTransaction();
-
+      
+      await this.startAuction(auction._id.toString());
       logger.info(`Auction created: ${auction.id}`);
 
       return auction;
@@ -80,7 +81,7 @@ export class AuctionEngine {
     logger.info(`Auction started: ${auctionId}`);
   }
 
-  async endRound(auctionId: string, roundNumber: number): Promise<void> {
+  async endRound(auctionId: string, roundNumber: number, commandId: string): Promise<void> {
     const session = await mongoose.startSession();
     session.startTransaction();
 
@@ -105,7 +106,7 @@ export class AuctionEngine {
       round.endTime = new Date();
       round.winnerIds = winners.map(w => new mongoose.Types.ObjectId(w.userId));
 
-      await this.processRoundResults(auctionId, roundNumber + 1, winners, session);
+      await this.processRoundResults(auctionId, roundNumber + 1, winners, session, commandId);
 
       if (roundNumber < auction.rounds.length - 1) {
         auction.currentRound = roundNumber + 1;
@@ -160,7 +161,8 @@ export class AuctionEngine {
     auctionId: string,
     roundNumber: number,
     winners: any[],
-    session: mongoose.ClientSession
+    session: mongoose.ClientSession,
+    commandId: string
   ): Promise<void> {
     const winnerUserIds = new Set(winners.map(w => w.userId));
 
@@ -175,10 +177,10 @@ export class AuctionEngine {
       
       if (winnerUserIds.has(userId)) {
         bid.status = BidStatus.WON;
-        await this.balanceManager.reserve({ userId, amount: bid.amount, refType: LedgerRefType.BID, refId: bid._id.toString(), commandId: 'makePlsCmdId1' });
+        await this.balanceManager.reserve({ userId, amount: bid.amount, refType: LedgerRefType.BID, refId: bid._id.toString(), commandId });
       } else {
         bid.status = BidStatus.REFUNDED;
-        await this.balanceManager.release({ userId, amount: bid.amount, refType: LedgerRefType.BID, refId: bid._id.toString(), commandId: 'makePlsCmdId2' });
+        await this.balanceManager.release({ userId, amount: bid.amount, refType: LedgerRefType.BID, refId: bid._id.toString(), commandId });
       }
 
       await bid.save({ session });

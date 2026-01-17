@@ -58,7 +58,7 @@ export class BalanceManager {
                 throw new Error('Insufficient balance');
             }
 
-            user.reservedBalance += dto.amount;
+            user.reservedBalance = Number(dto.amount) + Number(user.reservedBalance);
             await user.save({ session });
 
             await this.ledgerService.recordOperation(
@@ -86,8 +86,8 @@ export class BalanceManager {
                 throw new Error('Insufficient balance');
             }
     
-            user.reservedBalance -= dto.amount;
-            user.balance -= dto.amount;
+            user.reservedBalance = Number(user.reservedBalance) + Number(dto.amount);
+            user.balance = Number(user.balance) - Number(dto.amount);
             await user.save({ session });
     
             await this.ledgerService.recordOperation(
@@ -107,7 +107,7 @@ export class BalanceManager {
             
             const user = await this.loadUser(dto.userId, session);           
 
-            user.balance += dto.amount;
+            user.balance = Number(dto.amount) + Number(user.balance);
             await user.save({ session });
 
             await this.ledgerService.recordOperation(
@@ -131,7 +131,7 @@ export class BalanceManager {
                 throw new Error('Insufficient balance');
             }
 
-            user.reservedBalance -= dto.amount;
+            user.reservedBalance = Number(user.reservedBalance) + Number(dto.amount);
             await user.save({ session });
 
             await this.ledgerService.recordOperation(
@@ -148,7 +148,7 @@ export class BalanceManager {
     const user = await UserModel.findById(userId);
     if (!user) return false;
 
-    const availableBalance = user.balance - user.reservedBalance;
+    const availableBalance = Number(user.balance) - Number(user.reservedBalance);
     return availableBalance >= amount;
   }
 }

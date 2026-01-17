@@ -477,3 +477,263 @@
 {"level":"info","message":"Database connected successfully","timestamp":"2026-01-14 21:46:34"}
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-01-14 21:46:34"}
 {"level":"info","message":"::1 - - [14/Jan/2026:18:46:36 +0000] \"GET /api/auctions/6967e209c30509c89f6a39f2/leaderboard HTTP/1.1\" 200 376 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-14 21:46:36"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:21"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 06:23:21"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 06:23:21"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 06:23:21"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:21"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:21"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:21"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:22"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:22"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:22"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:23"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:23"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:23"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:24"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:25"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:25"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:26"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:27"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:27"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:28"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:29"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:30"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:31"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:32"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:33"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:34"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:35"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:36"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:38"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:39"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:40"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:42"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:43"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:45"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:46"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:48"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:50"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:51"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:53"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:55"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-15 06:23:57"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 06:23:59"}
+{"level":"info","message":"::1 - - [15/Jan/2026:03:43:55 +0000] \"GET /api/auctions/6967e209c30509c89f6a39f2/leaderboard HTTP/1.1\" 200 376 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 06:43:55"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 06:45:53"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 06:45:53"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 06:45:53"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 06:45:53"}
+{"level":"info","message":"::1 - - [15/Jan/2026:03:46:01 +0000] \"GET /api/auctions/6967e209c30509c89f6a39f2/leaderboard HTTP/1.1\" 200 216 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 06:46:01"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 06:50:49"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 06:50:49"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 06:50:49"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 06:50:49"}
+{"level":"info","message":"::1 - - [15/Jan/2026:03:51:09 +0000] \"GET /api/auctions/6967e209c30509c89f6a39f2/leaderboard HTTP/1.1\" 200 225 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 06:51:09"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 06:52:33"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 06:52:33"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 06:52:33"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 06:52:33"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 06:52:53"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 06:52:53"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 06:52:53"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 06:52:53"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 06:53:13"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 06:53:13"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 06:53:13"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 06:53:13"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 06:54:17"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 06:54:17"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 06:54:17"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 06:54:17"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:01:50"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:01:50"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:01:50"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:01:50"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:01:58"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:01:58"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:01:58"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:01:58"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:04:46"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:04:46"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:04:46"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:04:46"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:08:20"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:08:20"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:08:20"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:08:20"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:12:52"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:12:52"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:12:52"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:12:52"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:16:42"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:16:42"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:16:42"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:16:42"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:17:45"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:17:45"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:17:46"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:17:46"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:18:19"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:18:19"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:18:19"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:18:19"}
+{"idempotencyKey":"bid-6967a9a3427ce64927c0d0d6-6967e209c30509c89f6a39f2-1768450705951","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 07:18:25"}
+{"error":"No bid find","level":"error","message":"Command execution failed: PlaceBid","stack":"Error: No bid find\n    at BidProcessor.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\core\\BidProcessor.ts:75:23)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async IncreaseBidCommand.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\IncreaseBidCommand.ts:76:19)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:42:32)\n    at async AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:125:22)","timestamp":"2026-01-15 07:18:26"}
+{"level":"error","message":"Error: No bid find","method":"POST","path":"/api/auctions/6967e209c30509c89f6a39f2/increase-bid","stack":"Error: No bid find\n    at AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:128:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 07:18:26"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:18:26 +0000] \"POST /api/auctions/6967e209c30509c89f6a39f2/increase-bid HTTP/1.1\" 400 39 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:18:26"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:21:27"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:21:27"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:21:27"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:21:27"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 07:21:39"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 07:21:39"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 07:21:39"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 07:21:39"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:21:47 +0000] \"GET /api/auctions/6967e209c30509c89f6a39f2 HTTP/1.1\" 200 846 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:21:47"}
+{"idempotencyKey":"bid-6967a9a3427ce64927c0d0d6-6967e209c30509c89f6a39f2-1768450933105","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 07:22:13"}
+{"error":"Insufficient balance","level":"error","message":"Command execution failed: PlaceBid","stack":"Error: Insufficient balance\n    at IncreaseBidCommand.validate (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\IncreaseBidCommand.ts:49:13)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:20:29)\n    at async AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:125:22)","timestamp":"2026-01-15 07:22:13"}
+{"level":"error","message":"Error: Insufficient balance","method":"POST","path":"/api/auctions/6967e209c30509c89f6a39f2/increase-bid","stack":"Error: Insufficient balance\n    at AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:128:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 07:22:13"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:22:13 +0000] \"POST /api/auctions/6967e209c30509c89f6a39f2/increase-bid HTTP/1.1\" 400 48 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:22:13"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:23:40 +0000] \"GET /api/me HTTP/1.1\" 200 196 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:23:40"}
+{"idempotencyKey":"bid-6967a9a3427ce64927c0d0d6-6967e209c30509c89f6a39f2-1768451058641","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 07:24:18"}
+{"error":"No bid find","level":"error","message":"Command execution failed: PlaceBid","stack":"Error: No bid find\n    at BidProcessor.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\core\\BidProcessor.ts:75:23)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async IncreaseBidCommand.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\IncreaseBidCommand.ts:76:19)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:42:32)\n    at async AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:125:22)","timestamp":"2026-01-15 07:24:18"}
+{"level":"error","message":"Error: No bid find","method":"POST","path":"/api/auctions/6967e209c30509c89f6a39f2/increase-bid","stack":"Error: No bid find\n    at AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:128:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 07:24:18"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:24:18 +0000] \"POST /api/auctions/6967e209c30509c89f6a39f2/increase-bid HTTP/1.1\" 400 39 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:24:18"}
+{"idempotencyKey":"bid-6967a9a3427ce64927c0d0d6-6967e209c30509c89f6a39f2-1768451101738","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 07:25:01"}
+{"error":"Insufficient balance","level":"error","message":"Command execution failed: PlaceBid","stack":"Error: Insufficient balance\n    at IncreaseBidCommand.validate (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\IncreaseBidCommand.ts:49:13)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:20:29)\n    at async AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:125:22)","timestamp":"2026-01-15 07:25:01"}
+{"level":"error","message":"Error: Insufficient balance","method":"POST","path":"/api/auctions/6967e209c30509c89f6a39f2/increase-bid","stack":"Error: Insufficient balance\n    at AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:128:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 07:25:01"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:25:01 +0000] \"POST /api/auctions/6967e209c30509c89f6a39f2/increase-bid HTTP/1.1\" 400 48 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:25:01"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:25:09 +0000] \"GET /api/me HTTP/1.1\" 200 196 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:25:09"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:25:56 +0000] \"GET /api/me HTTP/1.1\" 200 190 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:25:56"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:26:00 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:26:00"}
+{"idempotencyKey":"create-auction-69686c54cb661d17dec1906f-1768451166796","level":"info","message":"Execute command: CreateAuction","timestamp":"2026-01-15 07:26:06"}
+{"level":"info","message":"Auction created: 69686c5ecb661d17dec1907a","timestamp":"2026-01-15 07:26:06"}
+{"duration":21,"level":"info","message":"Command executed successfully: CreateAuction","timestamp":"2026-01-15 07:26:06"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:26:06 +0000] \"POST /api/auctions/create HTTP/1.1\" 201 726 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:26:06"}
+{"idempotencyKey":"bid-69686c54cb661d17dec1906f-6967e209c30509c89f6a39f2-1768451174247","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 07:26:14"}
+{"error":"Auction not found","level":"error","message":"Command execution failed: PlaceBid","stack":"Error: Auction not found\n    at PlaceBidCommand.validate (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\PlaceBidCommand.ts:35:13)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:20:29)\n    at async AuctionController.placeBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:95:22)","timestamp":"2026-01-15 07:26:14"}
+{"level":"error","message":"Error: Auction not found","method":"POST","path":"/api/auctions/6967e209c30509c89f6a39f2/place-bid","stack":"Error: Auction not found\n    at AuctionController.placeBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:98:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 07:26:14"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:26:14 +0000] \"POST /api/auctions/6967e209c30509c89f6a39f2/place-bid HTTP/1.1\" 400 45 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:26:14"}
+{"level":"error","message":"Error: Auction not found","method":"GET","path":"/api/auctions/6967e209c30509c89f6a39f2","stack":"Error: Auction not found\n    at AuctionController.getAuctionById (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:69:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 07:26:21"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:26:21 +0000] \"GET /api/auctions/6967e209c30509c89f6a39f2 HTTP/1.1\" 404 45 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:26:21"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:26:24 +0000] \"GET /api/auctions HTTP/1.1\" 200 849 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:26:24"}
+{"idempotencyKey":"bid-69686c54cb661d17dec1906f-69686c5ecb661d17dec1907a-1768451192130","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 07:26:32"}
+{"error":"No active round","level":"error","message":"Command execution failed: PlaceBid","stack":"Error: No active round\n    at PlaceBidCommand.validate (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\PlaceBidCommand.ts:44:13)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:20:29)\n    at async AuctionController.placeBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:95:22)","timestamp":"2026-01-15 07:26:32"}
+{"level":"error","message":"Error: No active round","method":"POST","path":"/api/auctions/69686c5ecb661d17dec1907a/place-bid","stack":"Error: No active round\n    at AuctionController.placeBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:98:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 07:26:32"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:26:32 +0000] \"POST /api/auctions/69686c5ecb661d17dec1907a/place-bid HTTP/1.1\" 400 43 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:26:32"}
+{"idempotencyKey":"bid-69686c54cb661d17dec1906f-69686c5ecb661d17dec1907a-1768451225000","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 07:27:05"}
+{"level":"info","message":"Round 1 extended for auction 69686c5ecb661d17dec1907a","timestamp":"2026-01-15 07:27:05"}
+{"duration":44,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-15 07:27:05"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:27:05 +0000] \"POST /api/auctions/69686c5ecb661d17dec1907a/place-bid HTTP/1.1\" 201 311 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:27:05"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:27:33 +0000] \"GET /api/auctions/69686c5ecb661d17dec1907a/leaderboard HTTP/1.1\" 200 225 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:27:33"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:27:55 +0000] \"GET /api/auctions/69686c5ecb661d17dec1907a HTTP/1.1\" 200 846 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:27:55"}
+{"idempotencyKey":"bid-69686c54cb661d17dec1906f-6967e209c30509c89f6a39f2-1768451292793","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 07:28:12"}
+{"error":"Auction not found","level":"error","message":"Command execution failed: PlaceBid","stack":"Error: Auction not found\n    at IncreaseBidCommand.validate (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\IncreaseBidCommand.ts:35:13)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:20:29)\n    at async AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:125:22)","timestamp":"2026-01-15 07:28:12"}
+{"level":"error","message":"Error: Auction not found","method":"POST","path":"/api/auctions/6967e209c30509c89f6a39f2/increase-bid","stack":"Error: Auction not found\n    at AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:128:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 07:28:12"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:28:12 +0000] \"POST /api/auctions/6967e209c30509c89f6a39f2/increase-bid HTTP/1.1\" 400 45 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:28:12"}
+{"idempotencyKey":"bid-69686c54cb661d17dec1906f-69686c5ecb661d17dec1907a-1768451300146","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 07:28:20"}
+{"level":"info","message":"Round 1 extended for auction 69686c5ecb661d17dec1907a","timestamp":"2026-01-15 07:28:20"}
+{"duration":34,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-15 07:28:20"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:28:20 +0000] \"POST /api/auctions/69686c5ecb661d17dec1907a/increase-bid HTTP/1.1\" 201 313 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:28:20"}
+{"level":"info","message":"::1 - - [15/Jan/2026:04:29:22 +0000] \"GET /api/me HTTP/1.1\" 200 196 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 07:29:22"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:19:27 +0000] \"GET /api/me HTTP/1.1\" 200 190 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:19:27"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:19:41 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:19:41"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:19:45 +0000] \"GET /api/me HTTP/1.1\" 200 194 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:19:45"}
+{"idempotencyKey":"create-auction-696886efcb661d17dec190af-1768457999571","level":"info","message":"Execute command: CreateAuction","timestamp":"2026-01-15 09:19:59"}
+{"level":"info","message":"Auction created: 6968870fcb661d17dec190bc","timestamp":"2026-01-15 09:19:59"}
+{"duration":17,"level":"info","message":"Command executed successfully: CreateAuction","timestamp":"2026-01-15 09:19:59"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:19:59 +0000] \"POST /api/auctions/create HTTP/1.1\" 201 726 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:19:59"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:20:05 +0000] \"GET /api/me HTTP/1.1\" 200 194 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:20:05"}
+{"level":"error","message":"Error: Auction not found","method":"GET","path":"/api/auctions/69686c5ecb661d17dec1907a","stack":"Error: Auction not found\n    at AuctionController.getAuctionById (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:69:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 09:20:21"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:20:21 +0000] \"GET /api/auctions/69686c5ecb661d17dec1907a HTTP/1.1\" 404 45 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:20:21"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:20:25 +0000] \"GET /api/auctions HTTP/1.1\" 200 849 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:20:25"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:20:43 +0000] \"GET /api/auctions/6968870fcb661d17dec190bc HTTP/1.1\" 200 847 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:20:43"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:20:51 +0000] \"GET /api/me HTTP/1.1\" 200 194 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:20:51"}
+{"idempotencyKey":"bid-696886efcb661d17dec190af-6968870fcb661d17dec190bc-1768458062291","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 09:21:02"}
+{"error":"No active round","level":"error","message":"Command execution failed: PlaceBid","stack":"Error: No active round\n    at PlaceBidCommand.validate (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\PlaceBidCommand.ts:44:13)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:20:29)\n    at async AuctionController.placeBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:95:22)","timestamp":"2026-01-15 09:21:02"}
+{"level":"error","message":"Error: No active round","method":"POST","path":"/api/auctions/6968870fcb661d17dec190bc/place-bid","stack":"Error: No active round\n    at AuctionController.placeBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:98:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-15 09:21:02"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:21:02 +0000] \"POST /api/auctions/6968870fcb661d17dec190bc/place-bid HTTP/1.1\" 400 43 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:21:02"}
+{"idempotencyKey":"bid-696886efcb661d17dec190af-6968870fcb661d17dec190bc-1768458220695","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 09:23:40"}
+{"level":"info","message":"Round 1 extended for auction 6968870fcb661d17dec190bc","timestamp":"2026-01-15 09:23:40"}
+{"duration":35,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-15 09:23:40"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:23:40 +0000] \"POST /api/auctions/6968870fcb661d17dec190bc/place-bid HTTP/1.1\" 201 311 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:23:40"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:23:57 +0000] \"GET /api/me HTTP/1.1\" 200 193 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:23:57"}
+{"idempotencyKey":"bid-696886efcb661d17dec190af-6968870fcb661d17dec190bc-1768458373983","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 09:26:13"}
+{"level":"info","message":"Round 1 extended for auction 6968870fcb661d17dec190bc","timestamp":"2026-01-15 09:26:14"}
+{"duration":31,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-15 09:26:14"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:26:14 +0000] \"POST /api/auctions/6968870fcb661d17dec190bc/increase-bid HTTP/1.1\" 201 313 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:26:14"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:26:37 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 84 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:26:37"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:26:38 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 84 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:26:38"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:26:45 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 84 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:26:45"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:29:15"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:29:15"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:29:15"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:29:15"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:30:32"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:30:32"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:30:32"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:30:32"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:30:35 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 89 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:30:35"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:37:22"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:37:22"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:37:22"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:37:22"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:38:13 +0000] \"GET /api/me HTTP/1.1\" 200 190 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:38:13"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:38:19 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:38:19"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:38:44"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:38:44"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:38:44"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:38:44"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:38:50 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 88 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:38:50"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:40:06"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:40:06"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:40:06"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:40:06"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:41:11"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:41:11"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:41:11"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:41:11"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:44:55"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:44:55"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:44:55"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:44:55"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:46:34"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:46:34"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:46:34"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:46:34"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:47:14 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 88 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:47:14"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:49:00"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:49:00"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:49:00"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:49:00"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:49:13 +0000] \"GET /api/me HTTP/1.1\" 200 190 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:49:13"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:49:22 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:49:22"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:49:36 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:49:36"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:50:16 +0000] \"GET /api/me HTTP/1.1\" 200 194 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:50:16"}
+{"idempotencyKey":"create-auction-69688de9e4b7fc5c0fab28c6-1768459827003","level":"info","message":"Execute command: CreateAuction","timestamp":"2026-01-15 09:50:27"}
+{"level":"info","message":"Auction created: 69688e33e4b7fc5c0fab28da","timestamp":"2026-01-15 09:50:27"}
+{"duration":24,"level":"info","message":"Command executed successfully: CreateAuction","timestamp":"2026-01-15 09:50:27"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:50:27 +0000] \"POST /api/auctions/create HTTP/1.1\" 201 726 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:50:27"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:51:33"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:51:33"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:51:33"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:51:33"}
+{"idempotencyKey":"create-auction-69688de9e4b7fc5c0fab28c6-1768459910241","level":"info","message":"Execute command: CreateAuction","timestamp":"2026-01-15 09:51:50"}
+{"level":"info","message":"Auction started: 69688e86219569701942699d","timestamp":"2026-01-15 09:51:50"}
+{"level":"info","message":"Auction created: 69688e86219569701942699d","timestamp":"2026-01-15 09:51:50"}
+{"duration":49,"level":"info","message":"Command executed successfully: CreateAuction","timestamp":"2026-01-15 09:51:50"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:51:50 +0000] \"POST /api/auctions/create HTTP/1.1\" 201 725 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:51:50"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:51:56 +0000] \"GET /api/auctions/69688e86219569701942699d HTTP/1.1\" 200 846 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:51:56"}
+{"idempotencyKey":"bid-69688de9e4b7fc5c0fab28c6-69688e86219569701942699d-1768459933511","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 09:52:13"}
+{"duration":57,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-15 09:52:13"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:52:13 +0000] \"POST /api/auctions/69688e86219569701942699d/place-bid HTTP/1.1\" 201 313 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:52:13"}
+{"idempotencyKey":"bid-69688de9e4b7fc5c0fab28c6-69688e86219569701942699d-1768459952922","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-15 09:52:32"}
+{"duration":28,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-15 09:52:32"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:52:32 +0000] \"POST /api/auctions/69688e86219569701942699d/increase-bid HTTP/1.1\" 201 313 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:52:32"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:52:37 +0000] \"GET /api/auctions/69686c5ecb661d17dec1907a/leaderboard HTTP/1.1\" 200 26 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:52:37"}
+{"level":"info","message":"::1 - - [15/Jan/2026:06:52:43 +0000] \"GET /api/auctions/69688e86219569701942699d/leaderboard HTTP/1.1\" 200 227 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-15 09:52:43"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-15 09:56:03"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:56:03"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:56:03"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:56:03"}

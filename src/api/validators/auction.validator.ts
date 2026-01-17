@@ -1,5 +1,13 @@
 import Joi from "joi";
+import mongoose from "mongoose";
 import { AuctionStatus, RoundStatus } from "../../types/auction.types";
+
+export const objectIdSchema = Joi.string().custom((value, helpers) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    return helpers.error('any.invalid');
+  }
+  return value;
+}, 'MongoDB ObjectId validation');
 
 const roundSchema = Joi.object({
   roundNumber: Joi.number().integer().min(1).required(),
@@ -22,4 +30,9 @@ export const createAuctionSchema = Joi.object({
 
 export const placeBidSchema = Joi.object({
     amount: Joi.number().min(1).required()
+});
+
+export const increaseBidSchema = Joi.object({
+    amount: Joi.number().min(1).required(),
+    bidId: objectIdSchema.required()
 });

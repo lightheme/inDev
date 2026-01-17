@@ -72,47 +72,48 @@ export class WinnerCalculator {
     return winners;
   }
 
-  async getRanking(auctionId: string, roundNumber: number): Promise<any[]> {
-    const bids = await BidModel.find({
-      auctionId,
-      roundNumber,
-      status: BidStatus.ACTIVE
-    }).populate('userId', 'username firstName lastName');
+    async getRanking(auctionId: string, roundNumber: number): Promise<any[]> {
+        const bids = await BidModel.find({
+            auctionId,
+            roundNumber,
+            status: BidStatus.ACTIVE
+        }).populate('userId', 'username firstName lastName').lean();
 
-    const userBids = new Map<string, { totalAmount: number; earliestBid: Date; user: any }>();
+        const userBids = new Map<string, { totalAmount: number; earliestBid: Date; user: any }>();
 
-    for (const bid of bids) {
-      const userId = bid.userId.toString();
-      
-      if (!userBids.has(userId)) {
-        userBids.set(userId, {
-          totalAmount: 0,
-          earliestBid: bid.placedAt,
-          user: bid.userId
-        });
-      }
+        for (const bid of bids) {
+            const userObj = bid.userId as any; 
+            const userId = userObj._id.toString();
+            
+            if (!userBids.has(userId)) {
+              userBids.set(userId, {
+                totalAmount: 0,
+                earliestBid: bid.placedAt,
+                user: userObj
+              });
+            }
 
-      const userBid = userBids.get(userId)!;
-      userBid.totalAmount += bid.amount;
-      
-      if (bid.placedAt < userBid.earliestBid) {
-        userBid.earliestBid = bid.placedAt;
-      }
-    }
-
-    return Array.from(userBids.entries())
-      .sort((a, b) => {
-        if (b[1].totalAmount !== a[1].totalAmount) {
-          return b[1].totalAmount - a[1].totalAmount;
+            const userBid = userBids.get(userId)!;
+            userBid.totalAmount += bid.amount;
+            
+            if (bid.placedAt < userBid.earliestBid) {
+              userBid.earliestBid = bid.placedAt;
+            }
         }
-        return a[1].earliestBid.getTime() - b[1].earliestBid.getTime();
-      })
-      .map(([userId, data], index) => ({
-        rank: index + 1,
-        userId,
-        user: data.user,
-        totalAmount: data.totalAmount,
-        placedAt: data.earliestBid
-      }));
+
+        return Array.from(userBids.entries())
+          .sort((a, b) => {
+            if (b[1].totalAmount !== a[1].totalAmount) {
+              return b[1].totalAmount - a[1].totalAmount;
+            }
+            return a[1].earliestBid.getTime() - b[1].earliestBid.getTime();
+          })
+          .map(([userId, data], index) => ({
+            rank: index + 1,
+            userId,
+            user: data.user,
+            totalAmount: data.totalAmount,
+            placedAt: data.earliestBid
+          }));
   }
 }

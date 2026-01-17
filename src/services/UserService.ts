@@ -41,7 +41,7 @@ export class UserService {
   }
 
   async topUpBalance(userId: string, amount: number): Promise<UserDocument> {
-    await this.balanceManager.topup({ userId, amount, refType: LedgerRefType.USER, refId: userId, commandId: 'waitforcmdid' });
+    await this.balanceManager.topup({ userId, amount, refType: LedgerRefType.USER, refId: userId, commandId: 'waitforcmd2' });
     
     const user = await UserModel.findById(userId);
     if (!user) {
