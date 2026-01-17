@@ -6,24 +6,24 @@ export const errorMiddleware = (
   error: Error | AppError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   logger.error('Error:', {
     message: error.message,
     stack: error.stack,
     path: req.path,
-    method: req.method
+    method: req.method,
   });
 
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 
   return res.status(500).json({
     success: false,
-    error: 'Internal server error'
+    error: 'Internal server error',
   });
 };

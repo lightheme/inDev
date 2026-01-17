@@ -1,12 +1,12 @@
-import crypto from "crypto";
+import crypto from 'crypto';
 
 function generateValidInitData(botToken: string, user: any) {
   const authDate = Math.floor(Date.now() / 1000);
-  
+
   // Создаем URLSearchParams
   const params = new URLSearchParams({
     user: JSON.stringify(user),
-    auth_date: authDate.toString()
+    auth_date: authDate.toString(),
   });
 
   // Сортируем и создаем data-check-string
@@ -20,16 +20,10 @@ function generateValidInitData(botToken: string, user: any) {
   const dataCheckString = dataCheckArray.join('\n');
 
   // Создаем секретный ключ
-  const secretKey = crypto
-    .createHmac('sha256', 'WebAppData')
-    .update(botToken)
-    .digest();
+  const secretKey = crypto.createHmac('sha256', 'WebAppData').update(botToken).digest();
 
   // Вычисляем hash
-  const hash = crypto
-    .createHmac('sha256', secretKey)
-    .update(dataCheckString)
-    .digest('hex');
+  const hash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
 
   // Добавляем hash
   params.append('hash', hash);
@@ -44,7 +38,7 @@ const testUser = {
   id: 123456789,
   first_name: 'John',
   last_name: 'Doe',
-  username: 'johndoe'
+  username: 'johndoe',
 };
 
 const initData = generateValidInitData(BOT_TOKEN, testUser);

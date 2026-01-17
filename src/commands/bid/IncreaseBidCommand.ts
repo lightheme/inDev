@@ -7,9 +7,10 @@ import { BalanceManager } from '../../core/BalanceManager';
 import { AppError } from '../../utils/errors';
 import { LedgerRefType } from '../../types/ledger.types';
 import { UserRepository } from '../../repositories/UserRepository';
+import { logger } from '../../utils/logger';
 
 export class IncreaseBidCommand implements Command {
-  type = 'PlaceBid';
+  type = 'IncreaseBid';
   payload: IncreaseBidDTO;
   idempotencyKey: string;
 
@@ -19,9 +20,9 @@ export class IncreaseBidCommand implements Command {
   private userRepository: UserRepository;
 
   constructor(payload: IncreaseBidDTO) {
-    this.payload = { 
-        ...payload,
-        amount: Number(payload.amount)
+    this.payload = {
+      ...payload,
+      amount: Number(payload.amount),
     };
     this.idempotencyKey = payload.idempotencyKey;
     this.auctionEngine = new AuctionEngine();
@@ -61,26 +62,42 @@ export class IncreaseBidCommand implements Command {
 
   async execute(): Promise<CommandResult> {
     const { bidId, auctionId, userId, amount, idempotencyKey } = this.payload;
-    console.log(amount);
     const auction = await this.auctionEngine.getAuction(auctionId);
     const user = await this.userRepository.findById(userId);
     const currentRound = auction!.rounds[auction!.currentRound];
 
-    await this.balanceManager.reserve({ userId, amount, refType: LedgerRefType.AUCTION, refId: auction!._id.toString(), commandId: idempotencyKey });
+    // Verify bid ownership
+    const existingBid = await this.bidProcessor.findBidById(bidId);
+    if (!existingBid) {
+      throw new AppError('Bid not found', 404);
+    }
+    if (existingBid.userId.toString() !== userId) {
+      throw new AppError('Bid does not belong to user', 403);
+    }
+
+    // Use unique commandId for reserve operation
+    const reserveCommandId = `reserve-${idempotencyKey}`;
+    await this.balanceManager.reserve({
+      userId,
+      amount,
+      refType: LedgerRefType.AUCTION,
+      refId: auction!._id.toString(),
+      commandId: reserveCommandId,
+    });
 
     try {
       const bid = await this.bidProcessor.increaseBid({
-        bidId,  
+        bidId,
         auctionId: auction!._id,
         userId: user!._id,
         roundNumber: currentRound.roundNumber,
         amount,
-        idempotencyKey
+        idempotencyKey,
       });
 
       const shouldExtend = await this.auctionEngine.checkAntiSniping(
         auctionId,
-        auction!.currentRound
+        auction!.currentRound,
       );
 
       if (shouldExtend) {
@@ -89,10 +106,34 @@ export class IncreaseBidCommand implements Command {
 
       return {
         success: true,
-        data: bid
+        data: bid,
       };
     } catch (error: any) {
-      await this.balanceManager.release({ userId, amount, refType: LedgerRefType.AUCTION, refId: auction!._id.toString(), commandId: "Pleasesetidempotency" });
+      // Compensation: Release reserved balance if bid increase failed
+      // Use unique idempotency key for release operation (compensation)
+      const releaseCommandId = `release-${idempotencyKey}`;
+      try {
+        await this.balanceManager.release({
+          userId,
+          amount,
+          refType: LedgerRefType.AUCTION,
+          refId: auction!._id.toString(),
+          commandId: releaseCommandId,
+        });
+      } catch (releaseError: any) {
+        // Log the release failure but don't mask the original error
+        // The release operation is idempotent, so it can be retried later
+        logger.error('Failed to release balance after bid increase failure', {
+          userId,
+          amount,
+          auctionId,
+          bidId,
+          originalError: error.message,
+          releaseError: releaseError.message,
+          releaseCommandId,
+        });
+        // Note: Balance will remain reserved. This should be handled by a cleanup job or manual intervention.
+      }
       throw error;
     }
   }

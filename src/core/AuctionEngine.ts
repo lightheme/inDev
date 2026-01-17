@@ -34,7 +34,7 @@ export class AuctionEngine {
         totalGifts: data.totalGifts,
         roundDurations: data.roundDurations,
         giftsPerRound: data.giftsPerRound,
-        antiSnipingSeconds: 30
+        antiSnipingSeconds: 30,
       });
 
       const auction = new AuctionModel({
@@ -43,21 +43,26 @@ export class AuctionEngine {
         totalGifts: data.totalGifts,
         status: AuctionStatus.DRAFT,
         rounds,
-        currentRound: 0
+        currentRound: 0,
       });
+
+      // Start auction within the same transaction
+      auction.status = AuctionStatus.ACTIVE;
+      auction.rounds[0].status = RoundStatus.ACTIVE;
+      auction.rounds[0].startTime = new Date();
+      auction.rounds[0].endTime = new Date(Date.now() + auction.rounds[0].duration * 60 * 1000);
 
       await auction.save({ session });
       await session.commitTransaction();
-      
-      await this.startAuction(auction._id.toString());
-      logger.info(`Auction created: ${auction.id}`);
+
+      logger.info(`Auction created and started: ${auction.id}`);
 
       return auction;
     } catch (error) {
       await session.abortTransaction();
       throw error;
     } finally {
-      session.endSession();
+      await session.endSession();
     }
   }
 
@@ -91,7 +96,18 @@ export class AuctionEngine {
         throw new Error('Auction not found');
       }
 
+      // Bounds checking for roundNumber
+      if (roundNumber < 0 || roundNumber >= auction.rounds.length) {
+        throw new Error(
+          `Invalid round number: ${roundNumber}. Auction has ${auction.rounds.length} rounds.`,
+        );
+      }
+
       const round = auction.rounds[roundNumber];
+      if (!round) {
+        throw new Error(`Round ${roundNumber} not found`);
+      }
+
       if (round.status !== RoundStatus.ACTIVE) {
         throw new Error('Round is not active');
       }
@@ -99,12 +115,12 @@ export class AuctionEngine {
       const winners = await this.winnerCalculator.calculateWinners(
         auctionId,
         roundNumber + 1,
-        round.giftsToDistribute
+        round.giftsToDistribute,
       );
 
       round.status = RoundStatus.COMPLETED;
       round.endTime = new Date();
-      round.winnerIds = winners.map(w => new mongoose.Types.ObjectId(w.userId));
+      round.winnerIds = winners.map((w) => new mongoose.Types.ObjectId(w.userId));
 
       await this.processRoundResults(auctionId, roundNumber + 1, winners, session, commandId);
 
@@ -113,7 +129,7 @@ export class AuctionEngine {
         auction.rounds[roundNumber + 1].status = RoundStatus.ACTIVE;
         auction.rounds[roundNumber + 1].startTime = new Date();
         auction.rounds[roundNumber + 1].endTime = new Date(
-          Date.now() + auction.rounds[roundNumber + 1].duration * 60 * 1000
+          Date.now() + auction.rounds[roundNumber + 1].duration * 60 * 1000,
         );
       } else {
         auction.status = AuctionStatus.COMPLETED;
@@ -127,7 +143,7 @@ export class AuctionEngine {
       await session.abortTransaction();
       throw error;
     } finally {
-      session.endSession();
+      await session.endSession();
     }
   }
 
@@ -162,25 +178,39 @@ export class AuctionEngine {
     roundNumber: number,
     winners: any[],
     session: mongoose.ClientSession,
-    commandId: string
+    commandId: string,
   ): Promise<void> {
-    const winnerUserIds = new Set(winners.map(w => w.userId));
+    const winnerUserIds = new Set(winners.map((w) => w.userId));
 
     const allBids = await BidModel.find({
       auctionId,
       roundNumber,
-      status: BidStatus.ACTIVE
+      status: BidStatus.ACTIVE,
     }).session(session);
 
     for (const bid of allBids) {
       const userId = bid.userId.toString();
-      
+
       if (winnerUserIds.has(userId)) {
         bid.status = BidStatus.WON;
-        await this.balanceManager.reserve({ userId, amount: bid.amount, refType: LedgerRefType.BID, refId: bid._id.toString(), commandId });
+        const chargeCommandId = `${commandId}-charge-${bid._id.toString()}`;
+        await this.balanceManager.charge({
+          userId,
+          amount: bid.amount,
+          refType: LedgerRefType.BID,
+          refId: bid._id.toString(),
+          commandId: chargeCommandId,
+        });
       } else {
         bid.status = BidStatus.REFUNDED;
-        await this.balanceManager.release({ userId, amount: bid.amount, refType: LedgerRefType.BID, refId: bid._id.toString(), commandId });
+        const releaseCommandId = `${commandId}-release-${bid._id.toString()}`;
+        await this.balanceManager.release({
+          userId,
+          amount: bid.amount,
+          refType: LedgerRefType.BID,
+          refId: bid._id.toString(),
+          commandId: releaseCommandId,
+        });
       }
 
       await bid.save({ session });

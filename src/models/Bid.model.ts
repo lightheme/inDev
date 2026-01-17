@@ -1,9 +1,9 @@
-import mongoose, { Schema, Document } from "mongoose";
-import { BidStatus, Bid } from "../types/bid.types";
+import mongoose, { Schema, Document } from 'mongoose';
+import { BidStatus, Bid } from '../types/bid.types';
 
 export interface BidDocument extends Omit<Bid, 'id' | 'auctionId' | 'userId'>, Document {
-    auctionId: mongoose.Types.ObjectId;
-    userId: mongoose.Types.ObjectId;
+  auctionId: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
 }
 
 const BidSchema = new Schema<BidDocument>({
@@ -13,7 +13,7 @@ const BidSchema = new Schema<BidDocument>({
   amount: { type: Number, required: true, min: 0 },
   placedAt: { type: Date, default: Date.now, index: true },
   status: { type: String, enum: Object.values(BidStatus), default: BidStatus.ACTIVE },
-  idempotencyKey: { type: String, required: true, unique: true }
+  idempotencyKey: { type: String, required: true, unique: true },
 });
 
 BidSchema.index({ auctionId: 1, roundNumber: 1, amount: -1, placedAt: 1 });

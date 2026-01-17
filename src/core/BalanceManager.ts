@@ -1,148 +1,153 @@
-import { UserModel } from "../models/User.model";
-import { LedgerService } from "../ledger/LedgerService";
-import { LedgerEntryTypes } from "../types/ledger.types";
-import mongoose from "mongoose";
-import { BalanceOperationDTO } from "../api/dto/balance-operation.dto";
+import { UserModel } from '../models/User.model';
+import { LedgerService } from '../ledger/LedgerService';
+import { LedgerEntryTypes } from '../types/ledger.types';
+import mongoose from 'mongoose';
+import { BalanceOperationDTO } from '../api/dto/balance-operation.dto';
 
 export class BalanceManager {
-    private ledgerService: LedgerService;
+  private ledgerService: LedgerService;
 
-    constructor() {
-        this.ledgerService = new LedgerService();
+  constructor() {
+    this.ledgerService = new LedgerService();
+  }
+
+  private async withTransaction<T>(
+    fn: (session: mongoose.ClientSession) => Promise<T>,
+  ): Promise<T> {
+    let session: mongoose.ClientSession | null = null;
+    try {
+      session = await mongoose.startSession();
+      session.startTransaction();
+
+      const result = await fn(session);
+      await session.commitTransaction();
+      return result;
+    } catch (error) {
+      if (session && session.inTransaction()) {
+        await session.abortTransaction();
+      }
+      throw error;
+    } finally {
+      if (session) {
+        await session.endSession();
+      }
     }
+  }
 
-    private async withTransaction<T>(
-        fn: (session: mongoose.ClientSession) => Promise<T>
-    ): Promise<T> {
-        const session = await mongoose.startSession();
-        session.startTransaction();
-
-        try {
-            const result = await fn(session);
-            await session.commitTransaction();
-            return result;
-        } catch(error) {
-            await session.abortTransaction();
-            throw error;
-        } finally {
-            await session.endSession();
-        }
+  private validate(dto: BalanceOperationDTO) {
+    if (dto.amount <= 0) {
+      throw new Error('Amount must be positive');
     }
+  }
 
-    private validate(dto: BalanceOperationDTO) {
-        if(dto.amount <= 0) {
-            throw new Error('Amount must be positive');
-        }
-    }
+  private async loadUser(userId: string, session: mongoose.ClientSession) {
+    const user = await UserModel.findById(userId).session(session);
+    if (!user) throw new Error('User not found');
+    return user;
+  }
 
-    private async loadUser(userId: string, session: mongoose.ClientSession) {
-            const user = await UserModel.findById(userId).session(session);
-            if(!user) throw new Error('User not found');
-            return user;
-    }
+  private async ensureNotProcessed(
+    commandId: string,
+    session: mongoose.ClientSession,
+  ): Promise<boolean> {
+    return await this.ledgerService.existsByCommandId(commandId, session);
+  }
 
-    private async ensureNotProcessed(
-        commandId: string,
-        session: mongoose.ClientSession
-    ): Promise<boolean> {
-        return await this.ledgerService.existsByCommandId(commandId, session);
-    }
+  async reserve(dto: BalanceOperationDTO): Promise<void> {
+    await this.withTransaction(async (session) => {
+      this.validate(dto);
+      if (await this.ensureNotProcessed(dto.commandId, session)) return;
 
-    async reserve(dto: BalanceOperationDTO): Promise<void> {
-        await this.withTransaction(async (session) => {
-            this.validate(dto);
-            if(await this.ensureNotProcessed(dto.commandId, session)) return;
-            
-            const user = await this.loadUser(dto.userId, session);
-            if(user.availableBalance < dto.amount) {
-                throw new Error('Insufficient balance');
-            }
+      const user = await this.loadUser(dto.userId, session);
+      if (user.availableBalance < dto.amount) {
+        throw new Error('Insufficient balance');
+      }
 
-            user.reservedBalance = Number(dto.amount) + Number(user.reservedBalance);
-            await user.save({ session });
+      user.reservedBalance = Number(dto.amount) + Number(user.reservedBalance);
+      await user.save({ session });
 
-            await this.ledgerService.recordOperation(
-                {
-                    ...dto,
-                    type: LedgerEntryTypes.RESERVE
-                },
-                session
-            );
-        });
-    }
+      await this.ledgerService.recordOperation(
+        {
+          ...dto,
+          type: LedgerEntryTypes.RESERVE,
+        },
+        session,
+      );
+    });
+  }
 
-    async charge(dto: BalanceOperationDTO): Promise<void> {
-        await this.withTransaction(async (session) => {
-            this.validate(dto);
-            if(await this.ensureNotProcessed(dto.commandId, session)) return;
-            
-            const user = await this.loadUser(dto.userId, session);           
-    
-            if (user.reservedBalance < dto.amount) {
-                throw new Error('Insufficient reserved balance');
-            }
-    
-            if (user.balance < dto.amount) {
-                throw new Error('Insufficient balance');
-            }
-    
-            user.reservedBalance = Number(user.reservedBalance) + Number(dto.amount);
-            user.balance = Number(user.balance) - Number(dto.amount);
-            await user.save({ session });
-    
-            await this.ledgerService.recordOperation(
-                {
-                    ...dto,
-                    type: LedgerEntryTypes.CHARGE
-                },
-                session
-            );
-      });
-    }
+  async charge(dto: BalanceOperationDTO): Promise<void> {
+    await this.withTransaction(async (session) => {
+      this.validate(dto);
+      if (await this.ensureNotProcessed(dto.commandId, session)) return;
 
-    async topup(dto: BalanceOperationDTO): Promise<void> {
-        await this.withTransaction(async (session) => {
-            this.validate(dto);
-            if(await this.ensureNotProcessed(dto.commandId, session)) return;
-            
-            const user = await this.loadUser(dto.userId, session);           
+      const user = await this.loadUser(dto.userId, session);
 
-            user.balance = Number(dto.amount) + Number(user.balance);
-            await user.save({ session });
+      if (user.reservedBalance < dto.amount) {
+        throw new Error('Insufficient reserved balance');
+      }
 
-            await this.ledgerService.recordOperation(
-                {
-                    ...dto,
-                    type: LedgerEntryTypes.TOPUP
-                },
-                session
-            );
-        });
-    }
+      if (user.balance < dto.amount) {
+        throw new Error('Insufficient balance');
+      }
 
-    async release(dto: BalanceOperationDTO): Promise<void> {
-        await this.withTransaction(async (session) => {
-            this.validate(dto);
-            if(await this.ensureNotProcessed(dto.commandId, session)) return;
+      user.reservedBalance = Number(user.reservedBalance) - Number(dto.amount);
+      user.balance = Number(user.balance) - Number(dto.amount);
+      await user.save({ session });
 
-            const user = await this.loadUser(dto.userId, session);           
+      await this.ledgerService.recordOperation(
+        {
+          ...dto,
+          type: LedgerEntryTypes.CHARGE,
+        },
+        session,
+      );
+    });
+  }
 
-            if(user.reservedBalance < dto.amount) {
-                throw new Error('Insufficient balance');
-            }
+  async topup(dto: BalanceOperationDTO): Promise<void> {
+    await this.withTransaction(async (session) => {
+      this.validate(dto);
+      if (await this.ensureNotProcessed(dto.commandId, session)) return;
 
-            user.reservedBalance = Number(user.reservedBalance) + Number(dto.amount);
-            await user.save({ session });
+      const user = await this.loadUser(dto.userId, session);
 
-            await this.ledgerService.recordOperation(
-                {
-                    ...dto,
-                    type: LedgerEntryTypes.REFUND
-                },
-                session
-            );
-        });
-    }
+      user.balance = Number(dto.amount) + Number(user.balance);
+      await user.save({ session });
+
+      await this.ledgerService.recordOperation(
+        {
+          ...dto,
+          type: LedgerEntryTypes.TOPUP,
+        },
+        session,
+      );
+    });
+  }
+
+  async release(dto: BalanceOperationDTO): Promise<void> {
+    await this.withTransaction(async (session) => {
+      this.validate(dto);
+      if (await this.ensureNotProcessed(dto.commandId, session)) return;
+
+      const user = await this.loadUser(dto.userId, session);
+
+      if (user.reservedBalance < dto.amount) {
+        throw new Error('Insufficient reserved balance to release');
+      }
+
+      user.reservedBalance = Number(user.reservedBalance) - Number(dto.amount);
+      await user.save({ session });
+
+      await this.ledgerService.recordOperation(
+        {
+          ...dto,
+          type: LedgerEntryTypes.REFUND,
+        },
+        session,
+      );
+    });
+  }
 
   async hasAvailableBalance(userId: string, amount: number): Promise<boolean> {
     const user = await UserModel.findById(userId);

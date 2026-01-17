@@ -16,7 +16,7 @@ export class UserService {
     last_name?: string;
   }): Promise<UserDocument> {
     let user = await UserModel.findOne({ telegramId: telegramData.id });
-    
+
     if (!user) {
       user = new UserModel({
         telegramId: telegramData.id,
@@ -24,11 +24,11 @@ export class UserService {
         firstName: telegramData.first_name,
         lastName: telegramData.last_name,
         balance: 0,
-        reservedBalance: 0
+        reservedBalance: 0,
       });
       await user.save();
     }
-    
+
     return user;
   }
 
@@ -40,14 +40,20 @@ export class UserService {
     return await UserModel.findOne({ telegramId });
   }
 
-  async topUpBalance(userId: string, amount: number): Promise<UserDocument> {
-    await this.balanceManager.topup({ userId, amount, refType: LedgerRefType.USER, refId: userId, commandId: 'waitforcmd2' });
-    
+  async topUpBalance(userId: string, amount: number, commandId: string): Promise<UserDocument> {
+    await this.balanceManager.topup({
+      userId,
+      amount,
+      refType: LedgerRefType.USER,
+      refId: userId,
+      commandId,
+    });
+
     const user = await UserModel.findById(userId);
     if (!user) {
       throw new Error('User not found');
     }
-    
+
     return user;
   }
 }

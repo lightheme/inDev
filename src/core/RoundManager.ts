@@ -28,7 +28,9 @@ export class RoundManager {
     }
 
     if (giftsDistributed !== data.totalGifts) {
-      throw new Error(`Gifts per round (${giftsDistributed}) don't match total gifts (${data.totalGifts})`);
+      throw new Error(
+        `Gifts per round (${giftsDistributed}) don't match total gifts (${data.totalGifts})`,
+      );
     }
 
     return rounds;

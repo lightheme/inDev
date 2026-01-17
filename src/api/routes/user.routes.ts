@@ -13,7 +13,7 @@ router.post(
   '/balance/topup',
   authMiddleware,
   validateRequest(topUpBalanceSchema),
-  userController.topUpBalance
+  userController.topUpBalance,
 );
 
 export default router;

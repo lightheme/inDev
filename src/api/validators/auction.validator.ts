@@ -1,6 +1,6 @@
-import Joi from "joi";
-import mongoose from "mongoose";
-import { AuctionStatus, RoundStatus } from "../../types/auction.types";
+import Joi from 'joi';
+import mongoose from 'mongoose';
+import { AuctionStatus, RoundStatus } from '../../types/auction.types';
 
 export const objectIdSchema = Joi.string().custom((value, helpers) => {
   if (!mongoose.Types.ObjectId.isValid(value)) {
@@ -18,21 +18,21 @@ const roundSchema = Joi.object({
   status: Joi.string()
     .valid(...Object.values(RoundStatus))
     .default(RoundStatus.PENDING),
-  winnerIds: Joi.array().items(Joi.string()).default([])
+  winnerIds: Joi.array().items(Joi.string()).default([]),
 });
 
 export const createAuctionSchema = Joi.object({
-    title: Joi.string().min(3).max(100).required(),
-    totalGifts: Joi.number().integer().min(1).max(1_000_000).required(),
-    giftsPerRound: Joi.array().items(Joi.number()).min(1).required(),
-    roundDurations: Joi.array().items(Joi.number()).min(1).required()
+  title: Joi.string().min(3).max(100).required(),
+  totalGifts: Joi.number().integer().min(1).max(1_000_000).required(),
+  giftsPerRound: Joi.array().items(Joi.number()).min(1).required(),
+  roundDurations: Joi.array().items(Joi.number()).min(1).required(),
 });
 
 export const placeBidSchema = Joi.object({
-    amount: Joi.number().min(1).required()
+  amount: Joi.number().min(1).required(),
 });
 
 export const increaseBidSchema = Joi.object({
-    amount: Joi.number().min(1).required(),
-    bidId: objectIdSchema.required()
+  amount: Joi.number().min(1).required(),
+  bidId: objectIdSchema.required(),
 });

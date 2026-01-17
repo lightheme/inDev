@@ -37,7 +37,7 @@ export class CreateAuctionCommand implements Command {
 
     return {
       success: true,
-      data: auction
+      data: auction,
     };
   }
 }

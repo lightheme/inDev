@@ -18,12 +18,16 @@ export class AuctionController {
   createAuction = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.id;
-      const idempotencyKey = (req.headers['idempotency-key'] as string) || `create-auction-${userId}-${Date.now()}`;
-      
+      const idempotencyKey = req.headers['idempotency-key'] as string;
+
+      if (!idempotencyKey) {
+        throw new AppError('Idempotency-Key header is required for POST operations', 400);
+      }
+
       const command = new CreateAuctionCommand({
         ...req.body,
         creatorId: userId,
-        idempotencyKey
+        idempotencyKey,
       });
 
       const result = await this.commandHandler.execute(command);
@@ -34,7 +38,7 @@ export class AuctionController {
 
       res.status(201).json({
         success: true,
-        data: result.data
+        data: result.data,
       });
     } catch (error) {
       next(error);
@@ -44,16 +48,16 @@ export class AuctionController {
   getAuctions = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { status, page, limit } = req.query;
-      
+
       const auctions = await this.auctionService.getAuctions({
         status: status as string,
         page: page ? Number(page) : undefined,
-        limit: limit ? Number(limit) : undefined
+        limit: limit ? Number(limit) : undefined,
       });
 
       res.json({
         success: true,
-        data: auctions
+        data: auctions,
       });
     } catch (error) {
       next(error);
@@ -71,7 +75,7 @@ export class AuctionController {
 
       res.json({
         success: true,
-        data: auction
+        data: auction,
       });
     } catch (error) {
       next(error);
@@ -83,13 +87,17 @@ export class AuctionController {
       const userId = req.user!.id;
       const { id: auctionId } = req.params;
       const { amount } = req.body;
-      const idempotencyKey = (req.headers['idempotency-key'] as string) || `bid-${userId}-${auctionId}-${Date.now()}`;
+      const idempotencyKey = req.headers['idempotency-key'] as string;
+
+      if (!idempotencyKey) {
+        throw new AppError('Idempotency-Key header is required for POST operations', 400);
+      }
 
       const command = new PlaceBidCommand({
         auctionId,
         userId,
         amount,
-        idempotencyKey
+        idempotencyKey,
       });
 
       const result = await this.commandHandler.execute(command);
@@ -100,7 +108,7 @@ export class AuctionController {
 
       res.status(201).json({
         success: true,
-        data: result.data
+        data: result.data,
       });
     } catch (error) {
       next(error);
@@ -112,14 +120,18 @@ export class AuctionController {
       const userId = req.user!.id;
       const { id: auctionId } = req.params;
       const { amount, bidId } = req.body;
-      const idempotencyKey = (req.headers['idempotency-key'] as string) || `bid-${userId}-${auctionId}-${Date.now()}`;
+      const idempotencyKey = req.headers['idempotency-key'] as string;
+
+      if (!idempotencyKey) {
+        throw new AppError('Idempotency-Key header is required for POST operations', 400);
+      }
 
       const command = new IncreaseBidCommand({
         bidId,
         auctionId,
         userId,
         amount,
-        idempotencyKey
+        idempotencyKey,
       });
 
       const result = await this.commandHandler.execute(command);
@@ -130,7 +142,7 @@ export class AuctionController {
 
       res.status(201).json({
         success: true,
-        data: result.data
+        data: result.data,
       });
     } catch (error) {
       next(error);
@@ -148,7 +160,7 @@ export class AuctionController {
 
       res.json({
         success: true,
-        data: leaderboard
+        data: leaderboard,
       });
     } catch (error) {
       next(error);

@@ -7,6 +7,7 @@ import { BalanceManager } from '../../core/BalanceManager';
 import { AppError } from '../../utils/errors';
 import { LedgerRefType } from '../../types/ledger.types';
 import { UserRepository } from '../../repositories/UserRepository';
+import { logger } from '../../utils/logger';
 
 export class PlaceBidCommand implements Command {
   type = 'PlaceBid';
@@ -63,7 +64,7 @@ export class PlaceBidCommand implements Command {
     if (existingBid) {
       return {
         success: true,
-        data: existingBid
+        data: existingBid,
       };
     }
 
@@ -71,7 +72,13 @@ export class PlaceBidCommand implements Command {
     const user = await this.userRepository.findById(userId);
     const currentRound = auction!.rounds[auction!.currentRound];
 
-    await this.balanceManager.reserve({ userId, amount, refType: LedgerRefType.AUCTION, refId: auction!._id.toString(), commandId: "Pleasesetidempotency" });
+    await this.balanceManager.reserve({
+      userId,
+      amount,
+      refType: LedgerRefType.AUCTION,
+      refId: auction!._id.toString(),
+      commandId: idempotencyKey,
+    });
 
     try {
       const bid = await this.bidProcessor.createBid({
@@ -79,12 +86,12 @@ export class PlaceBidCommand implements Command {
         userId: user!._id,
         roundNumber: currentRound.roundNumber,
         amount,
-        idempotencyKey
+        idempotencyKey,
       });
 
       const shouldExtend = await this.auctionEngine.checkAntiSniping(
         auctionId,
-        auction!.currentRound
+        auction!.currentRound,
       );
 
       if (shouldExtend) {
@@ -93,10 +100,33 @@ export class PlaceBidCommand implements Command {
 
       return {
         success: true,
-        data: bid
+        data: bid,
       };
     } catch (error: any) {
-      await this.balanceManager.release({ userId, amount, refType: LedgerRefType.AUCTION, refId: auction!._id.toString(), commandId: "Pleasesetidempotency" });
+      // Compensation: Release reserved balance if bid creation failed
+      // Use unique idempotency key for release operation (compensation)
+      const releaseCommandId = `release-${idempotencyKey}`;
+      try {
+        await this.balanceManager.release({
+          userId,
+          amount,
+          refType: LedgerRefType.AUCTION,
+          refId: auction!._id.toString(),
+          commandId: releaseCommandId,
+        });
+      } catch (releaseError: any) {
+        // Log the release failure but don't mask the original error
+        // The release operation is idempotent, so it can be retried later
+        logger.error('Failed to release balance after bid creation failure', {
+          userId,
+          amount,
+          auctionId,
+          originalError: error.message,
+          releaseError: releaseError.message,
+          releaseCommandId,
+        });
+        // Note: Balance will remain reserved. This should be handled by a cleanup job or manual intervention.
+      }
       throw error;
     }
   }

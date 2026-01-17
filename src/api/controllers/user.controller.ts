@@ -12,13 +12,13 @@ export class UserController {
   getMe = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.id;
-      
+
       const user = await this.userService.getUserById(userId);
-      
+
       if (!user) {
         throw new AppError('User not found', 404);
       }
-      
+
       res.json({
         success: true,
         data: {
@@ -29,8 +29,8 @@ export class UserController {
           lastName: user.lastName,
           balance: user.balance,
           reservedBalance: user.reservedBalance,
-          availableBalance: user.balance - user.reservedBalance
-        }
+          availableBalance: user.balance - user.reservedBalance,
+        },
       });
     } catch (error) {
       next(error);
@@ -41,16 +41,21 @@ export class UserController {
     try {
       const userId = req.user!.id;
       const { amount } = req.body;
-      
-      const user = await this.userService.topUpBalance(userId, amount);
-      
+      const idempotencyKey = req.headers['idempotency-key'] as string;
+
+      if (!idempotencyKey) {
+        throw new AppError('Idempotency-Key header is required for POST operations', 400);
+      }
+
+      const user = await this.userService.topUpBalance(userId, amount, idempotencyKey);
+
       res.json({
         success: true,
         data: {
           balance: user.balance,
           reservedBalance: user.reservedBalance,
-          availableBalance: user.balance - user.reservedBalance
-        }
+          availableBalance: user.balance - user.reservedBalance,
+        },
       });
     } catch (error) {
       next(error);

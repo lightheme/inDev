@@ -737,3 +737,70 @@
 {"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-15 09:56:03"}
 {"level":"info","message":"Database connected successfully","timestamp":"2026-01-15 09:56:03"}
 {"level":"info","message":"Server running on port 3000","timestamp":"2026-01-15 09:56:03"}
+{"level":"info","message":"Auction created and started: 696b9cde8c9e82c5c7c0aaca","timestamp":"2026-01-17 17:29:50"}
+{"level":"info","message":"Round 1 ended for auction 696b9e3149392a742b80941a","timestamp":"2026-01-17 17:35:29"}
+{"amount":50,"auctionId":"696b9e31295fecf85d8dd98b","bidId":"696b9e31295fecf85d8dd98d","level":"error","message":"Failed to release balance after bid increase failure","originalError":"Bid not found","releaseCommandId":"release-test-key-1768660529347-0.019121008403998108","releaseError":"User not found","timestamp":"2026-01-17 17:35:29","userId":"696b9e31295fecf85d8dd987"}
+{"level":"info","message":"Auction created and started: 696b9edb590fa450287f1880","timestamp":"2026-01-17 17:38:19"}
+{"level":"info","message":"Auction created and started: 696b9edb590fa450287f1895","timestamp":"2026-01-17 17:38:19"}
+{"level":"info","message":"Auction created and started: 696ba0f960af07e4b8d53a35","timestamp":"2026-01-17 17:47:21"}
+{"level":"info","message":"Auction created and started: 696ba0f960af07e4b8d53a49","timestamp":"2026-01-17 17:47:21"}
+{"level":"info","message":"Round 1 ended for auction 696ba0f93ce8dfda7a6decd8","timestamp":"2026-01-17 17:47:21"}
+{"level":"info","message":"Round 1 ended for auction 696ba171aea4c2ac2cb69700","timestamp":"2026-01-17 17:49:21"}
+{"level":"info","message":"Auction created and started: 696ba2d4f5f9f3e05aabca07","timestamp":"2026-01-17 17:55:16"}
+{"level":"info","message":"Auction created and started: 696ba344833910ce0f8f327e","timestamp":"2026-01-17 17:57:08"}
+{"level":"info","message":"Auction created and started: 696ba555457be2a2d7e7473e","timestamp":"2026-01-17 18:05:57"}
+{"level":"info","message":"Round 1 ended for auction 696ba55573562eff2aea1352","timestamp":"2026-01-17 18:05:57"}
+{"amount":50,"auctionId":"696ba5557209f1a883f9bb19","bidId":"696ba5557209f1a883f9bb1b","level":"error","message":"Failed to release balance after bid increase failure","originalError":"Caused by :: Write conflict during plan execution and yielding is disabled. :: Please retry your operation or multi-document transaction.","releaseCommandId":"release-test-key-1768662357701-0.28373361692886956","releaseError":"User not found","timestamp":"2026-01-17 18:05:57","userId":"696ba5557209f1a883f9bb15"}
+{"level":"info","message":"Round 1 ended for auction 696ba5cac86518521bb91fb3","timestamp":"2026-01-17 18:07:54"}
+{"level":"info","message":"Round 1 ended for auction 696ba5cac86518521bb91ff4","timestamp":"2026-01-17 18:07:54"}
+{"level":"info","message":"Round 1 ended for auction 696ba5cac86518521bb92007","timestamp":"2026-01-17 18:07:54"}
+{"level":"info","message":"Auction created and started: 696ba5cc2cd34f721c0b4b00","timestamp":"2026-01-17 18:07:56"}
+{"level":"info","message":"Round 1 ended for auction 696ba5cc2cd34f721c0b4b00","timestamp":"2026-01-17 18:07:56"}
+{"level":"info","message":"Auction created and started: 696ba5cc2cd34f721c0b4b59","timestamp":"2026-01-17 18:07:56"}
+{"level":"info","message":"Round 1 ended for auction 696ba61cdf94fc61a8eb55b0","timestamp":"2026-01-17 18:09:17"}
+{"level":"info","message":"Round 1 ended for auction 696ba61ddf94fc61a8eb55f1","timestamp":"2026-01-17 18:09:17"}
+{"level":"info","message":"Round 1 ended for auction 696ba61ddf94fc61a8eb5604","timestamp":"2026-01-17 18:09:17"}
+{"level":"info","message":"Auction created and started: 696ba61e5e46e1e4b3186874","timestamp":"2026-01-17 18:09:18"}
+{"level":"info","message":"Round 1 ended for auction 696ba61e5e46e1e4b3186874","timestamp":"2026-01-17 18:09:18"}
+{"level":"info","message":"Auction created and started: 696ba61e5e46e1e4b31868cb","timestamp":"2026-01-17 18:09:18"}
+{"level":"info","message":"Round 1 ended for auction 696ba66f9e4aeeef4d24c595","timestamp":"2026-01-17 18:10:39"}
+{"level":"info","message":"Round 1 ended for auction 696ba66f9e4aeeef4d24c5d2","timestamp":"2026-01-17 18:10:39"}
+{"level":"info","message":"Round 1 ended for auction 696ba66f9e4aeeef4d24c5e1","timestamp":"2026-01-17 18:10:39"}
+{"level":"info","message":"Auction created and started: 696ba67087b71bbfd5e0bce2","timestamp":"2026-01-17 18:10:40"}
+{"level":"info","message":"Round 1 ended for auction 696ba67087b71bbfd5e0bce2","timestamp":"2026-01-17 18:10:40"}
+{"level":"info","message":"Auction created and started: 696ba67087b71bbfd5e0bd32","timestamp":"2026-01-17 18:10:40"}
+{"level":"info","message":"Round 1 ended for auction 696ba7350e1b898e4a2f8fc1","timestamp":"2026-01-17 18:13:57"}
+{"level":"info","message":"Round 1 ended for auction 696ba7350e1b898e4a2f8ffa","timestamp":"2026-01-17 18:13:57"}
+{"level":"info","message":"Round 1 ended for auction 696ba7350e1b898e4a2f9009","timestamp":"2026-01-17 18:13:57"}
+{"level":"info","message":"Auction created and started: 696ba73a941765268255c69f","timestamp":"2026-01-17 18:14:02"}
+{"level":"info","message":"Round 1 ended for auction 696ba73a941765268255c69f","timestamp":"2026-01-17 18:14:02"}
+{"level":"info","message":"Auction created and started: 696ba73b941765268255c6f0","timestamp":"2026-01-17 18:14:03"}
+{"level":"info","message":"Round 1 ended for auction 696ba7d8c9a484dd2b56381f","timestamp":"2026-01-17 18:16:41"}
+{"level":"info","message":"Round 1 ended for auction 696ba7d9c9a484dd2b563857","timestamp":"2026-01-17 18:16:41"}
+{"level":"info","message":"Round 1 ended for auction 696ba7d9c9a484dd2b563866","timestamp":"2026-01-17 18:16:41"}
+{"level":"info","message":"Auction created and started: 696ba7da27f38af8a97a5349","timestamp":"2026-01-17 18:16:42"}
+{"level":"info","message":"Round 1 ended for auction 696ba7da27f38af8a97a5349","timestamp":"2026-01-17 18:16:42"}
+{"level":"info","message":"Auction created and started: 696ba7da27f38af8a97a539a","timestamp":"2026-01-17 18:16:42"}
+{"level":"info","message":"Round 1 ended for auction 696ba9aee32e4cc8f9fad3a7","timestamp":"2026-01-17 18:24:30"}
+{"level":"info","message":"Round 1 ended for auction 696ba9aee32e4cc8f9fad3e7","timestamp":"2026-01-17 18:24:30"}
+{"level":"info","message":"Round 1 ended for auction 696ba9aee32e4cc8f9fad3f6","timestamp":"2026-01-17 18:24:30"}
+{"level":"info","message":"Auction created and started: 696ba9b19f5077c42fdd14ef","timestamp":"2026-01-17 18:24:33"}
+{"level":"info","message":"Round 1 ended for auction 696ba9b19f5077c42fdd14ef","timestamp":"2026-01-17 18:24:33"}
+{"level":"info","message":"Auction created and started: 696ba9b19f5077c42fdd1548","timestamp":"2026-01-17 18:24:33"}
+{"level":"info","message":"Round 1 ended for auction 696bab20bf76a615e856d07a","timestamp":"2026-01-17 18:30:40"}
+{"level":"info","message":"Round 1 ended for auction 696bab20bf76a615e856d0bb","timestamp":"2026-01-17 18:30:40"}
+{"level":"info","message":"Round 1 ended for auction 696bab21bf76a615e856d0ca","timestamp":"2026-01-17 18:30:41"}
+{"level":"info","message":"Auction created and started: 696bab2563359223259004c8","timestamp":"2026-01-17 18:30:45"}
+{"level":"info","message":"Round 1 ended for auction 696bab2563359223259004c8","timestamp":"2026-01-17 18:30:45"}
+{"level":"info","message":"Auction created and started: 696bab256335922325900522","timestamp":"2026-01-17 18:30:45"}
+{"level":"info","message":"Round 1 ended for auction 696bab60c87d8440cbac10bc","timestamp":"2026-01-17 18:31:44"}
+{"level":"info","message":"Round 1 ended for auction 696bab60c87d8440cbac10fd","timestamp":"2026-01-17 18:31:44"}
+{"level":"info","message":"Round 1 ended for auction 696bab60c87d8440cbac110c","timestamp":"2026-01-17 18:31:44"}
+{"level":"info","message":"Auction created and started: 696bab645b6c55a1bf761bcf","timestamp":"2026-01-17 18:31:48"}
+{"level":"info","message":"Round 1 ended for auction 696bab645b6c55a1bf761bcf","timestamp":"2026-01-17 18:31:48"}
+{"level":"info","message":"Auction created and started: 696bab645b6c55a1bf761c27","timestamp":"2026-01-17 18:31:48"}
+{"level":"info","message":"Round 1 ended for auction 696bae00ecffb6b635c72877","timestamp":"2026-01-17 18:42:56"}
+{"level":"info","message":"Round 1 ended for auction 696bae00ecffb6b635c728b8","timestamp":"2026-01-17 18:42:56"}
+{"level":"info","message":"Round 1 ended for auction 696bae00ecffb6b635c728c7","timestamp":"2026-01-17 18:42:56"}
+{"level":"info","message":"Auction created and started: 696bae048ebf5482a611664f","timestamp":"2026-01-17 18:43:00"}
+{"level":"info","message":"Auction created and started: 696bae048ebf5482a611666d","timestamp":"2026-01-17 18:43:00"}
