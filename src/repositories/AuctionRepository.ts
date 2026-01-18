@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { AuctionModel, AuctionDocument } from '../models/Auctions.model';
-import { AuctionStatus } from '../types/auction.types';
+import { AuctionStatus, Round } from '../types/auction.types';
 
 export class AuctionRepository {
   async findById(
@@ -46,14 +46,30 @@ export class AuctionRepository {
       title: string;
       totalGifts: number;
       status: AuctionStatus;
-      rounds: AuctionDocument['rounds'];
+      rounds: Round[];
       currentRound: number;
       createdAt?: Date;
     },
     session?: mongoose.ClientSession,
   ): Promise<AuctionDocument> {
+    const roundsForDb: AuctionDocument['rounds'] = data.rounds.map((r) => ({
+      roundNumber: r.roundNumber,
+      giftsToDistribute: r.giftsToDistribute,
+      startTime: r.startTime,
+      endTime: r.endTime,
+      duration: r.duration,
+      status: r.status,
+      // преобразуем string[] -> ObjectId[]
+      winnerIds: (r.winnerIds ?? []).map((id) => new mongoose.Types.ObjectId(id)),
+    }));
+
     const auction = new AuctionModel({
-      ...data,
+      creatorId: data.creatorId,
+      title: data.title,
+      totalGifts: data.totalGifts,
+      status: data.status,
+      rounds: roundsForDb,
+      currentRound: data.currentRound,
       createdAt: data.createdAt ?? new Date(),
     });
 

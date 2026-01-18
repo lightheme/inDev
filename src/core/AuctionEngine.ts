@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { AuctionStatus, RoundStatus } from '../types/auction.types';
 import { CreateAuctionDTO } from '../api/dto/create-auction.dto';
 import { RoundManager } from './RoundManager';
@@ -5,11 +6,11 @@ import { WinnerCalculator } from './WinnerCalculator';
 import { BalanceManager } from './BalanceManager';
 import { BidStatus } from '../types/bid.types';
 import { logger } from '../utils/logger';
-import mongoose from 'mongoose';
 import { LedgerRefType } from '../types/ledger.types';
 import { AuctionRepository } from '../repositories/AuctionRepository';
 import { BidRepository } from '../repositories/BidRepository';
 import type { AuctionDocument } from '../models/Auctions.model';
+
 
 export class AuctionEngine {
   private roundManager: RoundManager;
@@ -59,7 +60,7 @@ export class AuctionEngine {
       );
       await session.commitTransaction();
 
-      logger.info(`Auction created and started: ${auction.id}`);
+      logger.info(`Auction created and started: ${auction._id}`);
 
       return auction;
     } catch (error) {
