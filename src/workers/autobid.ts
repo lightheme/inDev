@@ -48,7 +48,7 @@ const ensureBotUsers = async (): Promise<string[]> => {
   return botIds.slice(0, BOT_COUNT);
 };
 
-const run = async () => {
+export const run = async () => {
   if (config.nodeEnv === 'test') {
     logger.info('Autobid worker disabled in test environment');
     return;
@@ -123,7 +123,9 @@ const run = async () => {
   setInterval(tick, config.queue.autobidPollIntervalMs);
 };
 
-run().catch((error) => {
-  logger.error('Autobid worker crashed', { error: error.message, stack: error.stack });
-  process.exit(1);
-});
+if (require.main === module) {
+  run().catch((error) => {
+    logger.error('Autobid worker crashed', { error: error.message, stack: error.stack });
+    process.exit(1);
+  });
+}
