@@ -8,6 +8,7 @@ import { AppError } from '../../utils/errors';
 import { LedgerRefType } from '../../types/ledger.types';
 import { UserRepository } from '../../repositories/UserRepository';
 import { logger } from '../../utils/logger';
+import { LedgerRepository } from '../../repositories/LedgerRepository';
 
 export class IncreaseBidCommand implements Command {
   type = 'IncreaseBid';
@@ -18,6 +19,7 @@ export class IncreaseBidCommand implements Command {
   private bidProcessor: BidProcessor;
   private balanceManager: BalanceManager;
   private userRepository: UserRepository;
+  private ledgerRepository: LedgerRepository;
 
   constructor(payload: IncreaseBidDTO) {
     this.payload = {
@@ -29,11 +31,12 @@ export class IncreaseBidCommand implements Command {
     this.bidProcessor = new BidProcessor();
     this.balanceManager = new BalanceManager();
     this.userRepository = new UserRepository();
+    this.ledgerRepository = new LedgerRepository();
   }
 
   async validate(): Promise<boolean> {
     const { auctionId, userId, amount } = this.payload;
-
+    
     const auction = await this.auctionEngine.getAuction(auctionId);
     if (!auction) {
       throw new AppError('Auction not found', 404);
@@ -73,6 +76,13 @@ export class IncreaseBidCommand implements Command {
     }
     if (existingBid.userId.toString() !== userId) {
       throw new AppError('Bid does not belong to user', 403);
+    }
+
+    if (await this.ledgerRepository.existsByCommandId(idempotencyKey)) {
+      return {
+        success: true,
+        data: existingBid,
+      };
     }
 
     // Use unique commandId for reserve operation

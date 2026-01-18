@@ -822,3 +822,272 @@
 {"level":"info","message":"Round 1 ended for auction 696c7eff99612f752c0811de","timestamp":"2026-01-18 09:34:39"}
 {"level":"info","message":"Round 1 ended for auction 696c7eff99612f752c08121e","timestamp":"2026-01-18 09:34:39"}
 {"level":"info","message":"Round 1 ended for auction 696c7eff99612f752c08122d","timestamp":"2026-01-18 09:34:40"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:22"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-18 09:36:22"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-18 09:36:22"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-18 09:36:22"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:22"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:22"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:22"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:23"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:23"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:23"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:24"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:24"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:25"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:25"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:26"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:26"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:27"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:28"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:28"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:29"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:30"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:31"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:32"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:33"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:34"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:35"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:36"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:37"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:39"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:40"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:41"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:43"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:44"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:46"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:47"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:49"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:51"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:52"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:54"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:56"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:36:58"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:00"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:02"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:04"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:06"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:08"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:10"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:12"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:14"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:16"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:18"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:20"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:22"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:24"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:26"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:28"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:30"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:32"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:34"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:36"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:38"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:40"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:42"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:44"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:46"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:48"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:50"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:52"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:54"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:56"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:37:58"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:00"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:02"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:04"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:06"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:08"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:10"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:12"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:14"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:16"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:18"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:20"}
+{"error":{"code":"ECONNREFUSED"},"level":"error","message":"Redis connection error","timestamp":"2026-01-18 09:38:22"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-18 09:40:48"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-18 09:40:48"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-18 09:40:48"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-18 09:40:48"}
+{"level":"error","message":"Error: Invalid Telegram init data","method":"GET","path":"/api/me","stack":"Error: Invalid Telegram init data\n    at authMiddleware (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\middlewares\\auth.middleware.ts:31:13)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:186:3)","timestamp":"2026-01-18 09:40:57"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:40:57 +0000] \"GET /api/me HTTP/1.1\" 401 54 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:40:57"}
+{"level":"error","message":"Error: Invalid Telegram init data","method":"GET","path":"/api/me","stack":"Error: Invalid Telegram init data\n    at authMiddleware (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\middlewares\\auth.middleware.ts:31:13)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:186:3)","timestamp":"2026-01-18 09:41:02"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:41:02 +0000] \"GET /api/me?x-telegram-init-data=%7B%22id%22%3A123456789%2C%22first_name%22%3A%22John%22%2C%22last_name%22%3A%22Doe%22%2C%22username%22%3A%22johndoe%22%7D%26auth_date=1768400952%26hash=cb8b16ba06efae63e33489622e76107e0c96751f8522744019870d5dc34dd333 HTTP/1.1\" 401 54 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:41:02"}
+{"level":"error","message":"Error: Invalid Telegram init data","method":"GET","path":"/api/me","stack":"Error: Invalid Telegram init data\n    at authMiddleware (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\middlewares\\auth.middleware.ts:31:13)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:186:3)","timestamp":"2026-01-18 09:42:47"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:42:47 +0000] \"GET /api/me?x-telegram-init-data=user=%7B%22id%22%3A123456789%2C%22first_name%22%3A%22John%22%2C%22last_name%22%3A%22Doe%22%2C%22username%22%3A%22johndoe%22%7D%26auth_date=1768718550%26hash=a5c1cde2daafa0b4443176c9f61c88b82a572fca0cf94edb4400b17b3e2efbc6 HTTP/1.1\" 401 54 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:42:47"}
+{"level":"error","message":"Error: Invalid Telegram init data","method":"GET","path":"/api/me","stack":"Error: Invalid Telegram init data\n    at authMiddleware (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\middlewares\\auth.middleware.ts:31:13)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\index.js:186:3)","timestamp":"2026-01-18 09:44:17"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:44:17 +0000] \"GET /api/me HTTP/1.1\" 401 54 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:44:17"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-18 09:45:46"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-18 09:45:46"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-18 09:45:46"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-18 09:45:46"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:46:24 +0000] \"GET /api/me HTTP/1.1\" 200 190 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:46:24"}
+{"level":"error","message":"Error: Idempotency-Key header is required for POST operations","method":"POST","path":"/api/balance/topup","stack":"Error: Idempotency-Key header is required for POST operations\n    at UserController.topUpBalance (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\user.controller.ts:47:15)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:157:13)\n    at C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\middlewares\\validation.middleware.ts:19:5\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:157:13)\n    at authMiddleware (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\middlewares\\auth.middleware.ts:42:5)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-18 09:47:17"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:47:17 +0000] \"POST /api/balance/topup HTTP/1.1\" 400 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:47:17"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:48:24 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:48:24"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:48:27 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:48:27"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:48:31 +0000] \"POST /api/balance/topup HTTP/1.1\" 200 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:48:31"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:48:35 +0000] \"GET /api/me HTTP/1.1\" 200 194 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:48:35"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:49:17 +0000] \"GET /api/auctions HTTP/1.1\" 200 26 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:49:17"}
+{"level":"error","message":"Error: Idempotency-Key header is required for POST operations","method":"POST","path":"/api/auctions/create","stack":"Error: Idempotency-Key header is required for POST operations\n    at AuctionController.createAuction (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:24:15)\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:157:13)\n    at C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\middlewares\\validation.middleware.ts:19:5\n    at Layer.handleRequest (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\node_modules\\router\\lib\\route.js:157:13)\n    at authMiddleware (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\middlewares\\auth.middleware.ts:42:5)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-18 09:49:38"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:49:38 +0000] \"POST /api/auctions/create HTTP/1.1\" 400 82 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:49:38"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: CreateAuction","timestamp":"2026-01-18 09:49:44"}
+{"level":"info","message":"Auction created and started: 696c8288c4e52510eb598c18","timestamp":"2026-01-18 09:49:44"}
+{"duration":14,"level":"info","message":"Command executed successfully: CreateAuction","timestamp":"2026-01-18 09:49:44"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:49:44 +0000] \"POST /api/auctions/create HTTP/1.1\" 201 725 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:49:44"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:50:38 +0000] \"GET /api/auctions/696c8288c4e52510eb598c18 HTTP/1.1\" 200 846 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:50:38"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:51:05 +0000] \"GET /api/auctions HTTP/1.1\" 200 848 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:51:05"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:51:13 +0000] \"GET /api/auctions/696c8288c4e52510eb598c18/leaderboard HTTP/1.1\" 200 26 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:51:13"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:51:55"}
+{"duration":26,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:51:55"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:51:55 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:51:55"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:51:59"}
+{"duration":9,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:51:59"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:51:59 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:51:59"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:52:02"}
+{"duration":6,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:52:02"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:02 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:02"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:52:03"}
+{"duration":7,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:52:03"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:03 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:03"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:52:04"}
+{"duration":7,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:52:04"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:04 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:04"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:52:33"}
+{"duration":24,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:52:33"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:33 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:33"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:52:39"}
+{"error":"Insufficient balance","level":"error","message":"Command execution failed: IncreaseBid","stack":"Error: Insufficient balance\n    at IncreaseBidCommand.validate (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\IncreaseBidCommand.ts:53:13)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:20:23)\n    at async AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:137:22)","timestamp":"2026-01-18 09:52:39"}
+{"level":"error","message":"Error: Insufficient balance","method":"POST","path":"/api/auctions/696c8288c4e52510eb598c18/increase-bid","stack":"Error: Insufficient balance\n    at AuctionController.increaseBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:140:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-18 09:52:39"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:39 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 400 48 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:39"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:52:51"}
+{"duration":17,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:52:51"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:51 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:51"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:52:54"}
+{"duration":18,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:52:54"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:54 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:54"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:52:55"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:52:55"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:55 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:55"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:52:57"}
+{"duration":18,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:52:57"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:57 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:57"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:52:58"}
+{"duration":18,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:52:58"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:58 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:58"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:52:58"}
+{"duration":18,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:52:58"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:58 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:58"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:52:59"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:52:59"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:52:59 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:52:59"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:00"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:00"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:00 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:00"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:00"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:00"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:00 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:00"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:01"}
+{"duration":19,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:01"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:01 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:01"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:02"}
+{"duration":17,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:02"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:02 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:02"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:03"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:03"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:03 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:03"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:04"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:04"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:04 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:04"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:05"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:05"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:05 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:05"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:06"}
+{"duration":17,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:06"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:06 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:06"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:08"}
+{"duration":18,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:08"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:08 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:08"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:09"}
+{"duration":17,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:09"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:09 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:09"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:13 +0000] \"GET /api/me HTTP/1.1\" 200 194 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:13"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:28"}
+{"duration":17,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:28"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:28 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:28"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:29"}
+{"duration":18,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:29"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:29 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:29"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:29"}
+{"duration":17,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:29"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:29 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:29"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:30"}
+{"duration":17,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:30"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:30 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:30"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:31"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:31"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:31 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:31"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:32"}
+{"duration":17,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:32"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:32 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:32"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:32"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:32"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:32 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:32"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:33"}
+{"duration":18,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:33"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:33 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:33"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:34"}
+{"duration":16,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:34"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:34 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:34"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 09:53:34"}
+{"duration":14,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 09:53:34"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:34 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:34"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:41 +0000] \"GET /api/auctions/696c8288c4e52510eb598c18 HTTP/1.1\" 200 846 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:41"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:53:52 +0000] \"GET /api/auctions/696c8288c4e52510eb598c18/leaderboard HTTP/1.1\" 200 227 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:53:52"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:54:17"}
+{"duration":5,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:54:17"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:54:17 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:54:17"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:54:19"}
+{"duration":8,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:54:19"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:54:19 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:54:19"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:54:20"}
+{"duration":6,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:54:20"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:54:20 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:54:20"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:54:21"}
+{"duration":6,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:54:21"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:54:21 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:54:21"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:54:22"}
+{"duration":4,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:54:22"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:54:22 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:54:22"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:54:24"}
+{"duration":5,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:54:24"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:54:24 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:54:24"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:54:28"}
+{"error":"Insufficient balance","level":"error","message":"Command execution failed: PlaceBid","stack":"Error: Insufficient balance\n    at PlaceBidCommand.validate (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\bid\\PlaceBidCommand.ts:50:13)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async CommandHandler.execute (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\commands\\CommandHandler.ts:20:23)\n    at async AuctionController.placeBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:103:22)","timestamp":"2026-01-18 09:54:28"}
+{"level":"error","message":"Error: Insufficient balance","method":"POST","path":"/api/auctions/696c8288c4e52510eb598c18/place-bid","stack":"Error: Insufficient balance\n    at AuctionController.placeBid (C:\\Users\\Vasha\\WebstormProjects\\auction-system-backend\\src\\api\\controllers\\auction.controller.ts:106:15)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-01-18 09:54:28"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:54:28 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 400 48 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:54:28"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: PlaceBid","timestamp":"2026-01-18 09:54:33"}
+{"duration":5,"level":"info","message":"Command executed successfully: PlaceBid","timestamp":"2026-01-18 09:54:33"}
+{"level":"info","message":"::1 - - [18/Jan/2026:06:54:33 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/place-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 09:54:33"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-18 10:07:32"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-18 10:07:32"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-18 10:07:32"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-18 10:07:32"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 10:07:54"}
+{"duration":24,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 10:07:54"}
+{"level":"info","message":"::1 - - [18/Jan/2026:07:07:54 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 10:07:54"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 10:07:55"}
+{"duration":14,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 10:07:55"}
+{"level":"info","message":"::1 - - [18/Jan/2026:07:07:55 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 10:07:55"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 10:07:56"}
+{"duration":11,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 10:07:56"}
+{"level":"info","message":"::1 - - [18/Jan/2026:07:07:56 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 10:07:56"}
+{"idempotencyKey":"12345","level":"info","message":"Execute command: IncreaseBid","timestamp":"2026-01-18 10:07:57"}
+{"duration":10,"level":"info","message":"Command executed successfully: IncreaseBid","timestamp":"2026-01-18 10:07:57"}
+{"level":"info","message":"::1 - - [18/Jan/2026:07:07:57 +0000] \"POST /api/auctions/696c8288c4e52510eb598c18/increase-bid HTTP/1.1\" 201 251 \"-\" \"PostmanRuntime/7.51.0\"","timestamp":"2026-01-18 10:07:57"}
+{"level":"info","message":"Round 1 ended for auction 696c86f1e0d58edce2c6b6e2","timestamp":"2026-01-18 10:08:33"}
+{"level":"info","message":"Round 1 ended for auction 696c86f1e0d58edce2c6b722","timestamp":"2026-01-18 10:08:33"}
+{"level":"info","message":"Round 1 ended for auction 696c86f1e0d58edce2c6b731","timestamp":"2026-01-18 10:08:33"}
+{"level":"info","message":"Auction created and started: 696c86f4d4b453932a413944","timestamp":"2026-01-18 10:08:36"}
+{"level":"info","message":"Round 1 ended for auction 696c86f4d4b453932a413944","timestamp":"2026-01-18 10:08:36"}
+{"level":"info","message":"Auction created and started: 696c86f4d4b453932a41399e","timestamp":"2026-01-18 10:08:36"}
