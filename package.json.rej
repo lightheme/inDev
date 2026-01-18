@@ -1,0 +1,42 @@
+diff a/package.json b/package.json	(rejected hunks)
+@@ -1,35 +1,40 @@
+ {
+   "name": "auction-system-backend",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+     "dev": "nodemon --exec ts-node src/server.ts",
+     "generate": "npx ts-node src/scripts/generate-init-data.ts",
+     "build": "tsc",
+     "start": "node dist/server/js",
++    "worker:runner": "ts-node src/workers/workerRunner.ts",
++    "worker:scheduler": "ts-node src/workers/scheduler.ts",
++    "worker:autobid": "ts-node src/workers/autobid.ts",
++    "worker:cleanup": "ts-node src/workers/cleanup.ts",
++    "worker:all": "ts-node src/workers/all.ts",
+     "test": "jest",
+     "format": "prettier --write ."
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "type": "commonjs",
+   "dependencies": {
+     "@types/express": "^5.0.6",
+     "@types/node": "^25.0.5",
+     "cors": "^2.8.5",
+     "dotenv": "^17.2.3",
+     "express": "^5.2.1",
+     "helmet": "^8.1.0",
+     "ioredis": "^5.9.1",
+     "joi": "^18.0.2",
+     "mongoose": "^9.1.2",
+     "morgan": "^1.10.1",
+     "ts-node": "^10.9.2",
+     "typescript": "^5.9.3",
+     "uuid": "^13.0.0",
+     "winston": "^3.19.0"
+   },
+   "devDependencies": {
+     "@types/cors": "^2.8.19",

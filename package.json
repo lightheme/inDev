@@ -8,6 +8,10 @@
     "generate": "npx ts-node src/scripts/generate-init-data.ts",
     "build": "tsc",
     "start": "node dist/server/js",
+    "worker:runner": "node dist/workers/workerRunner.js",
+    "worker:scheduler": "node dist/workers/scheduler.js",
+    "worker:autobid": "node dist/workers/autobid.js",
+    "worker:cleanup": "node dist/workers/cleanup.js",
     "test": "jest",
     "format": "prettier --write ."
   },

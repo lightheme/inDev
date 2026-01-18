@@ -40,6 +40,11 @@ export class AuctionRepository {
     return session ? query.session(session) : query;
   }
 
+  async findActive(session?: mongoose.ClientSession): Promise<AuctionDocument[]> {
+    const query = AuctionModel.find({ status: AuctionStatus.ACTIVE });
+    return session ? query.session(session) : query;
+  }
+
   async create(
     data: {
       creatorId: mongoose.Types.ObjectId | string;
@@ -83,4 +88,3 @@ export class AuctionRepository {
     return session ? auction.save({ session }) : auction.save();
   }
 }
-

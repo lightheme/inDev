@@ -1,0 +1,70 @@
+diff a/src/repositories/BidRepository.ts b/src/repositories/BidRepository.ts	(rejected hunks)
+@@ -93,47 +93,68 @@ export class BidRepository {
+       auctionId,
+       roundNumber,
+       status: BidStatus.ACTIVE,
+     }).sort({
+       amount: -1,
+       placedAt: 1,
+     });
+     return session ? query.session(session) : query;
+   }
+ 
+   async findActiveByAuctionRoundWithUser(
+     auctionId: string,
+     roundNumber: number,
+     session?: mongoose.ClientSession,
+   ): Promise<any[]> {
+     const query = BidModel.find({
+       auctionId,
+       roundNumber,
+       status: BidStatus.ACTIVE,
+     })
+       .populate('userId', 'username firstName lastName')
+       .lean();
+     return session ? query.session(session) : query;
+   }
+ 
++  async findActiveByUserInRounds(
++    userId: string,
++    rounds: Array<{ auctionId: string; roundNumber: number }>,
++    session?: mongoose.ClientSession,
++  ): Promise<BidDocument[]> {
++    if (rounds.length === 0) return [];
++
++    const orClauses = rounds.map((round) => ({
++      auctionId: round.auctionId,
++      roundNumber: round.roundNumber,
++    }));
++
++    const query = BidModel.find({
++      userId,
++      status: BidStatus.ACTIVE,
++      $or: orClauses,
++    });
++
++    return session ? query.session(session) : query;
++  }
++
+   async save(bid: BidDocument, session?: mongoose.ClientSession): Promise<BidDocument> {
+     return session ? bid.save({ session }) : bid.save();
+   }
+ 
+   async updatePlacedAtForUserRound(
+     auctionId: string,
+     userId: string,
+     roundNumber: number,
+     placedAt: Date,
+     session?: mongoose.ClientSession,
+   ): Promise<void> {
+     const query = BidModel.updateOne(
+       { auctionId, userId, roundNumber },
+       { $set: { placedAt } },
+     );
+     if (session) {
+       await query.session(session);
+       return;
+     }
+     await query;
+   }
+ }
