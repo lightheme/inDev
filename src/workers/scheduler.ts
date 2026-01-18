@@ -7,7 +7,7 @@ import { endRoundJobId } from '../jobs/jobIds';
 import { EndRoundJobPayload } from '../jobs/types';
 import { logger } from '../utils/logger';
 
-const run = async () => {
+export const run = async () => {
   if (config.nodeEnv === 'test') {
     logger.info('Scheduler disabled in test environment');
     return;

@@ -5,7 +5,7 @@ import { cleanupJobId } from '../jobs/jobIds';
 import { BalanceCleanupJobPayload } from '../jobs/types';
 import { logger } from '../utils/logger';
 
-const run = async () => {
+export const run = async () => {
   if (config.nodeEnv === 'test') {
     logger.info('Cleanup worker disabled in test environment');
     return;

@@ -48,7 +48,7 @@ const ensureBotUsers = async (): Promise<string[]> => {
   return botIds.slice(0, BOT_COUNT);
 };
 
-const run = async () => {
+export const run = async () => {
   if (config.nodeEnv === 'test') {
     logger.info('Autobid worker disabled in test environment');
     return;

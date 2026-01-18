@@ -8,7 +8,7 @@ import { handleAutoBidTick } from '../jobs/handlers/autoBidTick';
 import { handleBalanceCleanup } from '../jobs/handlers/cleanup';
 import { logger } from '../utils/logger';
 
-const run = async () => {
+export const run = async () => {
   if (config.nodeEnv === 'test') {
     logger.info('Worker runner disabled in test environment');
     return;
