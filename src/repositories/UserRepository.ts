@@ -41,6 +41,22 @@ export class UserRepository {
     return session ? user.save({ session }) : user.save();
   }
 
+  async findWithReservedBalance(
+    minAmount: number = 0,
+    session?: mongoose.ClientSession,
+  ): Promise<UserDocument[]> {
+    const query = UserModel.find({ reservedBalance: { $gt: minAmount } });
+    return session ? query.session(session) : query;
+  }
+
+  async findByUsernamePrefix(
+    prefix: string,
+    session?: mongoose.ClientSession,
+  ): Promise<UserDocument[]> {
+    const query = UserModel.find({ username: new RegExp(`^${prefix}`) });
+    return session ? query.session(session) : query;
+  }
+
   async updateBalance(
     userId: string,
     balance: number,

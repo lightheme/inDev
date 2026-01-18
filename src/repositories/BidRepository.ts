@@ -115,6 +115,27 @@ export class BidRepository {
     return session ? query.session(session) : query;
   }
 
+  async findActiveByUserInRounds(
+    userId: string,
+    rounds: Array<{ auctionId: string; roundNumber: number }>,
+    session?: mongoose.ClientSession,
+  ): Promise<BidDocument[]> {
+    if (rounds.length === 0) return [];
+
+    const orClauses = rounds.map((round) => ({
+      auctionId: round.auctionId,
+      roundNumber: round.roundNumber,
+    }));
+
+    const query = BidModel.find({
+      userId,
+      status: BidStatus.ACTIVE,
+      $or: orClauses,
+    });
+
+    return session ? query.session(session) : query;
+  }
+
   async save(bid: BidDocument, session?: mongoose.ClientSession): Promise<BidDocument> {
     return session ? bid.save({ session }) : bid.save();
   }
