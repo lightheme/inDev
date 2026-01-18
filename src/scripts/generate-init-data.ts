@@ -32,7 +32,7 @@ function generateValidInitData(botToken: string, user: any) {
 }
 
 // Пример использования
-const BOT_TOKEN = '8327842815:AAFT343tjnCVxMKyZJ6Lf7EFKb1koqm1flw';
+const BOT_TOKEN = 'your_bot_token_here';
 
 const testUser = {
   id: 123456789,

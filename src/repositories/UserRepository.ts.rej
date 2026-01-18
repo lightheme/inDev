@@ -1,0 +1,68 @@
+diff a/src/repositories/UserRepository.ts b/src/repositories/UserRepository.ts	(rejected hunks)
+@@ -19,50 +19,66 @@ export class UserRepository {
+   }
+ 
+   async create(
+     data: {
+       telegramId: number;
+       username?: string;
+       firstName?: string;
+       lastName?: string;
+       balance?: number;
+       reservedBalance?: number;
+     },
+     session?: mongoose.ClientSession,
+   ): Promise<UserDocument> {
+     const user = new UserModel({
+       telegramId: data.telegramId,
+       username: data.username,
+       firstName: data.firstName,
+       lastName: data.lastName,
+       balance: data.balance ?? 0,
+       reservedBalance: data.reservedBalance ?? 0,
+     });
+ 
+     return session ? user.save({ session }) : user.save();
+   }
+ 
++  async findWithReservedBalance(
++    minAmount: number = 0,
++    session?: mongoose.ClientSession,
++  ): Promise<UserDocument[]> {
++    const query = UserModel.find({ reservedBalance: { $gt: minAmount } });
++    return session ? query.session(session) : query;
++  }
++
++  async findByUsernamePrefix(
++    prefix: string,
++    session?: mongoose.ClientSession,
++  ): Promise<UserDocument[]> {
++    const query = UserModel.find({ username: new RegExp(`^${prefix}`) });
++    return session ? query.session(session) : query;
++  }
++
+   async updateBalance(
+     userId: string,
+     balance: number,
+     reservedBalance: number,
+     session?: mongoose.ClientSession,
+   ): Promise<UserDocument | null> {
+     return await UserModel.findByIdAndUpdate(
+       userId,
+       { balance, reservedBalance },
+       { new: true, session },
+     );
+   }
+ 
+   async incrementBalance(
+     userId: string,
+     amount: number,
+     session?: mongoose.ClientSession,
+   ): Promise<UserDocument | null> {
+     return await UserModel.findByIdAndUpdate(
+       userId,
+       { $inc: { balance: amount } },
+       { new: true, session, runValidators: true, context: 'query'},
+     );
+   }
+ 
