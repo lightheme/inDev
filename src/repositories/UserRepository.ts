@@ -2,20 +2,31 @@ import { UserModel, UserDocument } from '../models/User.model';
 import mongoose from 'mongoose';
 
 export class UserRepository {
-  async findById(userId: string): Promise<UserDocument | null> {
-    return await UserModel.findById(userId);
+  async findById(
+    userId: string,
+    session?: mongoose.ClientSession,
+  ): Promise<UserDocument | null> {
+    const query = UserModel.findById(userId);
+    return session ? query.session(session) : query;
   }
 
-  async findByTelegramId(telegramId: number): Promise<UserDocument | null> {
-    return await UserModel.findOne({ telegramId });
+  async findByTelegramId(
+    telegramId: number,
+    session?: mongoose.ClientSession,
+  ): Promise<UserDocument | null> {
+    const query = UserModel.findOne({ telegramId });
+    return session ? query.session(session) : query;
   }
 
-  async create(data: {
-    telegramId: string;
-    username?: string;
-    firstName?: string;
-    lastName?: string;
-  }): Promise<UserDocument> {
+  async create(
+    data: {
+      telegramId: number;
+      username?: string;
+      firstName?: string;
+      lastName?: string;
+    },
+    session?: mongoose.ClientSession,
+  ): Promise<UserDocument> {
     const user = new UserModel({
       telegramId: data.telegramId,
       username: data.username,
@@ -25,7 +36,7 @@ export class UserRepository {
       reservedBalance: 0,
     });
 
-    return await user.save();
+    return session ? user.save({ session }) : user.save();
   }
 
   async updateBalance(
@@ -49,7 +60,7 @@ export class UserRepository {
     return await UserModel.findByIdAndUpdate(
       userId,
       { $inc: { balance: amount } },
-      { new: true, session },
+      { new: true, session, runValidators: true, context: 'query'},
     );
   }
 
@@ -61,14 +72,7 @@ export class UserRepository {
     return await UserModel.findByIdAndUpdate(
       userId,
       { $inc: { reservedBalance: amount } },
-      { new: true, session },
+      { new: true, session, runValidators: true, context: 'query' },
     );
-  }
-
-  async findByIdWithSession(
-    userId: string,
-    session: mongoose.ClientSession,
-  ): Promise<UserDocument | null> {
-    return await UserModel.findById(userId).session(session);
   }
 }
