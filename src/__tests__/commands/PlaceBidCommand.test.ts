@@ -1,20 +1,23 @@
 import { PlaceBidCommand } from '../../commands/bid/PlaceBidCommand';
 import { TestHelpers } from '../helpers/test-helpers';
-import { AuctionModel } from '../../models/Auctions.model';
-import { BidModel } from '../../models/Bid.model';
-import { UserModel } from '../../models/User.model';
 import { AuctionStatus, RoundStatus } from '../../types/auction.types';
 import { BidStatus } from '../../types/bid.types';
 import mongoose from 'mongoose';
+import { BidRepository } from '../../repositories/BidRepository';
+import { UserRepository } from '../../repositories/UserRepository';
 
 describe('PlaceBidCommand', () => {
   let user: any;
   let auction: any;
   let command: PlaceBidCommand;
+  let bidRepository: BidRepository;
+  let userRepository: UserRepository;
 
   beforeEach(async () => {
     user = await TestHelpers.createUser({ telegramId: 123456 });
     auction = await TestHelpers.createAuction({ creatorId: user._id });
+    bidRepository = new BidRepository();
+    userRepository = new UserRepository();
   });
 
   describe('validate', () => {
@@ -136,13 +139,13 @@ describe('PlaceBidCommand', () => {
       expect(result.data).toBeTruthy();
 
       // Verify bid was created
-      const bid = await BidModel.findOne({ idempotencyKey });
+      const bid = await bidRepository.findByIdempotencyKey(idempotencyKey);
       expect(bid).toBeTruthy();
       expect(bid!.amount).toBe(100);
       expect(bid!.status).toBe(BidStatus.ACTIVE);
 
       // Verify balance was reserved
-      const updatedUser = await UserModel.findById(user._id);
+      const updatedUser = await userRepository.findById(user._id.toString());
       expect(updatedUser!.reservedBalance).toBe(100);
       expect(updatedUser!.balance).toBe(1000);
     });
@@ -172,8 +175,13 @@ describe('PlaceBidCommand', () => {
       expect(result.data._id.toString()).toBe(existingBid._id.toString());
 
       // Verify no duplicate bid was created
-      const bids = await BidModel.find({ idempotencyKey });
-      expect(bids.length).toBe(1);
+      const bids = await bidRepository.findActiveByUserRound(
+        user._id.toString(),
+        auction._id.toString(),
+        1,
+      );
+      const bidsForKey = bids.filter((bid) => bid.idempotencyKey === idempotencyKey);
+      expect(bidsForKey.length).toBe(1);
     });
 
     it('should release balance if bid creation fails', async () => {
@@ -199,13 +207,13 @@ describe('PlaceBidCommand', () => {
       });
 
       // Reserve balance first
-      const initialBalance = (await UserModel.findById(user._id))!.reservedBalance;
+      const initialBalance = (await userRepository.findById(user._id.toString()))!.reservedBalance;
 
       // Execute should succeed, but if it fails, balance should be released
       // This is tested implicitly through the successful execution path
       await validCommand.execute();
 
-      const afterExecution = await UserModel.findById(user._id);
+      const afterExecution = await userRepository.findById(user._id.toString());
       expect(afterExecution!.reservedBalance).toBeGreaterThan(initialBalance);
     });
   });

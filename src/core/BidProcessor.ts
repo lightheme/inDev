@@ -1,14 +1,13 @@
 import mongoose from 'mongoose';
-import { LedgerService } from '../ledger/LedgerService';
-import { BidDocument, BidModel } from '../models/Bid.model';
 import { BidStatus } from '../types/bid.types';
-import { LedgerEntryTypes, LedgerRefType } from '../types/ledger.types';
+import { BidRepository } from '../repositories/BidRepository';
+import type { BidDocument } from '../models/Bid.model';
 
 export class BidProcessor {
-  private ledgerService: LedgerService;
+  private bidRepository: BidRepository;
 
   constructor() {
-    this.ledgerService = new LedgerService();
+    this.bidRepository = new BidRepository();
   }
 
   async createBid(data: {
@@ -23,17 +22,18 @@ export class BidProcessor {
       session = await mongoose.startSession();
       session.startTransaction();
 
-      const bid = new BidModel({
-        auctionId: data.auctionId,
-        userId: data.userId,
-        roundNumber: data.roundNumber,
-        amount: data.amount,
-        status: BidStatus.ACTIVE,
-        idempotencyKey: data.idempotencyKey,
-        placedAt: new Date(),
-      });
-
-      await bid.save({ session });
+      const bid = await this.bidRepository.create(
+        {
+          auctionId: data.auctionId,
+          userId: data.userId,
+          roundNumber: data.roundNumber,
+          amount: data.amount,
+          status: BidStatus.ACTIVE,
+          idempotencyKey: data.idempotencyKey,
+          placedAt: new Date(),
+        },
+        session,
+      );
 
       await session.commitTransaction();
 
@@ -69,7 +69,7 @@ export class BidProcessor {
       }
       bid.amount = Number(bid.amount) + Number(data.amount);
 
-      await bid.save({ session });
+      await this.bidRepository.save(bid, session);
 
       await session.commitTransaction();
 
@@ -87,7 +87,7 @@ export class BidProcessor {
   }
 
   async findBidByIdempotencyKey(idempotencyKey: string): Promise<BidDocument | null> {
-    return await BidModel.findOne({ idempotencyKey });
+    return await this.bidRepository.findByIdempotencyKey(idempotencyKey);
   }
 
   async getUserBidsForRound(
@@ -95,20 +95,14 @@ export class BidProcessor {
     auctionId: string,
     roundNumber: number,
   ): Promise<BidDocument[]> {
-    return await BidModel.find({
-      userId,
-      auctionId,
-      roundNumber,
-      status: BidStatus.ACTIVE,
-    });
+    return await this.bidRepository.findActiveByUserRound(userId, auctionId, roundNumber);
   }
 
   async findBidById(
     bidId: string,
     session?: mongoose.ClientSession | null,
   ): Promise<BidDocument | null> {
-    const query = BidModel.findOne({ _id: bidId });
-    return session ? query.session(session) : query;
+    return await this.bidRepository.findById(bidId, session ?? undefined);
   }
 
   async getTotalBidAmount(userId: string, auctionId: string, roundNumber: number): Promise<number> {

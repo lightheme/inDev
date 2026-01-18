@@ -24,6 +24,8 @@ export class UserRepository {
       username?: string;
       firstName?: string;
       lastName?: string;
+      balance?: number;
+      reservedBalance?: number;
     },
     session?: mongoose.ClientSession,
   ): Promise<UserDocument> {
@@ -32,8 +34,8 @@ export class UserRepository {
       username: data.username,
       firstName: data.firstName,
       lastName: data.lastName,
-      balance: 0,
-      reservedBalance: 0,
+      balance: data.balance ?? 0,
+      reservedBalance: data.reservedBalance ?? 0,
     });
 
     return session ? user.save({ session }) : user.save();
@@ -74,5 +76,12 @@ export class UserRepository {
       { $inc: { reservedBalance: amount } },
       { new: true, session, runValidators: true, context: 'query' },
     );
+  }
+
+  async save(
+    user: UserDocument,
+    session?: mongoose.ClientSession,
+  ): Promise<UserDocument> {
+    return session ? user.save({ session }) : user.save();
   }
 }

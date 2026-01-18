@@ -1,28 +1,33 @@
-import { AuctionModel, AuctionDocument } from '../models/Auctions.model';
 import { AuctionStatus, RoundStatus } from '../types/auction.types';
 import { CreateAuctionDTO } from '../api/dto/create-auction.dto';
 import { RoundManager } from './RoundManager';
 import { WinnerCalculator } from './WinnerCalculator';
 import { BalanceManager } from './BalanceManager';
-import { BidModel } from '../models/Bid.model';
 import { BidStatus } from '../types/bid.types';
 import { logger } from '../utils/logger';
 import mongoose from 'mongoose';
 import { LedgerRefType } from '../types/ledger.types';
+import { AuctionRepository } from '../repositories/AuctionRepository';
+import { BidRepository } from '../repositories/BidRepository';
+import type { AuctionDocument } from '../models/Auctions.model';
 
 export class AuctionEngine {
   private roundManager: RoundManager;
   private winnerCalculator: WinnerCalculator;
   private balanceManager: BalanceManager;
+  private auctionRepository: AuctionRepository;
+  private bidRepository: BidRepository;
 
   constructor() {
     this.roundManager = new RoundManager();
     this.winnerCalculator = new WinnerCalculator();
     this.balanceManager = new BalanceManager();
+    this.auctionRepository = new AuctionRepository();
+    this.bidRepository = new BidRepository();
   }
 
   async getAuction(auctionId: string): Promise<AuctionDocument | null> {
-    return await AuctionModel.findById(auctionId);
+    return await this.auctionRepository.findById(auctionId);
   }
 
   async createAuction(data: CreateAuctionDTO & { creatorId: string }): Promise<AuctionDocument> {
@@ -37,22 +42,21 @@ export class AuctionEngine {
         antiSnipingSeconds: 30,
       });
 
-      const auction = new AuctionModel({
-        creatorId: data.creatorId,
-        title: data.title,
-        totalGifts: data.totalGifts,
-        status: AuctionStatus.DRAFT,
-        rounds,
-        currentRound: 0,
-      });
+      rounds[0].status = RoundStatus.ACTIVE;
+      rounds[0].startTime = new Date();
+      rounds[0].endTime = new Date(Date.now() + rounds[0].duration * 60 * 1000);
 
-      // Start auction within the same transaction
-      auction.status = AuctionStatus.ACTIVE;
-      auction.rounds[0].status = RoundStatus.ACTIVE;
-      auction.rounds[0].startTime = new Date();
-      auction.rounds[0].endTime = new Date(Date.now() + auction.rounds[0].duration * 60 * 1000);
-
-      await auction.save({ session });
+      const auction = await this.auctionRepository.create(
+        {
+          creatorId: data.creatorId,
+          title: data.title,
+          totalGifts: data.totalGifts,
+          status: AuctionStatus.ACTIVE,
+          rounds,
+          currentRound: 0,
+        },
+        session,
+      );
       await session.commitTransaction();
 
       logger.info(`Auction created and started: ${auction.id}`);
@@ -81,7 +85,7 @@ export class AuctionEngine {
     auction.rounds[0].startTime = new Date();
     auction.rounds[0].endTime = new Date(Date.now() + auction.rounds[0].duration * 60 * 1000);
 
-    await auction.save();
+    await this.auctionRepository.save(auction);
 
     logger.info(`Auction started: ${auctionId}`);
   }
@@ -91,7 +95,7 @@ export class AuctionEngine {
     session.startTransaction();
 
     try {
-      const auction = await AuctionModel.findById(auctionId).session(session);
+      const auction = await this.auctionRepository.findById(auctionId, session);
       if (!auction) {
         throw new Error('Auction not found');
       }
@@ -135,7 +139,7 @@ export class AuctionEngine {
         auction.status = AuctionStatus.COMPLETED;
       }
 
-      await auction.save({ session });
+      await this.auctionRepository.save(auction, session);
       await session.commitTransaction();
 
       logger.info(`Round ${roundNumber + 1} ended for auction ${auctionId}`);
@@ -168,7 +172,7 @@ export class AuctionEngine {
     if (!round || round.status !== RoundStatus.ACTIVE) return;
 
     round.endTime = new Date(round.endTime.getTime() + 30 * 1000);
-    await auction.save();
+    await this.auctionRepository.save(auction);
 
     logger.info(`Round ${roundNumber + 1} extended for auction ${auctionId}`);
   }
@@ -182,11 +186,11 @@ export class AuctionEngine {
   ): Promise<void> {
     const winnerUserIds = new Set(winners.map((w) => w.userId));
 
-    const allBids = await BidModel.find({
+    const allBids = await this.bidRepository.findActiveByAuctionRound(
       auctionId,
       roundNumber,
-      status: BidStatus.ACTIVE,
-    }).session(session);
+      session,
+    );
 
     for (const bid of allBids) {
       const userId = bid.userId.toString();
@@ -213,7 +217,7 @@ export class AuctionEngine {
         });
       }
 
-      await bid.save({ session });
+      await this.bidRepository.save(bid, session);
     }
   }
 }

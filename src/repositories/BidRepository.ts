@@ -72,6 +72,18 @@ export class BidRepository {
     return session ? query.session(session) : query;
   }
 
+  async findByAuctionRound(
+    auctionId: string,
+    roundNumber: number,
+    session?: mongoose.ClientSession,
+  ): Promise<BidDocument[]> {
+    const query = BidModel.find({
+      auctionId,
+      roundNumber,
+    });
+    return session ? query.session(session) : query;
+  }
+
   async findActiveByAuctionRoundSorted(
     auctionId: string,
     roundNumber: number,
@@ -106,5 +118,22 @@ export class BidRepository {
   async save(bid: BidDocument, session?: mongoose.ClientSession): Promise<BidDocument> {
     return session ? bid.save({ session }) : bid.save();
   }
-}
 
+  async updatePlacedAtForUserRound(
+    auctionId: string,
+    userId: string,
+    roundNumber: number,
+    placedAt: Date,
+    session?: mongoose.ClientSession,
+  ): Promise<void> {
+    const query = BidModel.updateOne(
+      { auctionId, userId, roundNumber },
+      { $set: { placedAt } },
+    );
+    if (session) {
+      await query.session(session);
+      return;
+    }
+    await query;
+  }
+}

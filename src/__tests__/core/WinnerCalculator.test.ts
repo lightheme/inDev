@@ -1,17 +1,19 @@
 import { WinnerCalculator } from '../../core/WinnerCalculator';
 import { TestHelpers } from '../helpers/test-helpers';
-import { BidModel } from '../../models/Bid.model';
 import { BidStatus } from '../../types/bid.types';
 import mongoose from 'mongoose';
+import { BidRepository } from '../../repositories/BidRepository';
 
 describe('WinnerCalculator', () => {
   let winnerCalculator: WinnerCalculator;
   let auctionId: mongoose.Types.ObjectId;
   let users: any[];
+  let bidRepository: BidRepository;
 
   beforeEach(async () => {
     winnerCalculator = new WinnerCalculator();
     auctionId = new mongoose.Types.ObjectId();
+    bidRepository = new BidRepository();
 
     // Create test users
     users = [
@@ -101,9 +103,11 @@ describe('WinnerCalculator', () => {
         amount: 200,
       });
       // Manually set earlier placedAt
-      await BidModel.updateOne(
-        { userId: users[0]._id, roundNumber },
-        { $set: { placedAt: new Date(baseTime) } },
+      await bidRepository.updatePlacedAtForUserRound(
+        auctionId.toString(),
+        users[0]._id.toString(),
+        roundNumber,
+        new Date(baseTime),
       );
 
       // User 2: bid at time 1000 (later)
@@ -113,9 +117,11 @@ describe('WinnerCalculator', () => {
         roundNumber,
         amount: 200,
       });
-      await BidModel.updateOne(
-        { userId: users[1]._id, roundNumber },
-        { $set: { placedAt: new Date(baseTime + 1000) } },
+      await bidRepository.updatePlacedAtForUserRound(
+        auctionId.toString(),
+        users[1]._id.toString(),
+        roundNumber,
+        new Date(baseTime + 1000),
       );
 
       const winners = await winnerCalculator.calculateWinners(auctionId.toString(), roundNumber, 1);

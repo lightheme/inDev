@@ -1,11 +1,9 @@
 import { IncreaseBidCommand } from '../../commands/bid/IncreaseBidCommand';
 import { TestHelpers } from '../helpers/test-helpers';
-import { AuctionModel } from '../../models/Auctions.model';
-import { BidModel } from '../../models/Bid.model';
-import { UserModel } from '../../models/User.model';
-import { AuctionStatus, RoundStatus } from '../../types/auction.types';
 import { BidStatus } from '../../types/bid.types';
 import mongoose from 'mongoose';
+import { BidRepository } from '../../repositories/BidRepository';
+import { UserRepository } from '../../repositories/UserRepository';
 
 describe('IncreaseBidCommand', () => {
   let user: any;
@@ -13,6 +11,8 @@ describe('IncreaseBidCommand', () => {
   let auction: any;
   let existingBid: any;
   let command: IncreaseBidCommand;
+  let bidRepository: BidRepository;
+  let userRepository: UserRepository;
 
   beforeEach(async () => {
     user = await TestHelpers.createUser({ telegramId: 12345 });
@@ -28,6 +28,8 @@ describe('IncreaseBidCommand', () => {
       amount: 100,
       status: BidStatus.ACTIVE,
     });
+    bidRepository = new BidRepository();
+    userRepository = new UserRepository();
   });
 
   describe('validate', () => {
@@ -95,11 +97,11 @@ describe('IncreaseBidCommand', () => {
       expect(result.data).toBeTruthy();
 
       // Verify bid amount was increased
-      const updatedBid = await BidModel.findById(existingBid._id);
+      const updatedBid = await bidRepository.findById(existingBid._id.toString());
       expect(updatedBid!.amount).toBe(150); // 100 + 50
 
       // Verify balance was reserved
-      const updatedUser = await UserModel.findById(user._id);
+      const updatedUser = await userRepository.findById(user._id.toString());
       expect(updatedUser!.reservedBalance).toBe(50);
     });
 
@@ -136,7 +138,8 @@ describe('IncreaseBidCommand', () => {
 
       // First, let's test the normal flow to ensure balance is reserved
       const idempotencyKey = TestHelpers.generateIdempotencyKey();
-      const initialReserved = (await UserModel.findById(user._id))!.reservedBalance;
+      const initialReserved = (await userRepository.findById(user._id.toString()))!
+        .reservedBalance;
 
       command = new IncreaseBidCommand({
         bidId: existingBid._id.toString(),
@@ -149,7 +152,7 @@ describe('IncreaseBidCommand', () => {
       await command.execute();
 
       // Verify balance was reserved
-      const afterExecution = await UserModel.findById(user._id);
+      const afterExecution = await userRepository.findById(user._id.toString());
       expect(afterExecution!.reservedBalance).toBeGreaterThan(initialReserved);
     });
   });

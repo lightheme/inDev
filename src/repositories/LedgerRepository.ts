@@ -43,5 +43,12 @@ export class LedgerRepository {
     const result = session ? await query.session(session) : await query;
     return !!result;
   }
-}
 
+  async findByCommandId(
+    commandId: string,
+    session?: mongoose.ClientSession,
+  ): Promise<LedgerDocument | null> {
+    const query = LedgerModel.findOne({ commandId });
+    return session ? query.session(session) : query;
+  }
+}

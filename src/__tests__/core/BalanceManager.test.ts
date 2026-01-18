@@ -1,16 +1,20 @@
 import { BalanceManager } from '../../core/BalanceManager';
 import { TestHelpers } from '../helpers/test-helpers';
 import { LedgerRefType } from '../../types/ledger.types';
-import { UserModel } from '../../models/User.model';
-import { LedgerModel } from '../../models/Ledger.model';
 import { LedgerEntryTypes } from '../../types/ledger.types';
 import mongoose from 'mongoose';
+import { UserRepository } from '../../repositories/UserRepository';
+import { LedgerRepository } from '../../repositories/LedgerRepository';
 
 describe('BalanceManager', () => {
   let balanceManager: BalanceManager;
+  let userRepository: UserRepository;
+  let ledgerRepository: LedgerRepository;
 
   beforeEach(() => {
     balanceManager = new BalanceManager();
+    userRepository = new UserRepository();
+    ledgerRepository = new LedgerRepository();
   });
 
   describe('reserve', () => {
@@ -30,13 +34,13 @@ describe('BalanceManager', () => {
         commandId,
       });
 
-      const updatedUser = await UserModel.findById(user._id);
+      const updatedUser = await userRepository.findById(user._id.toString());
       expect(updatedUser!.balance).toBe(1000);
       expect(updatedUser!.reservedBalance).toBe(100);
       expect(updatedUser!.availableBalance).toBe(900);
 
       // Verify ledger entry
-      const ledgerEntry = await LedgerModel.findOne({ commandId });
+      const ledgerEntry = await ledgerRepository.findByCommandId(commandId);
       expect(ledgerEntry).toBeTruthy();
       expect(ledgerEntry!.type).toBe(LedgerEntryTypes.RESERVE);
       expect(ledgerEntry!.amount).toBe(100);
@@ -81,7 +85,7 @@ describe('BalanceManager', () => {
         commandId,
       });
 
-      const afterFirst = await UserModel.findById(user._id);
+      const afterFirst = await userRepository.findById(user._id.toString());
       expect(afterFirst!.reservedBalance).toBe(100);
 
       // Second call with same commandId (should be idempotent)
@@ -93,7 +97,7 @@ describe('BalanceManager', () => {
         commandId,
       });
 
-      const afterSecond = await UserModel.findById(user._id);
+      const afterSecond = await userRepository.findById(user._id.toString());
       expect(afterSecond!.reservedBalance).toBe(100); // Should still be 100, not 200
     });
 
@@ -135,13 +139,13 @@ describe('BalanceManager', () => {
         commandId,
       });
 
-      const updatedUser = await UserModel.findById(user._id);
+      const updatedUser = await userRepository.findById(user._id.toString());
       expect(updatedUser!.balance).toBe(850); // 1000 - 150
       expect(updatedUser!.reservedBalance).toBe(50); // 200 - 150
       expect(updatedUser!.availableBalance).toBe(800); // 850 - 50
 
       // Verify ledger entry
-      const ledgerEntry = await LedgerModel.findOne({ commandId });
+      const ledgerEntry = await ledgerRepository.findByCommandId(commandId);
       expect(ledgerEntry).toBeTruthy();
       expect(ledgerEntry!.type).toBe(LedgerEntryTypes.CHARGE);
       expect(ledgerEntry!.amount).toBe(150);
@@ -206,13 +210,13 @@ describe('BalanceManager', () => {
         commandId,
       });
 
-      const updatedUser = await UserModel.findById(user._id);
+      const updatedUser = await userRepository.findById(user._id.toString());
       expect(updatedUser!.balance).toBe(1000); // Unchanged
       expect(updatedUser!.reservedBalance).toBe(50); // 200 - 150
       expect(updatedUser!.availableBalance).toBe(950); // 1000 - 50
 
       // Verify ledger entry
-      const ledgerEntry = await LedgerModel.findOne({ commandId });
+      const ledgerEntry = await ledgerRepository.findByCommandId(commandId);
       expect(ledgerEntry).toBeTruthy();
       expect(ledgerEntry!.type).toBe(LedgerEntryTypes.REFUND);
       expect(ledgerEntry!.amount).toBe(150);
@@ -256,13 +260,13 @@ describe('BalanceManager', () => {
         commandId,
       });
 
-      const updatedUser = await UserModel.findById(user._id);
+      const updatedUser = await userRepository.findById(user._id.toString());
       expect(updatedUser!.balance).toBe(1500); // 1000 + 500
       expect(updatedUser!.reservedBalance).toBe(200); // Unchanged
       expect(updatedUser!.availableBalance).toBe(1300); // 1500 - 200
 
       // Verify ledger entry
-      const ledgerEntry = await LedgerModel.findOne({ commandId });
+      const ledgerEntry = await ledgerRepository.findByCommandId(commandId);
       expect(ledgerEntry).toBeTruthy();
       expect(ledgerEntry!.type).toBe(LedgerEntryTypes.TOPUP);
       expect(ledgerEntry!.amount).toBe(500);
@@ -318,7 +322,7 @@ describe('BalanceManager', () => {
         commandId: reserveCommandId,
       });
 
-      let updatedUser = await UserModel.findById(user._id);
+      let updatedUser = await userRepository.findById(user._id.toString());
       expect(updatedUser!.balance).toBe(1000);
       expect(updatedUser!.reservedBalance).toBe(200);
 
@@ -332,7 +336,7 @@ describe('BalanceManager', () => {
         commandId: chargeCommandId,
       });
 
-      updatedUser = await UserModel.findById(user._id);
+      updatedUser = await userRepository.findById(user._id.toString());
       expect(updatedUser!.balance).toBe(850); // 1000 - 150
       expect(updatedUser!.reservedBalance).toBe(50); // 200 - 150
       expect(updatedUser!.availableBalance).toBe(800); // 850 - 50
@@ -369,7 +373,7 @@ describe('BalanceManager', () => {
         commandId: releaseCommandId,
       });
 
-      const updatedUser = await UserModel.findById(user._id);
+      const updatedUser = await userRepository.findById(user._id.toString());
       expect(updatedUser!.balance).toBe(1000); // Unchanged
       expect(updatedUser!.reservedBalance).toBe(0); // Back to 0
       expect(updatedUser!.availableBalance).toBe(1000); // Full balance available

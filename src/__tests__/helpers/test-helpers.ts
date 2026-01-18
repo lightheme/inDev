@@ -1,24 +1,30 @@
 import mongoose from 'mongoose';
-import { UserModel, UserDocument } from '../../models/User.model';
-import { AuctionModel, AuctionDocument } from '../../models/Auctions.model';
-import { BidModel, BidDocument } from '../../models/Bid.model';
 import { AuctionStatus, RoundStatus } from '../../types/auction.types';
 import { BidStatus } from '../../types/bid.types';
+import { UserRepository } from '../../repositories/UserRepository';
+import { AuctionRepository } from '../../repositories/AuctionRepository';
+import { BidRepository } from '../../repositories/BidRepository';
+import type { UserDocument } from '../../models/User.model';
+import type { AuctionDocument } from '../../models/Auctions.model';
+import type { BidDocument } from '../../models/Bid.model';
 
 export class TestHelpers {
+  private static userRepository = new UserRepository();
+  private static auctionRepository = new AuctionRepository();
+  private static bidRepository = new BidRepository();
+
   static async createUser(data: {
     telegramId: number;
     balance?: number;
     reservedBalance?: number;
     username?: string;
   }): Promise<UserDocument> {
-    const user = new UserModel({
+    return await this.userRepository.create({
       telegramId: data.telegramId,
       balance: data.balance ?? 1000,
       reservedBalance: data.reservedBalance ?? 0,
       username: data.username,
     });
-    return await user.save();
   }
 
   static async createAuction(data: {
@@ -29,7 +35,7 @@ export class TestHelpers {
     rounds?: any[];
     currentRound?: number;
   }): Promise<AuctionDocument> {
-    const auction = new AuctionModel({
+    return await this.auctionRepository.create({
       creatorId: data.creatorId,
       title: data.title ?? 'Test Auction',
       totalGifts: data.totalGifts ?? 3,
@@ -47,7 +53,6 @@ export class TestHelpers {
       ],
       currentRound: data.currentRound ?? 0,
     });
-    return await auction.save();
   }
 
   static async createBid(data: {
@@ -58,7 +63,7 @@ export class TestHelpers {
     status?: BidStatus;
     idempotencyKey?: string;
   }): Promise<BidDocument> {
-    const bid = new BidModel({
+    return await this.bidRepository.create({
       auctionId: data.auctionId,
       userId: data.userId,
       roundNumber: data.roundNumber,
@@ -67,7 +72,6 @@ export class TestHelpers {
       idempotencyKey: data.idempotencyKey ?? `test-key-${Date.now()}-${Math.random()}`,
       placedAt: new Date(),
     });
-    return await bid.save();
   }
 
   static generateIdempotencyKey(): string {

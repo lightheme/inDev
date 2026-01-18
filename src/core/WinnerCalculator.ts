@@ -1,5 +1,4 @@
-import { BidModel } from '../models/Bid.model';
-import { BidStatus } from '../types/bid.types';
+import { BidRepository } from '../repositories/BidRepository';
 
 interface Winner {
   userId: string;
@@ -10,19 +9,18 @@ interface Winner {
 }
 
 export class WinnerCalculator {
+  private bidRepository: BidRepository;
+
+  constructor() {
+    this.bidRepository = new BidRepository();
+  }
+
   async calculateWinners(
     auctionId: string,
     roundNumber: number,
     giftsCount: number,
   ): Promise<Winner[]> {
-    const bids = await BidModel.find({
-      auctionId,
-      roundNumber,
-      status: BidStatus.ACTIVE,
-    }).sort({
-      amount: -1,
-      placedAt: 1,
-    });
+    const bids = await this.bidRepository.findActiveByAuctionRoundSorted(auctionId, roundNumber);
 
     const userBids = new Map<string, { totalAmount: number; earliestBid: Date; bids: any[] }>();
 
@@ -72,13 +70,7 @@ export class WinnerCalculator {
   }
 
   async getRanking(auctionId: string, roundNumber: number): Promise<any[]> {
-    const bids = await BidModel.find({
-      auctionId,
-      roundNumber,
-      status: BidStatus.ACTIVE,
-    })
-      .populate('userId', 'username firstName lastName')
-      .lean();
+    const bids = await this.bidRepository.findActiveByAuctionRoundWithUser(auctionId, roundNumber);
 
     const userBids = new Map<string, { totalAmount: number; earliestBid: Date; user: any }>();
 

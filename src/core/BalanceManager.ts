@@ -1,14 +1,16 @@
-import { UserModel } from '../models/User.model';
 import { LedgerService } from '../ledger/LedgerService';
 import { LedgerEntryTypes } from '../types/ledger.types';
 import mongoose from 'mongoose';
 import { BalanceOperationDTO } from '../api/dto/balance-operation.dto';
+import { UserRepository } from '../repositories/UserRepository';
 
 export class BalanceManager {
   private ledgerService: LedgerService;
+  private userRepository: UserRepository;
 
   constructor() {
     this.ledgerService = new LedgerService();
+    this.userRepository = new UserRepository();
   }
 
   private async withTransaction<T>(
@@ -41,7 +43,7 @@ export class BalanceManager {
   }
 
   private async loadUser(userId: string, session: mongoose.ClientSession) {
-    const user = await UserModel.findById(userId).session(session);
+    const user = await this.userRepository.findById(userId, session);
     if (!user) throw new Error('User not found');
     return user;
   }
@@ -64,7 +66,7 @@ export class BalanceManager {
       }
 
       user.reservedBalance = Number(dto.amount) + Number(user.reservedBalance);
-      await user.save({ session });
+      await this.userRepository.save(user, session);
 
       await this.ledgerService.recordOperation(
         {
@@ -93,7 +95,7 @@ export class BalanceManager {
 
       user.reservedBalance = Number(user.reservedBalance) - Number(dto.amount);
       user.balance = Number(user.balance) - Number(dto.amount);
-      await user.save({ session });
+      await this.userRepository.save(user, session);
 
       await this.ledgerService.recordOperation(
         {
@@ -113,7 +115,7 @@ export class BalanceManager {
       const user = await this.loadUser(dto.userId, session);
 
       user.balance = Number(dto.amount) + Number(user.balance);
-      await user.save({ session });
+      await this.userRepository.save(user, session);
 
       await this.ledgerService.recordOperation(
         {
@@ -137,7 +139,7 @@ export class BalanceManager {
       }
 
       user.reservedBalance = Number(user.reservedBalance) - Number(dto.amount);
-      await user.save({ session });
+      await this.userRepository.save(user, session);
 
       await this.ledgerService.recordOperation(
         {
@@ -150,7 +152,7 @@ export class BalanceManager {
   }
 
   async hasAvailableBalance(userId: string, amount: number): Promise<boolean> {
-    const user = await UserModel.findById(userId);
+    const user = await this.userRepository.findById(userId);
     if (!user) return false;
 
     const availableBalance = Number(user.balance) - Number(user.reservedBalance);

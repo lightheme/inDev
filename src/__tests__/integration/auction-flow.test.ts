@@ -2,12 +2,12 @@ import { AuctionEngine } from '../../core/AuctionEngine';
 import { PlaceBidCommand } from '../../commands/bid/PlaceBidCommand';
 import { IncreaseBidCommand } from '../../commands/bid/IncreaseBidCommand';
 import { TestHelpers } from '../helpers/test-helpers';
-import { AuctionModel } from '../../models/Auctions.model';
-import { BidModel } from '../../models/Bid.model';
-import { UserModel } from '../../models/User.model';
 import { AuctionStatus, RoundStatus } from '../../types/auction.types';
 import { BidStatus } from '../../types/bid.types';
 import mongoose from 'mongoose';
+import { AuctionRepository } from '../../repositories/AuctionRepository';
+import { BidRepository } from '../../repositories/BidRepository';
+import { UserRepository } from '../../repositories/UserRepository';
 
 /**
  * Integration test for complete auction flow:
@@ -23,6 +23,9 @@ describe('Auction Flow Integration', () => {
   let creator: any;
   let users: any[];
   let auction: any;
+  let auctionRepository: AuctionRepository;
+  let bidRepository: BidRepository;
+  let userRepository: UserRepository;
 
   beforeEach(async () => {
     auctionEngine = new AuctionEngine();
@@ -33,6 +36,9 @@ describe('Auction Flow Integration', () => {
       await TestHelpers.createUser({ telegramId: 2, balance: 1000 }),
       await TestHelpers.createUser({ telegramId: 3, balance: 1000 }),
     ];
+    auctionRepository = new AuctionRepository();
+    bidRepository = new BidRepository();
+    userRepository = new UserRepository();
   });
 
   it('should complete full auction flow: create -> bid -> increase -> end round -> charge winners', async () => {
@@ -78,22 +84,22 @@ describe('Auction Flow Integration', () => {
     await placeBid3.execute();
 
     // Verify bids and reserved balances
-    let user1 = await UserModel.findById(users[0]._id);
-    let user2 = await UserModel.findById(users[1]._id);
-    let user3 = await UserModel.findById(users[2]._id);
+    let user1 = await userRepository.findById(users[0]._id.toString());
+    let user2 = await userRepository.findById(users[1]._id.toString());
+    let user3 = await userRepository.findById(users[2]._id.toString());
 
     expect(user1!.reservedBalance).toBe(200);
     expect(user2!.reservedBalance).toBe(150);
     expect(user3!.reservedBalance).toBe(100);
 
-    const bids = await BidModel.find({
-      auctionId: auction._id,
-      roundNumber: 1,
-    });
+    const bids = await bidRepository.findActiveByAuctionRound(
+      auction._id.toString(),
+      1,
+    );
     expect(bids.length).toBe(3);
 
     // 3. User 1 increases bid
-    const bid1 = await BidModel.findOne({ idempotencyKey: bid1Key });
+    const bid1 = await bidRepository.findByIdempotencyKey(bid1Key);
     const increaseKey = TestHelpers.generateIdempotencyKey();
 
     const increaseBid = new IncreaseBidCommand({
@@ -106,10 +112,10 @@ describe('Auction Flow Integration', () => {
     await increaseBid.execute();
 
     // Verify bid increased and additional balance reserved
-    const updatedBid1 = await BidModel.findById(bid1!._id);
+    const updatedBid1 = await bidRepository.findById(bid1!._id.toString());
     expect(updatedBid1!.amount).toBe(300); // 200 + 100
 
-    user1 = await UserModel.findById(users[0]._id);
+    user1 = await userRepository.findById(users[0]._id.toString());
     expect(user1!.reservedBalance).toBe(300); // 200 + 100
 
     // 4. End round (user 1 should win with 300, user 2 with 150)
@@ -117,16 +123,13 @@ describe('Auction Flow Integration', () => {
     await auctionEngine.endRound(auction._id.toString(), 0, endRoundCommandId);
 
     // Verify round completed
-    const updatedAuction = await AuctionModel.findById(auction._id);
+    const updatedAuction = await auctionRepository.findById(auction._id.toString());
     expect(updatedAuction!.rounds[0].status).toBe(RoundStatus.COMPLETED);
     expect(updatedAuction!.rounds[0].winnerIds.length).toBe(1);
     expect(updatedAuction!.rounds[0].winnerIds[0].toString()).toBe(users[0]._id.toString());
 
     // Verify bid statuses
-    const allBids = await BidModel.find({
-      auctionId: auction._id,
-      roundNumber: 1,
-    });
+    const allBids = await bidRepository.findByAuctionRound(auction._id.toString(), 1);
     const winnerBid = allBids.find((b) => b.userId.toString() === users[0]._id.toString());
     const loserBids = allBids.filter((b) => b.userId.toString() !== users[0]._id.toString());
 
@@ -136,9 +139,9 @@ describe('Auction Flow Integration', () => {
     });
 
     // 5. Verify financial correctness
-    user1 = await UserModel.findById(users[0]._id);
-    user2 = await UserModel.findById(users[1]._id);
-    user3 = await UserModel.findById(users[2]._id);
+    user1 = await userRepository.findById(users[0]._id.toString());
+    user2 = await userRepository.findById(users[1]._id.toString());
+    user3 = await userRepository.findById(users[2]._id.toString());
 
     // Winner: charged 300
     expect(user1!.balance).toBe(700); // 1000 - 300
@@ -184,11 +187,12 @@ describe('Auction Flow Integration', () => {
     expect(result1.data._id.toString()).toBe(result2.data._id.toString());
 
     // Verify only one bid exists
-    const bids = await BidModel.find({ idempotencyKey });
-    expect(bids.length).toBe(1);
+    const bids = await bidRepository.findByAuctionRound(auction._id.toString(), 1);
+    const bidsForKey = bids.filter((bid) => bid.idempotencyKey === idempotencyKey);
+    expect(bidsForKey.length).toBe(1);
 
     // Verify balance was only reserved once
-    const user = await UserModel.findById(users[0]._id);
+    const user = await userRepository.findById(users[0]._id.toString());
     expect(user!.reservedBalance).toBe(200); // Not 400
   });
 });

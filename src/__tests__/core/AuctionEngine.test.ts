@@ -1,15 +1,18 @@
 import { AuctionEngine } from '../../core/AuctionEngine';
 import { TestHelpers } from '../helpers/test-helpers';
-import { AuctionModel } from '../../models/Auctions.model';
-import { BidModel } from '../../models/Bid.model';
-import { UserModel } from '../../models/User.model';
 import { AuctionStatus, RoundStatus } from '../../types/auction.types';
 import { BidStatus } from '../../types/bid.types';
+import { AuctionRepository } from '../../repositories/AuctionRepository';
+import { BidRepository } from '../../repositories/BidRepository';
+import { UserRepository } from '../../repositories/UserRepository';
 
 describe('AuctionEngine', () => {
   let auctionEngine: AuctionEngine;
   let creator: any;
   let users: any[];
+  let auctionRepository: AuctionRepository;
+  let bidRepository: BidRepository;
+  let userRepository: UserRepository;
 
   beforeEach(async () => {
     auctionEngine = new AuctionEngine();
@@ -19,6 +22,9 @@ describe('AuctionEngine', () => {
       await TestHelpers.createUser({ telegramId: 2, balance: 1000 }),
       await TestHelpers.createUser({ telegramId: 3, balance: 1000 }),
     ];
+    auctionRepository = new AuctionRepository();
+    bidRepository = new BidRepository();
+    userRepository = new UserRepository();
   });
 
   describe('endRound', () => {
@@ -100,9 +106,9 @@ describe('AuctionEngine', () => {
       });
 
       // Verify initial state
-      let user1 = await UserModel.findById(users[0]._id);
-      let user2 = await UserModel.findById(users[1]._id);
-      let user3 = await UserModel.findById(users[2]._id);
+      let user1 = await userRepository.findById(users[0]._id.toString());
+      let user2 = await userRepository.findById(users[1]._id.toString());
+      let user3 = await userRepository.findById(users[2]._id.toString());
 
       expect(user1!.reservedBalance).toBe(300);
       expect(user2!.reservedBalance).toBe(200);
@@ -113,23 +119,23 @@ describe('AuctionEngine', () => {
       await auctionEngine.endRound(auction._id.toString(), 0, commandId);
 
       // Verify round status
-      const updatedAuction = await AuctionModel.findById(auction._id);
+      const updatedAuction = await auctionRepository.findById(auction._id.toString());
       expect(updatedAuction!.rounds[0].status).toBe(RoundStatus.COMPLETED);
       expect(updatedAuction!.rounds[0].winnerIds.length).toBe(2);
 
       // Verify bid statuses
-      const updatedWinner1Bid = await BidModel.findById(winner1Bid._id);
-      const updatedWinner2Bid = await BidModel.findById(winner2Bid._id);
-      const updatedLoserBid = await BidModel.findById(loserBid._id);
+      const updatedWinner1Bid = await bidRepository.findById(winner1Bid._id.toString());
+      const updatedWinner2Bid = await bidRepository.findById(winner2Bid._id.toString());
+      const updatedLoserBid = await bidRepository.findById(loserBid._id.toString());
 
       expect(updatedWinner1Bid!.status).toBe(BidStatus.WON);
       expect(updatedWinner2Bid!.status).toBe(BidStatus.WON);
       expect(updatedLoserBid!.status).toBe(BidStatus.REFUNDED);
 
       // Verify balance changes
-      user1 = await UserModel.findById(users[0]._id);
-      user2 = await UserModel.findById(users[1]._id);
-      user3 = await UserModel.findById(users[2]._id);
+      user1 = await userRepository.findById(users[0]._id.toString());
+      user2 = await userRepository.findById(users[1]._id.toString());
+      user3 = await userRepository.findById(users[2]._id.toString());
 
       // Winners: balance charged (deducted), reservedBalance reduced
       expect(user1!.balance).toBe(700); // 1000 - 300
@@ -172,7 +178,7 @@ describe('AuctionEngine', () => {
       const commandId = TestHelpers.generateIdempotencyKey();
       await auctionEngine.endRound(auction._id.toString(), 0, commandId);
 
-      const updatedAuction = await AuctionModel.findById(auction._id);
+      const updatedAuction = await auctionRepository.findById(auction._id.toString());
       expect(updatedAuction!.currentRound).toBe(1);
       expect(updatedAuction!.rounds[1].status).toBe(RoundStatus.ACTIVE);
       expect(updatedAuction!.status).toBe(AuctionStatus.ACTIVE); // Still active
@@ -199,7 +205,7 @@ describe('AuctionEngine', () => {
       const commandId = TestHelpers.generateIdempotencyKey();
       await auctionEngine.endRound(auction._id.toString(), 0, commandId);
 
-      const updatedAuction = await AuctionModel.findById(auction._id);
+      const updatedAuction = await auctionRepository.findById(auction._id.toString());
       expect(updatedAuction!.status).toBe(AuctionStatus.COMPLETED);
     });
 

@@ -1,33 +1,31 @@
-import { LedgerDocument, LedgerModel } from '../models/Ledger.model';
 import { LedgerEntry, LedgerEntryTypes } from '../types/ledger.types';
 import mongoose from 'mongoose';
+import { LedgerRepository } from '../repositories/LedgerRepository';
+import type { LedgerDocument } from '../models/Ledger.model';
 
 export class LedgerService {
+  private ledgerRepository: LedgerRepository;
+
+  constructor() {
+    this.ledgerRepository = new LedgerRepository();
+  }
+
   async recordOperation(
     data: Omit<LedgerEntry, 'createdAt'>,
     session?: mongoose.ClientSession,
   ): Promise<void> {
-    const ledgerEntry = new LedgerModel({
-      ...data,
-      createdAt: new Date(),
-    });
-
-    if (session) {
-      await ledgerEntry.save({ session });
-    } else {
-      await ledgerEntry.save();
-    }
+    await this.ledgerRepository.create(data, session);
   }
 
   async getUserLedger(userId: string, limit: number = 50): Promise<LedgerDocument[]> {
-    return await LedgerModel.find({ userId }).sort({ createdAt: -1 }).limit(limit).lean();
+    return await this.ledgerRepository.findByUser(userId, limit);
   }
 
   async calculateBalance(userId: string): Promise<{
     balance: number;
     reservedBalance: number;
   }> {
-    const operations = await LedgerModel.find({ userId }).sort({ createdAt: 1 });
+    const operations = await this.ledgerRepository.findOperationsByUser(userId);
 
     let balance = 0;
     let reservedBalance = 0;
@@ -54,6 +52,6 @@ export class LedgerService {
   }
 
   async existsByCommandId(commandId: string, session: mongoose.ClientSession): Promise<boolean> {
-    return !!(await LedgerModel.findOne({ commandId }).session(session).select('_id'));
+    return await this.ledgerRepository.existsByCommandId(commandId, session);
   }
 }
