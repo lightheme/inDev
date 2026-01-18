@@ -1,0 +1,76 @@
+diff a/src/repositories/AuctionRepository.ts b/src/repositories/AuctionRepository.ts	(rejected hunks)
+@@ -18,69 +18,73 @@ export class AuctionRepository {
+     const query = AuctionModel.findById(auctionId)
+       .populate('creatorId', 'username firstName lastName')
+       .populate('rounds.winnerIds', 'username firstName lastName');
+     return session ? query.session(session) : query;
+   }
+ 
+   async list(
+     filters: { status?: AuctionStatus | string; page?: number; limit?: number },
+     session?: mongoose.ClientSession,
+   ): Promise<AuctionDocument[]> {
+     const { status, page = 1, limit = 10 } = filters;
+     const queryFilter: Record<string, unknown> = {};
+     if (status) {
+       queryFilter.status = status;
+     }
+ 
+     const query = AuctionModel.find(queryFilter)
+       .sort({ _id: -1 })
+       .skip((page - 1) * limit)
+       .limit(limit)
+       .populate('creatorId', 'username firstName lastName');
+ 
+     return session ? query.session(session) : query;
+   }
+ 
++  async findActive(session?: mongoose.ClientSession): Promise<AuctionDocument[]> {
++    const query = AuctionModel.find({ status: AuctionStatus.ACTIVE });
++    return session ? query.session(session) : query;
++  }
++
+   async create(
+     data: {
+       creatorId: mongoose.Types.ObjectId | string;
+       title: string;
+       totalGifts: number;
+       status: AuctionStatus;
+       rounds: Round[];
+       currentRound: number;
+       createdAt?: Date;
+     },
+     session?: mongoose.ClientSession,
+   ): Promise<AuctionDocument> {
+     const roundsForDb: AuctionDocument['rounds'] = data.rounds.map((r) => ({
+       roundNumber: r.roundNumber,
+       giftsToDistribute: r.giftsToDistribute,
+       startTime: r.startTime,
+       endTime: r.endTime,
+       duration: r.duration,
+       status: r.status,
+       // преобразуем string[] -> ObjectId[]
+       winnerIds: (r.winnerIds ?? []).map((id) => new mongoose.Types.ObjectId(id)),
+     }));
+ 
+     const auction = new AuctionModel({
+       creatorId: data.creatorId,
+       title: data.title,
+       totalGifts: data.totalGifts,
+       status: data.status,
+       rounds: roundsForDb,
+       currentRound: data.currentRound,
+       createdAt: data.createdAt ?? new Date(),
+     });
+ 
+     return session ? auction.save({ session }) : auction.save();
+   }
+ 
+   async save(
+     auction: AuctionDocument,
+     session?: mongoose.ClientSession,
+   ): Promise<AuctionDocument> {
+     return session ? auction.save({ session }) : auction.save();
+   }
+ }
+-

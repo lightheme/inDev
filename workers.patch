@@ -1,0 +1,1701 @@
+
+diff --git a/package.json b/package.json
+index 8bfba166eb5a4939d73219ed01893b3f9bf25fed..86004deff1c42f5cdbf588149406aecaaff9b3ec 100644
+--- a/package.json
++++ b/package.json
+@@ -1,35 +1,40 @@
+ {
+   "name": "auction-system-backend",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+     "dev": "nodemon --exec ts-node src/server.ts",
+     "generate": "npx ts-node src/scripts/generate-init-data.ts",
+     "build": "tsc",
+     "start": "node dist/server/js",
++    "worker:runner": "ts-node src/workers/workerRunner.ts",
++    "worker:scheduler": "ts-node src/workers/scheduler.ts",
++    "worker:autobid": "ts-node src/workers/autobid.ts",
++    "worker:cleanup": "ts-node src/workers/cleanup.ts",
++    "worker:all": "ts-node src/workers/all.ts",
+     "test": "jest",
+     "format": "prettier --write ."
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "type": "commonjs",
+   "dependencies": {
+     "@types/express": "^5.0.6",
+     "@types/node": "^25.0.5",
+     "cors": "^2.8.5",
+     "dotenv": "^17.2.3",
+     "express": "^5.2.1",
+     "helmet": "^8.1.0",
+     "ioredis": "^5.9.1",
+     "joi": "^18.0.2",
+     "mongoose": "^9.1.2",
+     "morgan": "^1.10.1",
+     "ts-node": "^10.9.2",
+     "typescript": "^5.9.3",
+     "uuid": "^13.0.0",
+     "winston": "^3.19.0"
+   },
+   "devDependencies": {
+     "@types/cors": "^2.8.19",
+diff --git a/src/__tests__/workers/worker-entrypoints.test.ts b/src/__tests__/workers/worker-entrypoints.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..b9c866521f124fc1875623d61dbca6453c84d797
+--- /dev/null
++++ b/src/__tests__/workers/worker-entrypoints.test.ts
+@@ -0,0 +1,50 @@
++describe('worker entrypoints', () => {
++  const resetEnv = () => {
++    process.env.NODE_ENV = 'test';
++  };
++
++  beforeEach(() => {
++    jest.resetModules();
++    resetEnv();
++  });
++
++  it('scheduler exits early in test env', async () => {
++    const connectDatabase = jest.fn();
++    jest.doMock('../../config/database', () => ({ connectDatabase }));
++
++    const { run } = await import('../../workers/scheduler');
++    await run();
++
++    expect(connectDatabase).not.toHaveBeenCalled();
++  });
++
++  it('worker runner exits early in test env', async () => {
++    const connectDatabase = jest.fn();
++    jest.doMock('../../config/database', () => ({ connectDatabase }));
++
++    const { run } = await import('../../workers/workerRunner');
++    await run();
++
++    expect(connectDatabase).not.toHaveBeenCalled();
++  });
++
++  it('autobid worker exits early in test env', async () => {
++    const connectDatabase = jest.fn();
++    jest.doMock('../../config/database', () => ({ connectDatabase }));
++
++    const { run } = await import('../../workers/autobid');
++    await run();
++
++    expect(connectDatabase).not.toHaveBeenCalled();
++  });
++
++  it('cleanup worker exits early in test env', async () => {
++    const connectDatabase = jest.fn();
++    jest.doMock('../../config/database', () => ({ connectDatabase }));
++
++    const { run } = await import('../../workers/cleanup');
++    await run();
++
++    expect(connectDatabase).not.toHaveBeenCalled();
++  });
++});
+diff --git a/src/config/environment.ts b/src/config/environment.ts
+index a093ce310ff12e4b662bc3e73e6d0ab4b6b8e6ce..dc1cc06d284968442d2c07ad8c7ef962d7432c6b 100644
+--- a/src/config/environment.ts
++++ b/src/config/environment.ts
+@@ -1,22 +1,46 @@
+ import dotenv from 'dotenv';
+ dotenv.config();
+ 
+ export const config = {
+   port: process.env.PORT || 3000,
+   nodeEnv: process.env.NODE_ENV || 'development',
+ 
+   mongodb: {
+     uri:
+       process.env.MONGODB_URI ||
+       'mongodb://admin:password@localhost:27017/auction?authSource=admin',
+   },
+ 
+   redis: {
++    url: process.env.REDIS_URL || '',
+     host: process.env.REDIS_HOST || 'localhost',
+     port: parseInt(process.env.REDIS_PORT || '6379'),
++    password: process.env.REDIS_PASSWORD || '',
+   },
+ 
+   telegram: {
+     botToken: process.env.TELEGRAM_BOT_TOKEN || '',
+   },
++
++  queue: {
++    name: process.env.QUEUE_NAME || 'main',
++    jobLockMs: parseInt(process.env.JOB_LOCK_MS || '30000'),
++    jobLeaseMs: parseInt(process.env.JOB_LEASE_MS || '30000'),
++    inflightTimeoutMs: parseInt(process.env.INFLIGHT_TIMEOUT_MS || '120000'),
++    jobMaxAttempts: parseInt(process.env.JOB_MAX_ATTEMPTS || '5'),
++    schedulerIntervalMs: parseInt(process.env.SCHEDULER_INTERVAL_MS || '1000'),
++    autobidEnabled: (process.env.AUTOBID_ENABLED || 'false').toLowerCase() === 'true',
++    autobidBucketMs: parseInt(process.env.AUTOBID_BUCKET_MS || '10000'),
++    autobidPollIntervalMs: parseInt(process.env.AUTOBID_POLL_INTERVAL_MS || '3000'),
++    autobidMaxPerMinutePerAuction: parseInt(
++      process.env.AUTOBID_MAX_PER_MINUTE_PER_AUCTION || '30',
++    ),
++    cleanupBucketMs: parseInt(process.env.CLEANUP_BUCKET_MS || '60000'),
++    cleanupIntervalMs: parseInt(process.env.CLEANUP_INTERVAL_MS || '30000'),
++    payloadTtlSeconds: parseInt(process.env.JOB_PAYLOAD_TTL_SECONDS || '86400'),
++    doneTtlSeconds: parseInt(process.env.JOB_DONE_TTL_SECONDS || '86400'),
++    heartbeatIntervalMs: parseInt(process.env.JOB_HEARTBEAT_INTERVAL_MS || '10000'),
++    tickBatchSize: parseInt(process.env.QUEUE_TICK_BATCH_SIZE || '100'),
++    recoverBatchSize: parseInt(process.env.QUEUE_RECOVER_BATCH_SIZE || '100'),
++  },
+ };
+diff --git a/src/jobs/handlers/autoBidTick.ts b/src/jobs/handlers/autoBidTick.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..4a9a51c835748a26ba0f6be2eede0023de91995f
+--- /dev/null
++++ b/src/jobs/handlers/autoBidTick.ts
+@@ -0,0 +1,80 @@
++import { AuctionRepository } from '../../repositories/AuctionRepository';
++import { BidRepository } from '../../repositories/BidRepository';
++import { AuctionStatus, RoundStatus } from '../../types/auction.types';
++import { AutoBidTickJobPayload } from '../types';
++import { PlaceBidCommand } from '../../commands/bid/PlaceBidCommand';
++import { IncreaseBidCommand } from '../../commands/bid/IncreaseBidCommand';
++import { autoBidIdempotencyKey } from '../jobIds';
++import { createRedisClient } from '../../queue/redisClient';
++import { config } from '../../config/environment';
++import { AppError } from '../../utils/errors';
++
++const redis = createRedisClient();
++const AUTOBID_INCREMENT = 10;
++
++export const handleAutoBidTick = async (payload: AutoBidTickJobPayload): Promise<void> => {
++  const { auctionId, roundNumber, botUserId } = payload;
++  const auctionRepository = new AuctionRepository();
++  const bidRepository = new BidRepository();
++
++  const auction = await auctionRepository.findById(auctionId);
++  if (!auction || auction.status !== AuctionStatus.ACTIVE) return;
++
++  if (roundNumber < 0 || roundNumber >= auction.rounds.length) return;
++
++  if (auction.currentRound !== roundNumber) return;
++
++  const round = auction.rounds[roundNumber];
++  if (!round || round.status !== RoundStatus.ACTIVE) return;
++
++  const minuteBucket = Math.floor(Date.now() / 60000);
++  const rateLimitKey = `autobid:rl:${auctionId}:${minuteBucket}`;
++  const rate = await redis.incr(rateLimitKey);
++  if (rate === 1) {
++    await redis.expire(rateLimitKey, 60);
++  }
++  if (rate > config.queue.autobidMaxPerMinutePerAuction) return;
++
++  const idempotencyKey = autoBidIdempotencyKey(auctionId, roundNumber, botUserId, payload.tick);
++  const existingBids = await bidRepository.findActiveByUserRound(
++    botUserId,
++    auctionId,
++    roundNumber,
++  );
++
++  if (existingBids.length > 0) {
++    const bid = existingBids[0];
++    const command = new IncreaseBidCommand({
++      bidId: bid._id.toString(),
++      auctionId,
++      userId: botUserId,
++      amount: AUTOBID_INCREMENT,
++      idempotencyKey,
++    });
++
++    try {
++      await command.validate();
++      await command.execute();
++    } catch (error: any) {
++      if (error instanceof AppError) return;
++      throw error;
++    }
++
++    return;
++  }
++
++  const command = new PlaceBidCommand({
++    auctionId,
++    userId: botUserId,
++    amount: AUTOBID_INCREMENT,
++    idempotencyKey,
++  });
++
++  try {
++    await command.validate();
++    await command.execute();
++  } catch (error: any) {
++    if (error instanceof AppError) return;
++    throw error;
++  }
++};
+diff --git a/src/jobs/handlers/cleanup.ts b/src/jobs/handlers/cleanup.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..7e1e0a4090a25fe0dee879998d26d7f9579b1444
+--- /dev/null
++++ b/src/jobs/handlers/cleanup.ts
+@@ -0,0 +1,46 @@
++import { BalanceManager } from '../../core/BalanceManager';
++import { AuctionRepository } from '../../repositories/AuctionRepository';
++import { BidRepository } from '../../repositories/BidRepository';
++import { UserRepository } from '../../repositories/UserRepository';
++import { AuctionStatus, RoundStatus } from '../../types/auction.types';
++import { LedgerRefType } from '../../types/ledger.types';
++import { cleanupCommandId } from '../jobIds';
++import { BalanceCleanupJobPayload } from '../types';
++
++export const handleBalanceCleanup = async (payload: BalanceCleanupJobPayload): Promise<void> => {
++  const auctionRepository = new AuctionRepository();
++  const bidRepository = new BidRepository();
++  const userRepository = new UserRepository();
++  const balanceManager = new BalanceManager();
++
++  const activeAuctions = await auctionRepository.findActive();
++  const activeRounds = activeAuctions
++    .filter((auction) => auction.status === AuctionStatus.ACTIVE)
++    .map((auction) => ({
++      auctionId: auction._id.toString(),
++      roundNumber: auction.currentRound,
++      round: auction.rounds[auction.currentRound],
++    }))
++    .filter((entry) => entry.round && entry.round.status === RoundStatus.ACTIVE)
++    .map((entry) => ({ auctionId: entry.auctionId, roundNumber: entry.roundNumber }));
++
++  const users = await userRepository.findWithReservedBalance(0);
++
++  for (const user of users) {
++    const userId = user._id.toString();
++    const activeBids = await bidRepository.findActiveByUserInRounds(userId, activeRounds);
++    if (activeBids.length > 0) continue;
++
++    const reservedBalance = Number(user.reservedBalance);
++    if (reservedBalance <= 0) continue;
++
++    const commandId = cleanupCommandId(payload.tick, userId, 'reserved');
++    await balanceManager.release({
++      userId,
++      amount: reservedBalance,
++      refType: LedgerRefType.USER,
++      refId: userId,
++      commandId,
++    });
++  }
++};
+diff --git a/src/jobs/handlers/endRound.ts b/src/jobs/handlers/endRound.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..a50babf435d389f673bbe3cbcd3d2d9ea611a3de
+--- /dev/null
++++ b/src/jobs/handlers/endRound.ts
+@@ -0,0 +1,27 @@
++import { AuctionEngine } from '../../core/AuctionEngine';
++import { AuctionRepository } from '../../repositories/AuctionRepository';
++import { AuctionStatus, RoundStatus } from '../../types/auction.types';
++import { endRoundCommandId } from '../jobIds';
++import { EndRoundJobPayload } from '../types';
++
++export const handleEndRound = async (payload: EndRoundJobPayload): Promise<void> => {
++  const { auctionId, roundNumber } = payload;
++  const auctionRepository = new AuctionRepository();
++  const auctionEngine = new AuctionEngine();
++
++  const auction = await auctionRepository.findById(auctionId);
++  if (!auction) return;
++
++  if (auction.status !== AuctionStatus.ACTIVE) return;
++
++  if (roundNumber < 0 || roundNumber >= auction.rounds.length) return;
++
++  const round = auction.rounds[roundNumber];
++  if (!round || round.status !== RoundStatus.ACTIVE) return;
++
++  if (round.endTime.getTime() > Date.now()) {
++    throw new Error('Round not due yet');
++  }
++
++  await auctionEngine.endRound(auctionId, roundNumber, endRoundCommandId(auctionId, roundNumber));
++};
+diff --git a/src/jobs/jobIds.ts b/src/jobs/jobIds.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..edf88c3c584d0526a504719b4a3fe2e5e4f7dd86
+--- /dev/null
++++ b/src/jobs/jobIds.ts
+@@ -0,0 +1,24 @@
++export const endRoundJobId = (auctionId: string, roundNumber: number) =>
++  `endRound:${auctionId}:${roundNumber}`;
++
++export const endRoundCommandId = (auctionId: string, roundNumber: number) =>
++  `cmd:endRound:${auctionId}:${roundNumber}`;
++
++export const autoBidJobId = (
++  auctionId: string,
++  roundNumber: number,
++  botUserId: string,
++  tick: number,
++) => `autobid:${auctionId}:${roundNumber}:${botUserId}:${tick}`;
++
++export const autoBidIdempotencyKey = (
++  auctionId: string,
++  roundNumber: number,
++  botUserId: string,
++  tick: number,
++) => `idemp:autobid:${auctionId}:${roundNumber}:${botUserId}:${tick}`;
++
++export const cleanupJobId = (tick: number) => `cleanup:${tick}`;
++
++export const cleanupCommandId = (tick: number, userId: string, reasonKey: string) =>
++  `cmd:cleanup:${tick}:${userId}:${reasonKey}`;
+diff --git a/src/jobs/types.ts b/src/jobs/types.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..8a86b8ce151a652f7cb27ad7e0439c026189f912
+--- /dev/null
++++ b/src/jobs/types.ts
+@@ -0,0 +1,25 @@
++export type EndRoundJobPayload = {
++  type: 'END_ROUND';
++  auctionId: string;
++  roundNumber: number;
++  attempt: number;
++};
++
++export type AutoBidTickJobPayload = {
++  type: 'AUTO_BID_TICK';
++  auctionId: string;
++  roundNumber: number;
++  botUserId: string;
++  tick: number;
++  attempt: number;
++};
++
++export type BalanceCleanupJobPayload = {
++  type: 'BALANCE_CLEANUP';
++  tick: number;
++  attempt: number;
++};
++
++export type JobPayload = EndRoundJobPayload | AutoBidTickJobPayload | BalanceCleanupJobPayload;
++
++export type JobType = JobPayload['type'];
+diff --git a/src/queue/redisClient.ts b/src/queue/redisClient.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..5b9c7cafa381919599293024dac7bbaefead119d
+--- /dev/null
++++ b/src/queue/redisClient.ts
+@@ -0,0 +1,107 @@
++import Redis from 'ioredis';
++import { config } from '../config/environment';
++
++export interface RedisLike {
++  get(key: string): Promise<string | null>;
++  set(key: string, value: string, ...args: Array<string | number>): Promise<string | null>;
++  incr(key: string): Promise<number>;
++  expire(key: string, seconds: number): Promise<number>;
++  del(...keys: string[]): Promise<number>;
++  eval(script: string, numKeys: number, ...args: Array<string | number>): Promise<any>;
++  brpop(key: string, timeout: number): Promise<[string, string] | null>;
++  lpush(key: string, ...values: string[]): Promise<number>;
++  quit(): Promise<void>;
++}
++
++class InMemoryRedis implements RedisLike {
++  private store = new Map<string, { value: string; expiresAt?: number }>();
++
++  private cleanupExpired() {
++    const now = Date.now();
++    for (const [key, entry] of this.store.entries()) {
++      if (entry.expiresAt && entry.expiresAt <= now) {
++        this.store.delete(key);
++      }
++    }
++  }
++
++  async get(key: string): Promise<string | null> {
++    this.cleanupExpired();
++    const entry = this.store.get(key);
++    return entry ? entry.value : null;
++  }
++
++  async set(key: string, value: string, ...args: Array<string | number>): Promise<string | null> {
++    this.cleanupExpired();
++    let expiresAt: number | undefined;
++    for (let i = 0; i < args.length; i += 2) {
++      const mode = String(args[i]).toUpperCase();
++      const ttl = Number(args[i + 1]);
++      if (mode === 'EX') {
++        expiresAt = Date.now() + ttl * 1000;
++      }
++      if (mode === 'PX') {
++        expiresAt = Date.now() + ttl;
++      }
++    }
++    this.store.set(key, { value, expiresAt });
++    return 'OK';
++  }
++
++  async incr(key: string): Promise<number> {
++    this.cleanupExpired();
++    const current = this.store.get(key);
++    const nextValue = (current ? Number(current.value) : 0) + 1;
++    this.store.set(key, { value: String(nextValue), expiresAt: current?.expiresAt });
++    return nextValue;
++  }
++
++  async expire(key: string, seconds: number): Promise<number> {
++    this.cleanupExpired();
++    const entry = this.store.get(key);
++    if (!entry) return 0;
++    entry.expiresAt = Date.now() + seconds * 1000;
++    this.store.set(key, entry);
++    return 1;
++  }
++
++  async del(...keys: string[]): Promise<number> {
++    let count = 0;
++    for (const key of keys) {
++      if (this.store.delete(key)) count += 1;
++    }
++    return count;
++  }
++
++  async eval(): Promise<any> {
++    throw new Error('InMemoryRedis does not support eval');
++  }
++
++  async brpop(): Promise<[string, string] | null> {
++    return null;
++  }
++
++  async lpush(): Promise<number> {
++    return 0;
++  }
++
++  async quit(): Promise<void> {
++    return;
++  }
++}
++
++export const createRedisClient = (): RedisLike => {
++  if (config.nodeEnv === 'test') {
++    return new InMemoryRedis();
++  }
++
++  if (config.redis.url) {
++    return new Redis(config.redis.url);
++  }
++
++  return new Redis({
++    host: config.redis.host,
++    port: config.redis.port,
++    password: config.redis.password || undefined,
++  });
++};
+diff --git a/src/queue/redisQueue.ts b/src/queue/redisQueue.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..86b74adfcdd3a19271bfb89cdbd7413c95cd3b68
+--- /dev/null
++++ b/src/queue/redisQueue.ts
+@@ -0,0 +1,525 @@
++import { config } from '../config/environment';
++import { createRedisClient, RedisLike } from './redisClient';
++
++export type EnqueueResult =
++  | 'enqueued'
++  | 'delayed'
++  | 'duplicate_done'
++  | 'duplicate_inflight'
++  | 'duplicate_queued';
++
++export interface QueueClient {
++  enqueue(queueName: string, jobId: string, payloadJson: string, runAtMs?: number): Promise<EnqueueResult>;
++  popReady(queueName: string, workerId: string, timeoutSeconds?: number): Promise<string | null>;
++  getPayload(queueName: string, jobId: string): Promise<string | null>;
++  heartbeat(queueName: string, jobId: string, workerId: string): Promise<void>;
++  ackSuccess(queueName: string, jobId: string): Promise<void>;
++  failAndRetry(
++    queueName: string,
++    jobId: string,
++    payloadJson: string,
++    error: string,
++    attempt: number,
++    maxAttempts: number,
++  ): Promise<'retry' | 'dead'>;
++  tickDelayed(queueName: string, batchSize: number): Promise<number>;
++  recoverInflight(queueName: string, timeoutMs: number, batchSize: number): Promise<number>;
++  disconnect(): Promise<void>;
++}
++
++const enqueueScript = `
++local doneKey = KEYS[1]
++local inflightKey = KEYS[2]
++local delayedKey = KEYS[3]
++local readyKey = KEYS[4]
++local payloadKey = KEYS[5]
++
++local jobId = ARGV[1]
++local payloadJson = ARGV[2]
++local runAtMs = tonumber(ARGV[3])
++local nowMs = tonumber(ARGV[4])
++local payloadTtlSec = tonumber(ARGV[5])
++
++if redis.call('EXISTS', doneKey) == 1 then
++  return 'duplicate_done'
++end
++
++if redis.call('ZSCORE', inflightKey, jobId) then
++  return 'duplicate_inflight'
++end
++
++if redis.call('EXISTS', payloadKey) == 1 then
++  if redis.call('ZSCORE', delayedKey, jobId) then
++    return 'duplicate_queued'
++  end
++  local inReady = redis.call('LPOS', readyKey, jobId)
++  if inReady then
++    return 'duplicate_queued'
++  end
++end
++
++redis.call('SET', payloadKey, payloadJson, 'EX', payloadTtlSec)
++
++if runAtMs > nowMs then
++  redis.call('ZADD', delayedKey, runAtMs, jobId)
++  return 'delayed'
++end
++
++redis.call('LPUSH', readyKey, jobId)
++return 'enqueued'
++`;
++
++const ackSuccessScript = `
++local inflightKey = KEYS[1]
++local payloadKey = KEYS[2]
++local leaseKey = KEYS[3]
++local lockKey = KEYS[4]
++local doneKey = KEYS[5]
++
++local jobId = ARGV[1]
++local doneTtlSec = tonumber(ARGV[2])
++
++redis.call('ZREM', inflightKey, jobId)
++redis.call('DEL', payloadKey, leaseKey, lockKey)
++redis.call('SET', doneKey, '1', 'EX', doneTtlSec)
++return 'ok'
++`;
++
++const failAndRetryScript = `
++local inflightKey = KEYS[1]
++local delayedKey = KEYS[2]
++local payloadKey = KEYS[3]
++local leaseKey = KEYS[4]
++local lockKey = KEYS[5]
++local doneKey = KEYS[6]
++local deadKey = KEYS[7]
++
++local jobId = ARGV[1]
++local payloadJson = ARGV[2]
++local errorJson = ARGV[3]
++local attempt = tonumber(ARGV[4])
++local maxAttempts = tonumber(ARGV[5])
++local nextRunAtMs = tonumber(ARGV[6])
++local payloadTtlSec = tonumber(ARGV[7])
++local doneTtlSec = tonumber(ARGV[8])
++
++if attempt + 1 > maxAttempts then
++  redis.call('ZREM', inflightKey, jobId)
++  redis.call('DEL', leaseKey, lockKey, payloadKey)
++  redis.call('LPUSH', deadKey, errorJson)
++  redis.call('SET', doneKey, '1', 'EX', doneTtlSec)
++  return 'dead'
++end
++
++redis.call('ZREM', inflightKey, jobId)
++redis.call('DEL', leaseKey, lockKey)
++redis.call('SET', payloadKey, payloadJson, 'EX', payloadTtlSec)
++redis.call('ZADD', delayedKey, nextRunAtMs, jobId)
++return 'retry'
++`;
++
++const tickDelayedScript = `
++local delayedKey = KEYS[1]
++local readyKey = KEYS[2]
++
++local nowMs = tonumber(ARGV[1])
++local batchSize = tonumber(ARGV[2])
++
++local due = redis.call('ZRANGEBYSCORE', delayedKey, '-inf', nowMs, 'LIMIT', 0, batchSize)
++if #due == 0 then
++  return 0
++end
++
++redis.call('ZREM', delayedKey, unpack(due))
++redis.call('LPUSH', readyKey, unpack(due))
++return #due
++`;
++
++const recoverInflightScript = `
++local inflightKey = KEYS[1]
++local readyKey = KEYS[2]
++
++local nowMs = tonumber(ARGV[1])
++local timeoutMs = tonumber(ARGV[2])
++local batchSize = tonumber(ARGV[3])
++local leasePrefix = ARGV[4]
++
++local cutoff = nowMs - timeoutMs
++local candidates = redis.call('ZRANGEBYSCORE', inflightKey, '-inf', cutoff, 'LIMIT', 0, batchSize)
++local recovered = 0
++for _, jobId in ipairs(candidates) do
++  local leaseKey = leasePrefix .. jobId
++  if redis.call('EXISTS', leaseKey) == 0 then
++    redis.call('ZREM', inflightKey, jobId)
++    redis.call('LPUSH', readyKey, jobId)
++    recovered = recovered + 1
++  end
++end
++return recovered
++`;
++
++const backoffScheduleMs = [1000, 5000, 15000, 60000, 300000];
++
++const buildKey = (queueName: string, suffix: string) => `q:${queueName}:${suffix}`;
++
++const buildPayloadKey = (queueName: string, jobId: string) =>
++  buildKey(queueName, `payload:${jobId}`);
++
++const buildDoneKey = (queueName: string, jobId: string) => buildKey(queueName, `done:${jobId}`);
++
++const buildLockKey = (queueName: string, jobId: string) => buildKey(queueName, `lock:${jobId}`);
++
++const buildLeaseKey = (queueName: string, jobId: string) => buildKey(queueName, `lease:${jobId}`);
++
++export class RedisQueue implements QueueClient {
++  private redis: RedisLike;
++
++  constructor(redis: RedisLike) {
++    this.redis = redis;
++  }
++
++  async enqueue(
++    queueName: string,
++    jobId: string,
++    payloadJson: string,
++    runAtMs: number = Date.now(),
++  ): Promise<EnqueueResult> {
++    const result = await this.redis.eval(
++      enqueueScript,
++      5,
++      buildDoneKey(queueName, jobId),
++      buildKey(queueName, 'inflight'),
++      buildKey(queueName, 'delayed'),
++      buildKey(queueName, 'ready'),
++      buildPayloadKey(queueName, jobId),
++      jobId,
++      payloadJson,
++      String(runAtMs),
++      String(Date.now()),
++      String(config.queue.payloadTtlSeconds),
++    );
++
++    return result as EnqueueResult;
++  }
++
++  async popReady(queueName: string, workerId: string, timeoutSeconds = 5): Promise<string | null> {
++    const readyKey = buildKey(queueName, 'ready');
++    const popped = await this.redis.brpop(readyKey, timeoutSeconds);
++    if (!popped) return null;
++
++    const jobId = popped[1];
++    const lockKey = buildLockKey(queueName, jobId);
++    const lockResult = await this.redis.set(
++      lockKey,
++      workerId,
++      'NX',
++      'PX',
++      config.queue.jobLockMs,
++    );
++
++    if (!lockResult) {
++      await this.redis.lpush(readyKey, jobId);
++      return null;
++    }
++
++    await this.redis.eval(
++      `return redis.call('ZADD', KEYS[1], ARGV[1], ARGV[2])`,
++      1,
++      buildKey(queueName, 'inflight'),
++      String(Date.now()),
++      jobId,
++    );
++
++    await this.redis.set(buildLeaseKey(queueName, jobId), workerId, 'PX', config.queue.jobLeaseMs);
++
++    return jobId;
++  }
++
++  async getPayload(queueName: string, jobId: string): Promise<string | null> {
++    return await this.redis.get(buildPayloadKey(queueName, jobId));
++  }
++
++  async heartbeat(queueName: string, jobId: string, workerId: string): Promise<void> {
++    await this.redis.set(buildLeaseKey(queueName, jobId), workerId, 'PX', config.queue.jobLeaseMs);
++    await this.redis.set(buildLockKey(queueName, jobId), workerId, 'PX', config.queue.jobLockMs);
++  }
++
++  async ackSuccess(queueName: string, jobId: string): Promise<void> {
++    await this.redis.eval(
++      ackSuccessScript,
++      5,
++      buildKey(queueName, 'inflight'),
++      buildPayloadKey(queueName, jobId),
++      buildLeaseKey(queueName, jobId),
++      buildLockKey(queueName, jobId),
++      buildDoneKey(queueName, jobId),
++      jobId,
++      String(config.queue.doneTtlSeconds),
++    );
++  }
++
++  async failAndRetry(
++    queueName: string,
++    jobId: string,
++    payloadJson: string,
++    error: string,
++    attempt: number,
++    maxAttempts: number,
++  ): Promise<'retry' | 'dead'> {
++    const nextAttempt = attempt + 1;
++    const backoffIndex = Math.min(nextAttempt - 1, backoffScheduleMs.length - 1);
++    const backoffMs = backoffScheduleMs[backoffIndex];
++    const nextRunAtMs = Date.now() + backoffMs;
++
++    const deadPayload = JSON.stringify({
++      jobId,
++      payload: JSON.parse(payloadJson),
++      error,
++      attempts: nextAttempt,
++    });
++
++    const result = await this.redis.eval(
++      failAndRetryScript,
++      7,
++      buildKey(queueName, 'inflight'),
++      buildKey(queueName, 'delayed'),
++      buildPayloadKey(queueName, jobId),
++      buildLeaseKey(queueName, jobId),
++      buildLockKey(queueName, jobId),
++      buildDoneKey(queueName, jobId),
++      buildKey(queueName, 'dead'),
++      jobId,
++      payloadJson,
++      deadPayload,
++      String(attempt),
++      String(maxAttempts),
++      String(nextRunAtMs),
++      String(config.queue.payloadTtlSeconds),
++      String(config.queue.doneTtlSeconds),
++    );
++
++    return result as 'retry' | 'dead';
++  }
++
++  async tickDelayed(queueName: string, batchSize: number): Promise<number> {
++    const result = await this.redis.eval(
++      tickDelayedScript,
++      2,
++      buildKey(queueName, 'delayed'),
++      buildKey(queueName, 'ready'),
++      String(Date.now()),
++      String(batchSize),
++    );
++
++    return Number(result || 0);
++  }
++
++  async recoverInflight(queueName: string, timeoutMs: number, batchSize: number): Promise<number> {
++    const result = await this.redis.eval(
++      recoverInflightScript,
++      2,
++      buildKey(queueName, 'inflight'),
++      buildKey(queueName, 'ready'),
++      String(Date.now()),
++      String(timeoutMs),
++      String(batchSize),
++      buildKey(queueName, 'lease:'),
++    );
++
++    return Number(result || 0);
++  }
++
++  async disconnect(): Promise<void> {
++    await this.redis.quit();
++  }
++}
++
++class InMemoryQueue implements QueueClient {
++  private ready: string[] = [];
++  private delayed = new Map<string, number>();
++  private inflight = new Map<string, number>();
++  private payloads = new Map<string, { value: string; expiresAt: number }>();
++  private done = new Map<string, number>();
++  private locks = new Map<string, { workerId: string; expiresAt: number }>();
++  private leases = new Map<string, { workerId: string; expiresAt: number }>();
++  private dead: string[] = [];
++
++  private cleanup() {
++    const now = Date.now();
++    for (const [jobId, expiresAt] of this.done.entries()) {
++      if (expiresAt <= now) this.done.delete(jobId);
++    }
++    for (const [jobId, payload] of this.payloads.entries()) {
++      if (payload.expiresAt <= now) this.payloads.delete(jobId);
++    }
++    for (const [jobId, lock] of this.locks.entries()) {
++      if (lock.expiresAt <= now) this.locks.delete(jobId);
++    }
++    for (const [jobId, lease] of this.leases.entries()) {
++      if (lease.expiresAt <= now) this.leases.delete(jobId);
++    }
++  }
++
++  async enqueue(
++    queueName: string,
++    jobId: string,
++    payloadJson: string,
++    runAtMs: number = Date.now(),
++  ): Promise<EnqueueResult> {
++    this.cleanup();
++    if (this.done.has(jobId)) return 'duplicate_done';
++    if (this.inflight.has(jobId)) return 'duplicate_inflight';
++    if (this.payloads.has(jobId) && (this.delayed.has(jobId) || this.ready.includes(jobId))) {
++      return 'duplicate_queued';
++    }
++
++    this.payloads.set(jobId, {
++      value: payloadJson,
++      expiresAt: Date.now() + config.queue.payloadTtlSeconds * 1000,
++    });
++
++    if (runAtMs > Date.now()) {
++      this.delayed.set(jobId, runAtMs);
++      return 'delayed';
++    }
++
++    this.ready.unshift(jobId);
++    return 'enqueued';
++  }
++
++  async popReady(queueName: string, workerId: string): Promise<string | null> {
++    this.cleanup();
++    const jobId = this.ready.pop();
++    if (!jobId) return null;
++
++    if (this.locks.has(jobId)) return null;
++
++    this.locks.set(jobId, {
++      workerId,
++      expiresAt: Date.now() + config.queue.jobLockMs,
++    });
++
++    this.inflight.set(jobId, Date.now());
++    this.leases.set(jobId, {
++      workerId,
++      expiresAt: Date.now() + config.queue.jobLeaseMs,
++    });
++
++    return jobId;
++  }
++
++  async getPayload(queueName: string, jobId: string): Promise<string | null> {
++    this.cleanup();
++    return this.payloads.get(jobId)?.value ?? null;
++  }
++
++  async heartbeat(queueName: string, jobId: string, workerId: string): Promise<void> {
++    this.cleanup();
++    this.leases.set(jobId, {
++      workerId,
++      expiresAt: Date.now() + config.queue.jobLeaseMs,
++    });
++    this.locks.set(jobId, {
++      workerId,
++      expiresAt: Date.now() + config.queue.jobLockMs,
++    });
++  }
++
++  async ackSuccess(queueName: string, jobId: string): Promise<void> {
++    this.cleanup();
++    this.inflight.delete(jobId);
++    this.payloads.delete(jobId);
++    this.leases.delete(jobId);
++    this.locks.delete(jobId);
++    this.done.set(jobId, Date.now() + config.queue.doneTtlSeconds * 1000);
++  }
++
++  async failAndRetry(
++    queueName: string,
++    jobId: string,
++    payloadJson: string,
++    error: string,
++    attempt: number,
++    maxAttempts: number,
++  ): Promise<'retry' | 'dead'> {
++    this.cleanup();
++    const nextAttempt = attempt + 1;
++    if (nextAttempt > maxAttempts) {
++      this.inflight.delete(jobId);
++      this.leases.delete(jobId);
++      this.locks.delete(jobId);
++      this.payloads.delete(jobId);
++      this.dead.unshift(
++        JSON.stringify({
++          jobId,
++          payload: JSON.parse(payloadJson),
++          error,
++          attempts: nextAttempt,
++        }),
++      );
++      this.done.set(jobId, Date.now() + config.queue.doneTtlSeconds * 1000);
++      return 'dead';
++    }
++
++    const backoffIndex = Math.min(nextAttempt - 1, backoffScheduleMs.length - 1);
++    const nextRunAtMs = Date.now() + backoffScheduleMs[backoffIndex];
++
++    this.inflight.delete(jobId);
++    this.leases.delete(jobId);
++    this.locks.delete(jobId);
++    this.payloads.set(jobId, {
++      value: payloadJson,
++      expiresAt: Date.now() + config.queue.payloadTtlSeconds * 1000,
++    });
++    this.delayed.set(jobId, nextRunAtMs);
++    return 'retry';
++  }
++
++  async tickDelayed(queueName: string, batchSize: number): Promise<number> {
++    this.cleanup();
++    const now = Date.now();
++    const due = Array.from(this.delayed.entries())
++      .filter(([, runAt]) => runAt <= now)
++      .sort((a, b) => a[1] - b[1])
++      .slice(0, batchSize);
++
++    for (const [jobId] of due) {
++      this.delayed.delete(jobId);
++      this.ready.unshift(jobId);
++    }
++
++    return due.length;
++  }
++
++  async recoverInflight(queueName: string, timeoutMs: number, batchSize: number): Promise<number> {
++    this.cleanup();
++    const now = Date.now();
++    const candidates = Array.from(this.inflight.entries())
++      .filter(([, startedAt]) => startedAt <= now - timeoutMs)
++      .slice(0, batchSize);
++
++    let recovered = 0;
++    for (const [jobId] of candidates) {
++      if (!this.leases.has(jobId)) {
++        this.inflight.delete(jobId);
++        this.ready.unshift(jobId);
++        recovered += 1;
++      }
++    }
++
++    return recovered;
++  }
++
++  async disconnect(): Promise<void> {
++    return;
++  }
++}
++
++export const createQueue = (): QueueClient => {
++  if (config.nodeEnv === 'test') {
++    return new InMemoryQueue();
++  }
++
++  const redis = createRedisClient();
++  return new RedisQueue(redis);
++};
+diff --git a/src/repositories/AuctionRepository.ts b/src/repositories/AuctionRepository.ts
+index 0e1c828e5160dbdb63da8b4b9eb6b1fa44229324..f0336cf653160ac5f1eedd94f17dce1bd2dc2352 100644
+--- a/src/repositories/AuctionRepository.ts
++++ b/src/repositories/AuctionRepository.ts
+@@ -18,69 +18,73 @@ export class AuctionRepository {
+     const query = AuctionModel.findById(auctionId)
+       .populate('creatorId', 'username firstName lastName')
+       .populate('rounds.winnerIds', 'username firstName lastName');
+     return session ? query.session(session) : query;
+   }
+ 
+   async list(
+     filters: { status?: AuctionStatus | string; page?: number; limit?: number },
+     session?: mongoose.ClientSession,
+   ): Promise<AuctionDocument[]> {
+     const { status, page = 1, limit = 10 } = filters;
+     const queryFilter: Record<string, unknown> = {};
+     if (status) {
+       queryFilter.status = status;
+     }
+ 
+     const query = AuctionModel.find(queryFilter)
+       .sort({ _id: -1 })
+       .skip((page - 1) * limit)
+       .limit(limit)
+       .populate('creatorId', 'username firstName lastName');
+ 
+     return session ? query.session(session) : query;
+   }
+ 
++  async findActive(session?: mongoose.ClientSession): Promise<AuctionDocument[]> {
++    const query = AuctionModel.find({ status: AuctionStatus.ACTIVE });
++    return session ? query.session(session) : query;
++  }
++
+   async create(
+     data: {
+       creatorId: mongoose.Types.ObjectId | string;
+       title: string;
+       totalGifts: number;
+       status: AuctionStatus;
+       rounds: Round[];
+       currentRound: number;
+       createdAt?: Date;
+     },
+     session?: mongoose.ClientSession,
+   ): Promise<AuctionDocument> {
+     const roundsForDb: AuctionDocument['rounds'] = data.rounds.map((r) => ({
+       roundNumber: r.roundNumber,
+       giftsToDistribute: r.giftsToDistribute,
+       startTime: r.startTime,
+       endTime: r.endTime,
+       duration: r.duration,
+       status: r.status,
+       // преобразуем string[] -> ObjectId[]
+       winnerIds: (r.winnerIds ?? []).map((id) => new mongoose.Types.ObjectId(id)),
+     }));
+ 
+     const auction = new AuctionModel({
+       creatorId: data.creatorId,
+       title: data.title,
+       totalGifts: data.totalGifts,
+       status: data.status,
+       rounds: roundsForDb,
+       currentRound: data.currentRound,
+       createdAt: data.createdAt ?? new Date(),
+     });
+ 
+     return session ? auction.save({ session }) : auction.save();
+   }
+ 
+   async save(
+     auction: AuctionDocument,
+     session?: mongoose.ClientSession,
+   ): Promise<AuctionDocument> {
+     return session ? auction.save({ session }) : auction.save();
+   }
+ }
+-
+diff --git a/src/repositories/BidRepository.ts b/src/repositories/BidRepository.ts
+index a0cc30d5dc5f5c44cf523aea24709dce8912ac34..2f164405fb784ac14913348aa931edf0342700ed 100644
+--- a/src/repositories/BidRepository.ts
++++ b/src/repositories/BidRepository.ts
+@@ -93,47 +93,68 @@ export class BidRepository {
+       auctionId,
+       roundNumber,
+       status: BidStatus.ACTIVE,
+     }).sort({
+       amount: -1,
+       placedAt: 1,
+     });
+     return session ? query.session(session) : query;
+   }
+ 
+   async findActiveByAuctionRoundWithUser(
+     auctionId: string,
+     roundNumber: number,
+     session?: mongoose.ClientSession,
+   ): Promise<any[]> {
+     const query = BidModel.find({
+       auctionId,
+       roundNumber,
+       status: BidStatus.ACTIVE,
+     })
+       .populate('userId', 'username firstName lastName')
+       .lean();
+     return session ? query.session(session) : query;
+   }
+ 
++  async findActiveByUserInRounds(
++    userId: string,
++    rounds: Array<{ auctionId: string; roundNumber: number }>,
++    session?: mongoose.ClientSession,
++  ): Promise<BidDocument[]> {
++    if (rounds.length === 0) return [];
++
++    const orClauses = rounds.map((round) => ({
++      auctionId: round.auctionId,
++      roundNumber: round.roundNumber,
++    }));
++
++    const query = BidModel.find({
++      userId,
++      status: BidStatus.ACTIVE,
++      $or: orClauses,
++    });
++
++    return session ? query.session(session) : query;
++  }
++
+   async save(bid: BidDocument, session?: mongoose.ClientSession): Promise<BidDocument> {
+     return session ? bid.save({ session }) : bid.save();
+   }
+ 
+   async updatePlacedAtForUserRound(
+     auctionId: string,
+     userId: string,
+     roundNumber: number,
+     placedAt: Date,
+     session?: mongoose.ClientSession,
+   ): Promise<void> {
+     const query = BidModel.updateOne(
+       { auctionId, userId, roundNumber },
+       { $set: { placedAt } },
+     );
+     if (session) {
+       await query.session(session);
+       return;
+     }
+     await query;
+   }
+ }
+diff --git a/src/repositories/UserRepository.ts b/src/repositories/UserRepository.ts
+index e52094af3f23aa5e95d790d8a0c63744bbede227..6089af0d15698bafe048bc83fa0aa8aaab633388 100644
+--- a/src/repositories/UserRepository.ts
++++ b/src/repositories/UserRepository.ts
+@@ -19,50 +19,66 @@ export class UserRepository {
+   }
+ 
+   async create(
+     data: {
+       telegramId: number;
+       username?: string;
+       firstName?: string;
+       lastName?: string;
+       balance?: number;
+       reservedBalance?: number;
+     },
+     session?: mongoose.ClientSession,
+   ): Promise<UserDocument> {
+     const user = new UserModel({
+       telegramId: data.telegramId,
+       username: data.username,
+       firstName: data.firstName,
+       lastName: data.lastName,
+       balance: data.balance ?? 0,
+       reservedBalance: data.reservedBalance ?? 0,
+     });
+ 
+     return session ? user.save({ session }) : user.save();
+   }
+ 
++  async findWithReservedBalance(
++    minAmount: number = 0,
++    session?: mongoose.ClientSession,
++  ): Promise<UserDocument[]> {
++    const query = UserModel.find({ reservedBalance: { $gt: minAmount } });
++    return session ? query.session(session) : query;
++  }
++
++  async findByUsernamePrefix(
++    prefix: string,
++    session?: mongoose.ClientSession,
++  ): Promise<UserDocument[]> {
++    const query = UserModel.find({ username: new RegExp(`^${prefix}`) });
++    return session ? query.session(session) : query;
++  }
++
+   async updateBalance(
+     userId: string,
+     balance: number,
+     reservedBalance: number,
+     session?: mongoose.ClientSession,
+   ): Promise<UserDocument | null> {
+     return await UserModel.findByIdAndUpdate(
+       userId,
+       { balance, reservedBalance },
+       { new: true, session },
+     );
+   }
+ 
+   async incrementBalance(
+     userId: string,
+     amount: number,
+     session?: mongoose.ClientSession,
+   ): Promise<UserDocument | null> {
+     return await UserModel.findByIdAndUpdate(
+       userId,
+       { $inc: { balance: amount } },
+       { new: true, session, runValidators: true, context: 'query'},
+     );
+   }
+ 
+diff --git a/src/workers/all.ts b/src/workers/all.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..87ed22a647920c27c5c4b561a4afdf8f64fa6243
+--- /dev/null
++++ b/src/workers/all.ts
+@@ -0,0 +1,38 @@
++import { spawn } from 'child_process';
++import path from 'path';
++import { logger } from '../utils/logger';
++
++const workerEntries = [
++  'src/workers/scheduler.ts',
++  'src/workers/workerRunner.ts',
++  'src/workers/autobid.ts',
++  'src/workers/cleanup.ts',
++];
++
++const startWorker = (entry: string) => {
++  const resolved = path.resolve(entry);
++  const child = spawn(process.execPath, ['-r', 'ts-node/register', resolved], {
++    stdio: 'inherit',
++    env: process.env,
++  });
++
++  child.on('exit', (code) => {
++    if (code !== 0) {
++      logger.error('Worker exited', { entry, code });
++    }
++  });
++
++  return child;
++};
++
++const children = workerEntries.map(startWorker);
++
++const shutdown = () => {
++  for (const child of children) {
++    child.kill('SIGTERM');
++  }
++  process.exit(0);
++};
++
++process.on('SIGINT', shutdown);
++process.on('SIGTERM', shutdown);
+diff --git a/src/workers/autobid.ts b/src/workers/autobid.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..027804239928718a024637134e2870525c85a813
+--- /dev/null
++++ b/src/workers/autobid.ts
+@@ -0,0 +1,131 @@
++import { connectDatabase } from '../config/database';
++import { config } from '../config/environment';
++import { AuctionRepository } from '../repositories/AuctionRepository';
++import { UserRepository } from '../repositories/UserRepository';
++import { AuctionStatus, RoundStatus } from '../types/auction.types';
++import { createQueue } from '../queue/redisQueue';
++import { autoBidJobId } from '../jobs/jobIds';
++import { AutoBidTickJobPayload } from '../jobs/types';
++import { logger } from '../utils/logger';
++import { BalanceManager } from '../core/BalanceManager';
++import { LedgerRefType } from '../types/ledger.types';
++
++const BOT_PREFIX = 'bot_auto_';
++const BOT_COUNT = 3;
++const BOT_BALANCE = 1000;
++
++const ensureBotUsers = async (): Promise<string[]> => {
++  const userRepository = new UserRepository();
++  const balanceManager = new BalanceManager();
++  const existingBots = await userRepository.findByUsernamePrefix(BOT_PREFIX);
++
++  const botIds: string[] = existingBots.map((bot) => bot._id.toString());
++
++  for (let i = existingBots.length; i < BOT_COUNT; i += 1) {
++    const telegramId = 9_000_000_000 + i;
++    const username = `${BOT_PREFIX}${i + 1}`;
++    const bot = await userRepository.create({
++      telegramId,
++      username,
++      firstName: 'Auto',
++      lastName: 'Bid',
++      balance: 0,
++      reservedBalance: 0,
++    });
++
++    const botId = bot._id.toString();
++    await balanceManager.topup({
++      userId: botId,
++      amount: BOT_BALANCE,
++      refType: LedgerRefType.USER,
++      refId: botId,
++      commandId: `cmd:autobid:bootstrap:${botId}`,
++    });
++
++    botIds.push(botId);
++  }
++
++  return botIds.slice(0, BOT_COUNT);
++};
++
++export const run = async () => {
++  if (config.nodeEnv === 'test') {
++    logger.info('Autobid worker disabled in test environment');
++    return;
++  }
++
++  if (!config.queue.autobidEnabled) {
++    logger.info('Autobid worker disabled by configuration');
++    return;
++  }
++
++  await connectDatabase();
++
++  const queue = createQueue();
++  const queueName = config.queue.name;
++  const auctionRepository = new AuctionRepository();
++  const botIds = await ensureBotUsers();
++
++  logger.info('Autobid worker started', { queueName, botCount: botIds.length });
++
++  let running = false;
++
++  const tick = async () => {
++    if (running) return;
++    running = true;
++    try {
++      const auctions = await auctionRepository.findActive();
++      const now = Date.now();
++      const tickBucket = Math.floor(now / config.queue.autobidBucketMs);
++
++      for (const auction of auctions) {
++        if (auction.status !== AuctionStatus.ACTIVE) continue;
++        const roundNumber = auction.currentRound;
++        const round = auction.rounds[roundNumber];
++        if (!round || round.status !== RoundStatus.ACTIVE) continue;
++
++        for (const botUserId of botIds) {
++          const payload: AutoBidTickJobPayload = {
++            type: 'AUTO_BID_TICK',
++            auctionId: auction._id.toString(),
++            roundNumber,
++            botUserId,
++            tick: tickBucket,
++            attempt: 0,
++          };
++
++          const jobId = autoBidJobId(
++            payload.auctionId,
++            payload.roundNumber,
++            payload.botUserId,
++            payload.tick,
++          );
++          const jitterMs = Math.floor(Math.random() * 500);
++          const result = await queue.enqueue(queueName, jobId, JSON.stringify(payload), now + jitterMs);
++
++          logger.info('Scheduled autobid tick', {
++            jobId,
++            auctionId: payload.auctionId,
++            roundNumber: payload.roundNumber,
++            botUserId: payload.botUserId,
++            result,
++          });
++        }
++      }
++    } catch (error: any) {
++      logger.error('Autobid tick failed', { error: error.message, stack: error.stack });
++    } finally {
++      running = false;
++    }
++  };
++
++  await tick();
++  setInterval(tick, config.queue.autobidPollIntervalMs);
++};
++
++if (require.main === module) {
++  run().catch((error) => {
++    logger.error('Autobid worker crashed', { error: error.message, stack: error.stack });
++    process.exit(1);
++  });
++}
+diff --git a/src/workers/cleanup.ts b/src/workers/cleanup.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..cc633b69c59b1f85ac7edac0acbb1edc37ff1af7
+--- /dev/null
++++ b/src/workers/cleanup.ts
+@@ -0,0 +1,55 @@
++import { connectDatabase } from '../config/database';
++import { config } from '../config/environment';
++import { createQueue } from '../queue/redisQueue';
++import { cleanupJobId } from '../jobs/jobIds';
++import { BalanceCleanupJobPayload } from '../jobs/types';
++import { logger } from '../utils/logger';
++
++export const run = async () => {
++  if (config.nodeEnv === 'test') {
++    logger.info('Cleanup worker disabled in test environment');
++    return;
++  }
++
++  await connectDatabase();
++
++  const queue = createQueue();
++  const queueName = config.queue.name;
++
++  logger.info('Cleanup worker started', { queueName });
++
++  let running = false;
++
++  const tick = async () => {
++    if (running) return;
++    running = true;
++    try {
++      const now = Date.now();
++      const tickBucket = Math.floor(now / config.queue.cleanupBucketMs);
++      const payload: BalanceCleanupJobPayload = {
++        type: 'BALANCE_CLEANUP',
++        tick: tickBucket,
++        attempt: 0,
++      };
++
++      const jobId = cleanupJobId(tickBucket);
++      const result = await queue.enqueue(queueName, jobId, JSON.stringify(payload), now);
++
++      logger.info('Scheduled cleanup job', { jobId, result, tick: tickBucket });
++    } catch (error: any) {
++      logger.error('Cleanup tick failed', { error: error.message, stack: error.stack });
++    } finally {
++      running = false;
++    }
++  };
++
++  await tick();
++  setInterval(tick, config.queue.cleanupIntervalMs);
++};
++
++if (require.main === module) {
++  run().catch((error) => {
++    logger.error('Cleanup worker crashed', { error: error.message, stack: error.stack });
++    process.exit(1);
++  });
++}
+diff --git a/src/workers/scheduler.ts b/src/workers/scheduler.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..275ebd928761d569014d592d23f2fc7e31ad578d
+--- /dev/null
++++ b/src/workers/scheduler.ts
+@@ -0,0 +1,76 @@
++import { connectDatabase } from '../config/database';
++import { config } from '../config/environment';
++import { AuctionRepository } from '../repositories/AuctionRepository';
++import { AuctionStatus, RoundStatus } from '../types/auction.types';
++import { createQueue } from '../queue/redisQueue';
++import { endRoundJobId } from '../jobs/jobIds';
++import { EndRoundJobPayload } from '../jobs/types';
++import { logger } from '../utils/logger';
++
++export const run = async () => {
++  if (config.nodeEnv === 'test') {
++    logger.info('Scheduler disabled in test environment');
++    return;
++  }
++
++  await connectDatabase();
++
++  const queue = createQueue();
++  const queueName = config.queue.name;
++  const auctionRepository = new AuctionRepository();
++
++  logger.info('Scheduler started', { queueName });
++
++  let running = false;
++
++  const tick = async () => {
++    if (running) return;
++    running = true;
++    try {
++      await queue.tickDelayed(queueName, config.queue.tickBatchSize);
++      await queue.recoverInflight(queueName, config.queue.inflightTimeoutMs, config.queue.recoverBatchSize);
++
++      const auctions = await auctionRepository.findActive();
++      const now = Date.now();
++
++      for (const auction of auctions) {
++        if (auction.status !== AuctionStatus.ACTIVE) continue;
++        const roundNumber = auction.currentRound;
++        const round = auction.rounds[roundNumber];
++        if (!round || round.status !== RoundStatus.ACTIVE) continue;
++        if (round.endTime.getTime() > now) continue;
++
++        const payload: EndRoundJobPayload = {
++          type: 'END_ROUND',
++          auctionId: auction._id.toString(),
++          roundNumber,
++          attempt: 0,
++        };
++
++        const jobId = endRoundJobId(payload.auctionId, payload.roundNumber);
++        const result = await queue.enqueue(queueName, jobId, JSON.stringify(payload), now);
++
++        logger.info('Scheduled end round', {
++          jobId,
++          auctionId: payload.auctionId,
++          roundNumber: payload.roundNumber,
++          result,
++        });
++      }
++    } catch (error: any) {
++      logger.error('Scheduler tick failed', { error: error.message, stack: error.stack });
++    } finally {
++      running = false;
++    }
++  };
++
++  await tick();
++  setInterval(tick, config.queue.schedulerIntervalMs);
++};
++
++if (require.main === module) {
++  run().catch((error) => {
++    logger.error('Scheduler crashed', { error: error.message, stack: error.stack });
++    process.exit(1);
++  });
++}
+diff --git a/src/workers/workerRunner.ts b/src/workers/workerRunner.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..a223373761450354304d00704471413caa88723a
+--- /dev/null
++++ b/src/workers/workerRunner.ts
+@@ -0,0 +1,119 @@
++import { v4 as uuidv4 } from 'uuid';
++import { connectDatabase } from '../config/database';
++import { config } from '../config/environment';
++import { createQueue } from '../queue/redisQueue';
++import { JobPayload } from '../jobs/types';
++import { handleEndRound } from '../jobs/handlers/endRound';
++import { handleAutoBidTick } from '../jobs/handlers/autoBidTick';
++import { handleBalanceCleanup } from '../jobs/handlers/cleanup';
++import { logger } from '../utils/logger';
++
++export const run = async () => {
++  if (config.nodeEnv === 'test') {
++    logger.info('Worker runner disabled in test environment');
++    return;
++  }
++
++  await connectDatabase();
++
++  const queue = createQueue();
++  const workerId = uuidv4();
++  const queueName = config.queue.name;
++
++  logger.info('Worker runner started', { workerId, queueName });
++
++  while (true) {
++    const jobId = await queue.popReady(queueName, workerId, 5);
++    if (!jobId) continue;
++
++    const payloadJson = await queue.getPayload(queueName, jobId);
++    if (!payloadJson) {
++      logger.error('Job payload missing', { jobId, queueName });
++      await queue.ackSuccess(queueName, jobId);
++      continue;
++    }
++
++    let payload: JobPayload;
++    try {
++      payload = JSON.parse(payloadJson) as JobPayload;
++    } catch (error) {
++      logger.error('Failed to parse job payload', { jobId, payloadJson });
++      await queue.ackSuccess(queueName, jobId);
++      continue;
++    }
++
++    const startTime = Date.now();
++    const attempt = payload.attempt ?? 0;
++    const heartbeat = setInterval(() => {
++      queue.heartbeat(queueName, jobId, workerId).catch((error) => {
++        logger.error('Heartbeat failed', { jobId, error: error.message });
++      });
++    }, config.queue.heartbeatIntervalMs);
++
++    try {
++      logger.info('Job started', {
++        jobId,
++        type: payload.type,
++        auctionId: 'auctionId' in payload ? payload.auctionId : undefined,
++        roundNumber: 'roundNumber' in payload ? payload.roundNumber : undefined,
++        attempt,
++      });
++
++      switch (payload.type) {
++        case 'END_ROUND':
++          await handleEndRound(payload);
++          break;
++        case 'AUTO_BID_TICK':
++          await handleAutoBidTick(payload);
++          break;
++        case 'BALANCE_CLEANUP':
++          await handleBalanceCleanup(payload);
++          break;
++        default:
++          throw new Error(`Unknown job type: ${(payload as JobPayload).type}`);
++      }
++
++      await queue.ackSuccess(queueName, jobId);
++      logger.info('Job succeeded', {
++        jobId,
++        type: payload.type,
++        auctionId: 'auctionId' in payload ? payload.auctionId : undefined,
++        roundNumber: 'roundNumber' in payload ? payload.roundNumber : undefined,
++        attempt,
++        durationMs: Date.now() - startTime,
++      });
++    } catch (error: any) {
++      const nextAttempt = attempt + 1;
++      const nextPayload = { ...payload, attempt: nextAttempt };
++      const result = await queue.failAndRetry(
++        queueName,
++        jobId,
++        JSON.stringify(nextPayload),
++        error?.message || 'Unknown error',
++        attempt,
++        config.queue.jobMaxAttempts,
++      );
++
++      logger.error('Job failed', {
++        jobId,
++        type: payload.type,
++        auctionId: 'auctionId' in payload ? payload.auctionId : undefined,
++        roundNumber: 'roundNumber' in payload ? payload.roundNumber : undefined,
++        attempt: nextAttempt,
++        durationMs: Date.now() - startTime,
++        error: error?.message,
++        stack: error?.stack,
++        result,
++      });
++    } finally {
++      clearInterval(heartbeat);
++    }
++  }
++};
++
++if (require.main === module) {
++  run().catch((error) => {
++    logger.error('Worker runner crashed', { error: error.message, stack: error.stack });
++    process.exit(1);
++  });
++}
