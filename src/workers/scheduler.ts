@@ -7,7 +7,7 @@ import { endRoundJobId } from '../jobs/jobIds';
 import { EndRoundJobPayload } from '../jobs/types';
 import { logger } from '../utils/logger';
 
-const run = async () => {
+export const run = async () => {
   if (config.nodeEnv === 'test') {
     logger.info('Scheduler disabled in test environment');
     return;
@@ -68,7 +68,9 @@ const run = async () => {
   setInterval(tick, config.queue.schedulerIntervalMs);
 };
 
-run().catch((error) => {
-  logger.error('Scheduler crashed', { error: error.message, stack: error.stack });
-  process.exit(1);
-});
+if (require.main === module) {
+  run().catch((error) => {
+    logger.error('Scheduler crashed', { error: error.message, stack: error.stack });
+    process.exit(1);
+  });
+}

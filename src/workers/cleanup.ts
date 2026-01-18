@@ -5,7 +5,7 @@ import { cleanupJobId } from '../jobs/jobIds';
 import { BalanceCleanupJobPayload } from '../jobs/types';
 import { logger } from '../utils/logger';
 
-const run = async () => {
+export const run = async () => {
   if (config.nodeEnv === 'test') {
     logger.info('Cleanup worker disabled in test environment');
     return;
@@ -47,7 +47,9 @@ const run = async () => {
   setInterval(tick, config.queue.cleanupIntervalMs);
 };
 
-run().catch((error) => {
-  logger.error('Cleanup worker crashed', { error: error.message, stack: error.stack });
-  process.exit(1);
-});
+if (require.main === module) {
+  run().catch((error) => {
+    logger.error('Cleanup worker crashed', { error: error.message, stack: error.stack });
+    process.exit(1);
+  });
+}
