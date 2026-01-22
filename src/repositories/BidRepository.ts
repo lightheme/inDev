@@ -72,6 +72,26 @@ export class BidRepository {
     return session ? query.session(session) : query;
   }
 
+  async hasActiveByAuctionRoundExcludingUsers(
+    auctionId: string,
+    roundNumber: number,
+    excludedUserIds: string[] = [],
+    session?: mongoose.ClientSession,
+  ): Promise<boolean> {
+    const query: Record<string, unknown> = {
+      auctionId,
+      roundNumber,
+      status: BidStatus.ACTIVE,
+    };
+    if (excludedUserIds.length > 0) {
+      query.userId = { $nin: excludedUserIds };
+    }
+
+    const existsQuery = BidModel.exists(query);
+    const result = session ? await existsQuery.session(session) : await existsQuery;
+    return Boolean(result);
+  }
+
   async findByAuctionRound(
     auctionId: string,
     roundNumber: number,
