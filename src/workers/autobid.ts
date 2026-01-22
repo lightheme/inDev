@@ -1,6 +1,7 @@
 import { connectDatabase } from '../config/database';
 import { config } from '../config/environment';
 import { AuctionRepository } from '../repositories/AuctionRepository';
+import { BidRepository } from '../repositories/BidRepository';
 import { UserRepository } from '../repositories/UserRepository';
 import { AuctionStatus, RoundStatus } from '../types/auction.types';
 import { createQueue } from '../queue/redisQueue';
@@ -13,6 +14,18 @@ import { LedgerRefType } from '../types/ledger.types';
 const BOT_PREFIX = 'bot_auto_';
 const BOT_COUNT = 3;
 const BOT_BALANCE = 1000;
+
+const getActiveRoundNumber = (auction: {
+  status: AuctionStatus;
+  currentRound: number;
+  rounds: Array<{ status: RoundStatus }>;
+}): number | null => {
+  if (auction.status !== AuctionStatus.ACTIVE) return null;
+  const roundNumber = auction.currentRound;
+  const round = auction.rounds[roundNumber];
+  if (!round || round.status !== RoundStatus.ACTIVE) return null;
+  return roundNumber;
+};
 
 const ensureBotUsers = async (): Promise<string[]> => {
   const userRepository = new UserRepository();
@@ -48,8 +61,14 @@ const ensureBotUsers = async (): Promise<string[]> => {
   return botIds.slice(0, BOT_COUNT);
 };
 
+const getExistingBotIds = async (): Promise<string[]> => {
+  const userRepository = new UserRepository();
+  const existingBots = await userRepository.findByUsernamePrefix(BOT_PREFIX);
+  return existingBots.map((bot) => bot._id.toString()).slice(0, BOT_COUNT);
+};
+
 export const run = async () => {
-  if (config.nodeEnv === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     logger.info('Autobid worker disabled in test environment');
     return;
   }
@@ -64,9 +83,9 @@ export const run = async () => {
   const queue = createQueue();
   const queueName = config.queue.name;
   const auctionRepository = new AuctionRepository();
-  const botIds = await ensureBotUsers();
+  const bidRepository = new BidRepository();
 
-  logger.info('Autobid worker started', { queueName, botCount: botIds.length });
+  logger.info('Autobid worker started', { queueName });
 
   let running = false;
 
@@ -77,17 +96,30 @@ export const run = async () => {
       const auctions = await auctionRepository.findActive();
       const now = Date.now();
       const tickBucket = Math.floor(now / config.queue.autobidBucketMs);
+      const existingBotIds = await getExistingBotIds();
+      const eligibleRounds: Array<{ auctionId: string; roundNumber: number }> = [];
 
       for (const auction of auctions) {
-        if (auction.status !== AuctionStatus.ACTIVE) continue;
-        const roundNumber = auction.currentRound;
-        const round = auction.rounds[roundNumber];
-        if (!round || round.status !== RoundStatus.ACTIVE) continue;
+        const roundNumber = getActiveRoundNumber(auction);
+        if (roundNumber === null) continue;
+        const hasUserBid = await bidRepository.hasActiveByAuctionRoundExcludingUsers(
+          auction._id.toString(),
+          roundNumber,
+          existingBotIds,
+        );
+        if (!hasUserBid) continue;
+        eligibleRounds.push({ auctionId: auction._id.toString(), roundNumber });
+      }
 
+      if (eligibleRounds.length === 0) return;
+
+      const botIds = existingBotIds.length > 0 ? existingBotIds : await ensureBotUsers();
+
+      for (const { auctionId, roundNumber } of eligibleRounds) {
         for (const botUserId of botIds) {
           const payload: AutoBidTickJobPayload = {
             type: 'AUTO_BID_TICK',
-            auctionId: auction._id.toString(),
+            auctionId,
             roundNumber,
             botUserId,
             tick: tickBucket,

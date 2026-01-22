@@ -5,8 +5,6 @@ import { cleanupJobId } from '../jobs/jobIds';
 import { BalanceCleanupJobPayload } from '../jobs/types';
 import { logger } from '../utils/logger';
 
-<<<<<<< HEAD
-=======
 export const runCleanupTick = async ({
   queue,
   queueName,
@@ -30,10 +28,8 @@ export const runCleanupTick = async ({
 
   logger.info('Scheduled cleanup job', { jobId, result, tick: tickBucket });
 };
-
->>>>>>> a6ab50acd5e01578621e478deddbe40f69d74e91
 export const run = async () => {
-  if (config.nodeEnv === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     logger.info('Cleanup worker disabled in test environment');
     return;
   }

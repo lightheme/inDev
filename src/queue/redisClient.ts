@@ -3,14 +3,14 @@ import { config } from '../config/environment';
 
 export interface RedisLike {
   get(key: string): Promise<string | null>;
-  set(key: string, value: string, ...args: Array<string | number>): Promise<string | null>;
+  set(key: string, value: string, ...args: any[]): Promise<any>;
   incr(key: string): Promise<number>;
   expire(key: string, seconds: number): Promise<number>;
   del(...keys: string[]): Promise<number>;
   eval(script: string, numKeys: number, ...args: Array<string | number>): Promise<any>;
   brpop(key: string, timeout: number): Promise<[string, string] | null>;
   lpush(key: string, ...values: string[]): Promise<number>;
-  quit(): Promise<void>;
+  quit(): Promise<'OK' | null>;
 }
 
 class InMemoryRedis implements RedisLike {
@@ -85,8 +85,8 @@ class InMemoryRedis implements RedisLike {
     return 0;
   }
 
-  async quit(): Promise<void> {
-    return;
+  async quit(): Promise<'OK'> {
+    return 'OK';
   }
 }
 

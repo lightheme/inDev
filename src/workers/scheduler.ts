@@ -7,8 +7,6 @@ import { endRoundJobId } from '../jobs/jobIds';
 import { EndRoundJobPayload } from '../jobs/types';
 import { logger } from '../utils/logger';
 
-<<<<<<< HEAD
-=======
 export const runSchedulerTick = async ({
   queue,
   auctionRepository,
@@ -56,10 +54,8 @@ export const runSchedulerTick = async ({
     });
   }
 };
-
->>>>>>> a6ab50acd5e01578621e478deddbe40f69d74e91
 export const run = async () => {
-  if (config.nodeEnv === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     logger.info('Scheduler disabled in test environment');
     return;
   }
