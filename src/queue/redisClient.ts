@@ -10,7 +10,7 @@ export interface RedisLike {
   eval(script: string, numKeys: number, ...args: Array<string | number>): Promise<any>;
   brpop(key: string, timeout: number): Promise<[string, string] | null>;
   lpush(key: string, ...values: string[]): Promise<number>;
-  quit(): Promise<void>;
+  quit(): Promise<'OK' | null>;
 }
 
 class InMemoryRedis implements RedisLike {
@@ -85,8 +85,8 @@ class InMemoryRedis implements RedisLike {
     return 0;
   }
 
-  async quit(): Promise<void> {
-    return;
+  async quit(): Promise<'OK'> {
+    return 'OK';
   }
 }
 
