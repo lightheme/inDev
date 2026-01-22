@@ -111,7 +111,9 @@ export const run = async () => {
   }
 };
 
-run().catch((error) => {
-  logger.error('Worker runner crashed', { error: error.message, stack: error.stack });
-  process.exit(1);
-});
+if (require.main === module) {
+  run().catch((error) => {
+    logger.error('Worker runner crashed', { error: error.message, stack: error.stack });
+    process.exit(1);
+  });
+}
