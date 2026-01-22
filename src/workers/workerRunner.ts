@@ -9,7 +9,7 @@ import { handleBalanceCleanup } from '../jobs/handlers/cleanup';
 import { logger } from '../utils/logger';
 
 export const run = async () => {
-  if (config.nodeEnv === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     logger.info('Worker runner disabled in test environment');
     return;
   }

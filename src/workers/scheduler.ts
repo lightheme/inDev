@@ -55,7 +55,7 @@ export const runSchedulerTick = async ({
   }
 };
 export const run = async () => {
-  if (config.nodeEnv === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     logger.info('Scheduler disabled in test environment');
     return;
   }

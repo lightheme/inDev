@@ -3,7 +3,7 @@ import { config } from '../config/environment';
 
 export interface RedisLike {
   get(key: string): Promise<string | null>;
-  set(key: string, value: string, ...args: Array<string | number>): Promise<string | null>;
+  set(key: string, value: string, ...args: any[]): Promise<any>;
   incr(key: string): Promise<number>;
   expire(key: string, seconds: number): Promise<number>;
   del(...keys: string[]): Promise<number>;

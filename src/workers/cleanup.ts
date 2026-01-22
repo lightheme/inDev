@@ -29,7 +29,7 @@ export const runCleanupTick = async ({
   logger.info('Scheduled cleanup job', { jobId, result, tick: tickBucket });
 };
 export const run = async () => {
-  if (config.nodeEnv === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     logger.info('Cleanup worker disabled in test environment');
     return;
   }

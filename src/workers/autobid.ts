@@ -68,7 +68,7 @@ const getExistingBotIds = async (): Promise<string[]> => {
 };
 
 export const run = async () => {
-  if (config.nodeEnv === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     logger.info('Autobid worker disabled in test environment');
     return;
   }
