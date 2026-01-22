@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { connectDatabase } from '../config/database';
 import { config } from '../config/environment';
 import { createQueue } from '../queue/redisQueue';
@@ -9,7 +9,7 @@ import { handleBalanceCleanup } from '../jobs/handlers/cleanup';
 import { logger } from '../utils/logger';
 
 export const run = async () => {
-  if (config.nodeEnv === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     logger.info('Worker runner disabled in test environment');
     return;
   }
@@ -17,7 +17,7 @@ export const run = async () => {
   await connectDatabase();
 
   const queue = createQueue();
-  const workerId = uuidv4();
+  const workerId = randomUUID();
   const queueName = config.queue.name;
 
   logger.info('Worker runner started', { workerId, queueName });
