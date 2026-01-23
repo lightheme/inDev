@@ -1,8 +1,13 @@
 import { Response, Request, NextFunction } from 'express';
-import { validateTelegramInitData } from '../../utils/telegram.util';
+import {
+  validateTelegramInitData,
+  TelegramInitDataValidationError,
+} from '../../utils/telegram.util';
 import { UserService } from '../../services/UserService';
 import { UnauthorizedError } from '../../utils/errors';
 import { verifyDevToken } from '../../utils/dev-auth.util';
+import { config } from '../../config/environment';
+import { logger } from '../../utils/logger';
 
 declare global {
   namespace Express {
@@ -23,8 +28,13 @@ const userService = new UserService();
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authorization = req.headers.authorization;
+    const isProduction = config.nodeEnv === 'production';
 
     if (authorization && authorization.startsWith('Bearer ')) {
+      if (isProduction) {
+        throw new UnauthorizedError('Bearer authentication is disabled in production');
+      }
+
       const token = authorization.replace('Bearer ', '').trim();
       const payload = verifyDevToken(token);
 
@@ -51,16 +61,31 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     const initData = req.headers['x-telegram-init-data'] as string;
 
     if (!initData) {
-      throw new UnauthorizedError('Unauthorized');
+      throw new UnauthorizedError('Missing x-telegram-init-data');
     }
 
-    const telegramUser = validateTelegramInitData(initData);
-
-    if (!telegramUser) {
-      throw new UnauthorizedError('Invalid Telegram init data');
+    let telegramUser;
+    try {
+      telegramUser = validateTelegramInitData(initData);
+    } catch (error) {
+      if (error instanceof TelegramInitDataValidationError) {
+        const snippet = `${initData.slice(0, 48)}${initData.length > 48 ? '…' : ''}`;
+        logger.warn('Telegram initData validation failed', {
+          reason: error.message,
+          initDataSnippet: snippet,
+          initDataLength: initData.length,
+        });
+        throw new UnauthorizedError(error.message);
+      }
+      throw error;
     }
 
-    const user = await userService.getOrCreateUser(telegramUser);
+    const user = await userService.getOrCreateUser({
+      telegramId: telegramUser.telegramId,
+      username: telegramUser.username,
+      firstName: telegramUser.firstName,
+      lastName: telegramUser.lastName,
+    });
 
     req.user = {
       id: user._id.toString(),

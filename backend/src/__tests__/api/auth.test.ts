@@ -20,7 +20,7 @@ const buildInitData = (botToken: string, authDate: number) => {
     });
 
   const dataCheckString = dataCheckArray.join('\n');
-  const secretKey = crypto.createHmac('sha256', 'WebAppData').update(botToken).digest();
+  const secretKey = crypto.createHash('sha256').update(botToken).digest();
   const hash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
 
   params.append('hash', hash);
@@ -93,8 +93,7 @@ describe('Auth flows', () => {
 
     const authDate = Math.floor(Date.now() / 1000) - 120;
     const initData = buildInitData('token', authDate);
-    const user = validateTelegramInitData(initData);
-    expect(user).toBeNull();
+    expect(() => validateTelegramInitData(initData)).toThrow('InitData expired');
   });
 
   it('prioritizes bearer over initData', async () => {
