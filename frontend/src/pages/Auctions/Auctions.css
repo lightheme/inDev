@@ -1,0 +1,75 @@
+.auctions-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.auctions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.auctions-header h2 {
+  margin: 0;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: var(--spacing-xs);
+  overflow-x: auto;
+  padding-bottom: var(--spacing-xs);
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-tab {
+  padding: 8px 16px;
+  background: var(--tg-secondary-bg-color);
+  color: var(--tg-text-color);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.filter-tab:hover {
+  background: var(--tg-section-bg-color);
+}
+
+.filter-tab.active {
+  background: var(--tg-button-color);
+  color: var(--tg-button-text-color);
+}
+
+.auctions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  gap: var(--spacing-md);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .auctions-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .auctions-header .button {
+    width: 100%;
+  }
+}

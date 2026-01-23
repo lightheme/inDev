@@ -1,0 +1,6 @@
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-23 18:52:41"}
+{"error":{"$clusterTime":{"clusterTime":{"$timestamp":"7598585500756082689"},"signature":{"hash":"AAAAAAAAAAAAAAAAAAAAAAAAAAA=","keyId":0}},"code":18,"codeName":"AuthenticationFailed","connectionGeneration":0,"errorLabelSet":{},"errorResponse":{"$clusterTime":{"clusterTime":{"$timestamp":"7598585500756082689"},"signature":{"hash":"AAAAAAAAAAAAAAAAAAAAAAAAAAA=","keyId":0}},"code":18,"codeName":"AuthenticationFailed","errmsg":"Authentication failed.","ok":0,"operationTime":{"$timestamp":"7598585500756082689"}},"ok":0,"operationTime":{"$timestamp":"7598585500756082689"}},"level":"error","message":"MongoDB connection error: ","timestamp":"2026-01-23 18:52:41"}
+{"level":"info","message":"Redis connected successfully","timestamp":"2026-01-23 18:58:33"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-23 18:58:33"}
+{"level":"info","message":"Database connected successfully","timestamp":"2026-01-23 18:58:33"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2026-01-23 18:58:33"}

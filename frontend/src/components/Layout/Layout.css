@@ -1,0 +1,147 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 70px;
+}
+
+.header {
+  background: var(--tg-section-bg-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dev-mode-banner {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md) var(--spacing-md);
+  font-size: 0.85rem;
+  color: #ffca28;
+}
+
+.dev-mode-banner::before {
+  content: '⚠️ ';
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.header-balance {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 6px 12px;
+  background: var(--tg-button-color);
+  color: var(--tg-button-text-color);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.balance-label {
+  opacity: 0.9;
+}
+
+.balance-amount {
+  font-weight: 600;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--tg-section-bg-color);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  color: var(--tg-hint-color);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-sm);
+  min-width: 70px;
+}
+
+.nav-item.active {
+  color: var(--tg-button-color);
+  background: rgba(36, 129, 204, 0.1);
+}
+
+.nav-item:hover {
+  opacity: 1;
+  background: var(--tg-secondary-bg-color);
+}
+
+.nav-item.active:hover {
+  background: rgba(36, 129, 204, 0.15);
+}
+
+.nav-icon {
+  font-size: 24px;
+}
+
+.nav-label {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .header-content {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .header-title {
+    font-size: 18px;
+  }
+
+  .main {
+    padding: var(--spacing-sm);
+  }
+
+  .nav-item {
+    padding: 8px 12px;
+    min-width: 60px;
+  }
+
+  .nav-icon {
+    font-size: 22px;
+  }
+
+  .nav-label {
+    font-size: 11px;
+  }
+}

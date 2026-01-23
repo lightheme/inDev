@@ -64,7 +64,7 @@ export class AuctionController {
     }
   };
 
-  getAuctionById = async (req: Request, res: Response, next: NextFunction) => {
+  getAuctionById = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
       const auction = await this.auctionService.getAuctionById(id);
@@ -82,7 +82,7 @@ export class AuctionController {
     }
   };
 
-  placeBid = async (req: Request, res: Response, next: NextFunction) => {
+  placeBid = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.id;
       const { id: auctionId } = req.params;
@@ -115,7 +115,7 @@ export class AuctionController {
     }
   };
 
-  increaseBid = async (req: Request, res: Response, next: NextFunction) => {
+  increaseBid = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.id;
       const { id: auctionId } = req.params;
@@ -149,7 +149,7 @@ export class AuctionController {
     }
   };
 
-  getLeaderboard = async (req: Request, res: Response, next: NextFunction) => {
+  getLeaderboard = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
     try {
       const { id: auctionId } = req.params;
       const { round } = req.query;

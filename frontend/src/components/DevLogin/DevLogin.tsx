@@ -1,10 +1,14 @@
 import { useState } from 'react'
-import { setAuthToken } from '../../utils/auth'
+import { setDevAuthToken } from '../../utils/auth'
 import { useAppDispatch } from '../../store/hooks'
-import { setAuthToken as setAuthTokenAction } from '../../store/slices/authSlice'
-import './Login.css'
+import { setDevAuthToken as setDevAuthTokenAction } from '../../store/slices/telegramSlice'
+import './DevLogin.css'
 
-export const Login = () => {
+interface DevLoginProps {
+  onLogin: () => void
+}
+
+export const DevLogin = ({ onLogin }: DevLoginProps) => {
   const dispatch = useAppDispatch()
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
@@ -12,14 +16,13 @@ export const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
-  const loginUrl = `${apiBaseUrl}/auth/login`
 
   const handleLogin = async () => {
     setIsSubmitting(true)
     setError(null)
 
     try {
-      const response = await fetch(loginUrl, {
+      const response = await fetch(`${apiBaseUrl}/auth/dev/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -39,8 +42,9 @@ export const Login = () => {
         return
       }
 
-      setAuthToken(payload.token)
-      dispatch(setAuthTokenAction({ token: payload.token }))
+      setDevAuthToken(payload.token)
+      dispatch(setDevAuthTokenAction({ token: payload.token }))
+      onLogin()
     } catch (err) {
       setError('Failed to login. Please check the backend is running.')
     } finally {
@@ -49,10 +53,12 @@ export const Login = () => {
   }
 
   return (
-    <div className="login">
-      <div className="login-modal">
-        <h2>Login</h2>
-        <p className="text-hint">Use your login and password to get a JWT.</p>
+    <div className="dev-login">
+      <div className="dev-login-modal">
+        <h2>Development Login</h2>
+        <p className="text-hint">
+          Running outside Telegram. Use dev credentials to get a JWT.
+        </p>
 
         <div className="form-group">
           <label className="label">Login</label>
