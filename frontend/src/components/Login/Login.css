@@ -1,4 +1,4 @@
-.dev-login {
+.login {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
@@ -9,7 +9,7 @@
   padding: var(--spacing-md);
 }
 
-.dev-login-modal {
+.login-modal {
   background: var(--tg-bg-color);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
@@ -21,16 +21,16 @@
   box-shadow: var(--shadow-lg);
 }
 
-.dev-login-modal h2 {
+.login-modal h2 {
   margin: 0;
 }
 
-.dev-login-modal .form-group {
+.login-modal .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
 }
 
-.dev-login-modal .error {
+.login-modal .error {
   color: #ff6b6b;
 }

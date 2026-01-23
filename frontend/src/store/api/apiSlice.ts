@@ -20,10 +20,10 @@ const baseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
   prepareHeaders: (headers, { getState, endpoint }) => {
     const state = getState() as RootState
-    const devToken = state.auth.devToken
+    const authToken = state.auth.authToken
 
-    if (devToken) {
-      headers.set('Authorization', `Bearer ${devToken}`)
+    if (authToken) {
+      headers.set('Authorization', `Bearer ${authToken}`)
     }
 
     // Add Idempotency-Key for all POST requests

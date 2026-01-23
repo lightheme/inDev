@@ -1,15 +1,15 @@
 import { ToastContainer } from './components/Toast/Toast'
-import { DevLogin } from './components/DevLogin/DevLogin'
+import { Login } from './components/Login/Login'
 import { useAppSelector } from './store/hooks'
 
 function App() {
-  const { devToken } = useAppSelector((state) => state.auth)
-  const isLoggedIn = Boolean(devToken)
+  const { authToken } = useAppSelector((state) => state.auth)
+  const isLoggedIn = Boolean(authToken)
 
   return (
     <>
       {!isLoggedIn ? (
-        <DevLogin />
+        <Login />
       ) : (
         <main className="container">
           <div className="card">
