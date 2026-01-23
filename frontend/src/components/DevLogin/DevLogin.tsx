@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { setDevAuthToken } from '../../utils/auth'
 import { useAppDispatch } from '../../store/hooks'
-import { setDevAuthToken as setDevAuthTokenAction } from '../../store/slices/telegramSlice'
+import { setDevAuthToken as setDevAuthTokenAction } from '../../store/slices/authSlice'
 import './DevLogin.css'
 
 interface DevLoginProps {

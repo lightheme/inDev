@@ -8,41 +8,15 @@ import { Auctions } from './pages/Auctions/Auctions'
 import { CreateAuction } from './pages/CreateAuction/CreateAuction'
 import { AuctionDetail } from './pages/AuctionDetail/AuctionDetail'
 import { Transactions } from './pages/Transactions/Transactions'
-import { initTelegramWebApp, getTelegramTheme, getTelegramInitData } from './utils/telegram'
-import { useAppDispatch, useAppSelector } from './store/hooks'
-import { updateThemeParams } from './store/slices/telegramSlice'
+import { useAppSelector } from './store/hooks'
 
 function App() {
-  const dispatch = useAppDispatch()
-  const { isInTelegram, devToken } = useAppSelector((state) => state.telegram)
+  const { devToken } = useAppSelector((state) => state.auth)
   const [showDevLogin, setShowDevLogin] = useState(false)
 
   useEffect(() => {
-    initTelegramWebApp()
-
-    // Check if we need to show dev login
-    const initData = getTelegramInitData()
-		console.log(isInTelegram)
-    if (!isInTelegram && !devToken && !initData) {
-      setShowDevLogin(true)
-    }
-		console.log(showDevLogin)
-
-    const themeParams = getTelegramTheme()
-    if (Object.keys(themeParams).length > 0) {
-      dispatch(updateThemeParams(themeParams))
-
-      // Apply theme colors to CSS variables
-      const root = document.documentElement
-      if (themeParams.bg_color) root.style.setProperty('--tg-bg-color', themeParams.bg_color)
-      if (themeParams.text_color) root.style.setProperty('--tg-text-color', themeParams.text_color)
-      if (themeParams.hint_color) root.style.setProperty('--tg-hint-color', themeParams.hint_color)
-      if (themeParams.link_color) root.style.setProperty('--tg-link-color', themeParams.link_color)
-      if (themeParams.button_color) root.style.setProperty('--tg-button-color', themeParams.button_color)
-      if (themeParams.button_text_color) root.style.setProperty('--tg-button-text-color', themeParams.button_text_color)
-      if (themeParams.secondary_bg_color) root.style.setProperty('--tg-secondary-bg-color', themeParams.secondary_bg_color)
-    }
-  }, [dispatch, devToken, isInTelegram])
+    setShowDevLogin(!devToken)
+  }, [devToken])
 
   return (
     <BrowserRouter
