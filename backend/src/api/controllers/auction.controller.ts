@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { ParsedQs } from 'qs';
 import { CommandHandler } from '../../commands/CommandHandler';
 import { CreateAuctionCommand } from '../../commands/auction/CreateAuctionCommand';
 import { PlaceBidCommand } from '../../commands/bid/PlaceBidCommand';
@@ -16,44 +15,10 @@ export class AuctionController {
     this.auctionService = new AuctionService();
   }
 
-  private getQueryString(
-    value: string | string[] | ParsedQs | ParsedQs[] | undefined,
-  ): string | undefined {
-    if (typeof value === 'string') {
-      return value;
-    }
-    if (Array.isArray(value)) {
-      const [first] = value;
-      return typeof first === 'string' ? first : undefined;
-    }
-    return undefined;
-  }
-
-  private getQueryNumber(
-    value: string | string[] | ParsedQs | ParsedQs[] | undefined,
-  ): number | undefined {
-    const queryValue = this.getQueryString(value);
-    if (!queryValue) {
-      return undefined;
-    }
-    const parsed = Number(queryValue);
-    return Number.isFinite(parsed) ? parsed : undefined;
-  }
-
-  private getHeaderString(value: string | string[] | undefined): string | undefined {
-    if (typeof value === 'string') {
-      return value;
-    }
-    if (Array.isArray(value)) {
-      return value[0];
-    }
-    return undefined;
-  }
-
   createAuction = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.id;
-      const idempotencyKey = this.getHeaderString(req.headers['idempotency-key']);
+      const idempotencyKey = req.headers['idempotency-key'] as string;
 
       if (!idempotencyKey) {
         throw new AppError('Idempotency-Key header is required for POST operations', 400);
@@ -82,14 +47,12 @@ export class AuctionController {
 
   getAuctions = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const status = this.getQueryString(req.query.status);
-      const page = this.getQueryNumber(req.query.page);
-      const limit = this.getQueryNumber(req.query.limit);
+      const { status, page, limit } = req.query;
 
       const auctions = await this.auctionService.getAuctions({
-        status,
-        page,
-        limit,
+        status: status as string,
+        page: page ? Number(page) : undefined,
+        limit: limit ? Number(limit) : undefined,
       });
 
       res.json({
@@ -124,7 +87,7 @@ export class AuctionController {
       const userId = req.user!.id;
       const { id: auctionId } = req.params;
       const { amount } = req.body;
-      const idempotencyKey = this.getHeaderString(req.headers['idempotency-key']);
+      const idempotencyKey = req.headers['idempotency-key'] as string;
 
       if (!idempotencyKey) {
         throw new AppError('Idempotency-Key header is required for POST operations', 400);
@@ -157,7 +120,7 @@ export class AuctionController {
       const userId = req.user!.id;
       const { id: auctionId } = req.params;
       const { amount, bidId } = req.body;
-      const idempotencyKey = this.getHeaderString(req.headers['idempotency-key']);
+      const idempotencyKey = req.headers['idempotency-key'] as string;
 
       if (!idempotencyKey) {
         throw new AppError('Idempotency-Key header is required for POST operations', 400);
@@ -189,7 +152,9 @@ export class AuctionController {
   getLeaderboard = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id: auctionId } = req.params;
-      const roundNumber = this.getQueryNumber(req.query.round) ?? 1;
+      const { round } = req.query;
+
+      const roundNumber = round ? Number(round) : 1;
 
       const leaderboard = await this.auctionService.getLeaderboard(auctionId, roundNumber);
 
