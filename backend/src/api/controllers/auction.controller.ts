@@ -15,6 +15,13 @@ export class AuctionController {
     this.auctionService = new AuctionService();
   }
 
+  private getQueryString(value: string | string[] | undefined): string | undefined {
+    if (Array.isArray(value)) {
+      return value[0];
+    }
+    return value;
+  }
+
   createAuction = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.id;
@@ -47,10 +54,12 @@ export class AuctionController {
 
   getAuctions = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { status, page, limit } = req.query;
+      const status = this.getQueryString(req.query.status);
+      const page = this.getQueryString(req.query.page);
+      const limit = this.getQueryString(req.query.limit);
 
       const auctions = await this.auctionService.getAuctions({
-        status: status as string,
+        status,
         page: page ? Number(page) : undefined,
         limit: limit ? Number(limit) : undefined,
       });
@@ -152,7 +161,7 @@ export class AuctionController {
   getLeaderboard = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id: auctionId } = req.params;
-      const { round } = req.query;
+      const round = this.getQueryString(req.query.round);
 
       const roundNumber = round ? Number(round) : 1;
 
