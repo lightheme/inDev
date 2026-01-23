@@ -24,6 +24,7 @@ export class UserRepository {
       username?: string;
       firstName?: string;
       lastName?: string;
+      isDev?: boolean;
       balance?: number;
       reservedBalance?: number;
     },
@@ -34,6 +35,7 @@ export class UserRepository {
       username: data.username,
       firstName: data.firstName,
       lastName: data.lastName,
+      isDev: data.isDev ?? false,
       balance: data.balance ?? 0,
       reservedBalance: data.reservedBalance ?? 0,
     });
