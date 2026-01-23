@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { ParsedQs } from 'qs';
 import { CommandHandler } from '../../commands/CommandHandler';
 import { CreateAuctionCommand } from '../../commands/auction/CreateAuctionCommand';
 import { PlaceBidCommand } from '../../commands/bid/PlaceBidCommand';
@@ -15,7 +16,9 @@ export class AuctionController {
     this.auctionService = new AuctionService();
   }
 
-  private getQueryString(value: unknown): string | undefined {
+  private getQueryString(
+    value: string | string[] | ParsedQs | ParsedQs[] | undefined,
+  ): string | undefined {
     if (typeof value === 'string') {
       return value;
     }
@@ -26,7 +29,9 @@ export class AuctionController {
     return undefined;
   }
 
-  private getQueryNumber(value: unknown): number | undefined {
+  private getQueryNumber(
+    value: string | string[] | ParsedQs | ParsedQs[] | undefined,
+  ): number | undefined {
     const queryValue = this.getQueryString(value);
     if (!queryValue) {
       return undefined;
@@ -35,7 +40,7 @@ export class AuctionController {
     return Number.isFinite(parsed) ? parsed : undefined;
   }
 
-  private getHeaderString(value: unknown): string | undefined {
+  private getHeaderString(value: string | string[] | undefined): string | undefined {
     if (typeof value === 'string') {
       return value;
     }
