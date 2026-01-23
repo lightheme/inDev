@@ -11,7 +11,18 @@ export interface TelegramUser {
   photo_url: string;
 }
 
-export const validataTelegramInitData = (initData: string): TelegramUser | null => {
+const timingSafeEqual = (a: string, b: string): boolean => {
+  const aBuffer = Buffer.from(a, 'hex');
+  const bBuffer = Buffer.from(b, 'hex');
+
+  if (aBuffer.length !== bBuffer.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(aBuffer, bBuffer);
+};
+
+export const validateTelegramInitData = (initData: string): TelegramUser | null => {
   try {
     if (!initData) return null;
 
@@ -35,14 +46,6 @@ export const validataTelegramInitData = (initData: string): TelegramUser | null 
     const botToken = config.telegram.botToken;
 
     if (!botToken) {
-      console.warn('TELEGRAM_BOT_TOKEN not set, skipping validation in development');
-      // [WARN] В development можно пропустить валидацию
-      if (config.nodeEnv === 'development') {
-        const userParam = urlParams.get('user');
-        if (userParam) {
-          return JSON.parse(userParam);
-        }
-      }
       return null;
     }
 
@@ -53,13 +56,13 @@ export const validataTelegramInitData = (initData: string): TelegramUser | null 
       .update(dataCheckString)
       .digest('hex');
 
-    if (calculatedHash !== hash) return null;
+    if (!timingSafeEqual(calculatedHash, hash)) return null;
 
     const authDate = parseInt(urlParams.get('auth_date') || '0');
     const currentTime = Math.floor(Date.now() / 1000);
     const timeDiff = currentTime - authDate;
 
-    if (timeDiff > 86400) return null;
+    if (!authDate || timeDiff > config.telegram.authMaxAgeSeconds) return null;
 
     const userParam = urlParams.get('user');
     if (!userParam) return null;
@@ -71,3 +74,5 @@ export const validataTelegramInitData = (initData: string): TelegramUser | null 
     return null;
   }
 };
+
+export const validataTelegramInitData = validateTelegramInitData;

@@ -27,6 +27,45 @@ export class UserService {
         firstName: telegramData.first_name,
         lastName: telegramData.last_name,
       });
+    } else {
+      const updates: Partial<UserDocument> = {};
+      if (telegramData.username && telegramData.username !== user.username) {
+        updates.username = telegramData.username;
+      }
+      if (telegramData.first_name && telegramData.first_name !== user.firstName) {
+        updates.firstName = telegramData.first_name;
+      }
+      if (telegramData.last_name && telegramData.last_name !== user.lastName) {
+        updates.lastName = telegramData.last_name;
+      }
+      if (Object.keys(updates).length > 0) {
+        Object.assign(user, updates);
+        user = await this.userRepository.save(user);
+      }
+    }
+
+    return user;
+  }
+
+  async getOrCreateDevUser(data: {
+    telegramId: number;
+    username?: string;
+    firstName?: string;
+    lastName?: string;
+  }): Promise<UserDocument> {
+    let user = await this.userRepository.findByTelegramId(data.telegramId);
+
+    if (!user) {
+      user = await this.userRepository.create({
+        telegramId: data.telegramId,
+        username: data.username,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        isDev: true,
+      });
+    } else if (!user.isDev) {
+      user.isDev = true;
+      user = await this.userRepository.save(user);
     }
 
     return user;

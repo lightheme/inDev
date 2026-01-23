@@ -1,7 +1,8 @@
 import { Response, Request, NextFunction } from 'express';
-import { validataTelegramInitData } from '../../utils/telegram.util';
+import { validateTelegramInitData } from '../../utils/telegram.util';
 import { UserService } from '../../services/UserService';
-import { AppError } from '../../utils/errors';
+import { UnauthorizedError } from '../../utils/errors';
+import { verifyDevToken } from '../../utils/dev-auth.util';
 
 declare global {
   namespace Express {
@@ -10,6 +11,8 @@ declare global {
         id: string;
         telegramId: string;
         username?: string;
+        login?: string;
+        role?: string;
       };
     }
   }
@@ -19,16 +22,42 @@ const userService = new UserService();
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const authorization = req.headers.authorization;
+
+    if (authorization && authorization.startsWith('Bearer ')) {
+      const token = authorization.replace('Bearer ', '').trim();
+      const payload = verifyDevToken(token);
+
+      if (!payload) {
+        throw new UnauthorizedError('Invalid bearer token');
+      }
+
+      const user = await userService.getUserById(payload.sub);
+      if (!user) {
+        throw new UnauthorizedError('Invalid bearer token');
+      }
+
+      req.user = {
+        id: user._id.toString(),
+        telegramId: user.telegramId.toString(),
+        username: user.username,
+        login: payload.login,
+        role: payload.role,
+      };
+
+      return next();
+    }
+
     const initData = req.headers['x-telegram-init-data'] as string;
 
     if (!initData) {
-      throw new AppError('Telegram init data is required', 401);
+      throw new UnauthorizedError('Unauthorized');
     }
 
-    const telegramUser = validataTelegramInitData(initData);
+    const telegramUser = validateTelegramInitData(initData);
 
     if (!telegramUser) {
-      throw new AppError('Invalid Telegram init data', 401);
+      throw new UnauthorizedError('Invalid Telegram init data');
     }
 
     const user = await userService.getOrCreateUser(telegramUser);
