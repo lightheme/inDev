@@ -32,7 +32,7 @@ describe('Auth flows', () => {
     expect(next).not.toHaveBeenCalled();
     expect(res.json).toHaveBeenCalled();
     const payload = (res.json as jest.Mock).mock.calls[0][0];
-    const tokenPayload = verifyAuthToken(payload.token);
+    const tokenPayload = verifyAuthToken(payload.data.token);
     expect(tokenPayload?.login).toBe('dev');
   });
 

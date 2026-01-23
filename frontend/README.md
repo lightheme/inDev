@@ -102,6 +102,7 @@ All API calls are handled through RTK Query with the following features:
 
 ### API Endpoints
 
+- `POST /auth/login` - Login and receive JWT (`{ success: true, data: { token } }`)
 - `GET /api/me` - Get current user
 - `POST /api/balance/topup` - Top up balance
 - `GET /api/auctions` - Get all auctions
@@ -115,6 +116,7 @@ All API calls are handled through RTK Query with the following features:
 ## Authentication
 
 The app uses a simple login screen to fetch a JWT from the backend and stores it in `localStorage`.
+The login endpoint is `POST /auth/login` and returns `{ success: true, data: { token } }`.
 All API calls attach the token via `Authorization: Bearer <token>`.
 
 ## Contributing
