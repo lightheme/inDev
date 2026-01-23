@@ -112,16 +112,16 @@ describe('Auth flows', () => {
       .mockResolvedValue({} as any);
 
     const token = issueDevToken({ sub: 'user-id', login: 'dev', role: 'admin' });
-    const req = {
+    const req: Partial<Request> = {
       headers: {
         authorization: `Bearer ${token}`,
         'x-telegram-init-data': 'invalid',
       },
-    } as Request;
+    };
     const res = {} as Response;
     const next = jest.fn() as NextFunction;
 
-    await authMiddleware(req, res, next);
+    await authMiddleware(req as Request, res, next);
 
     expect(next).toHaveBeenCalledWith();
     expect(getOrCreateSpy).not.toHaveBeenCalled();
