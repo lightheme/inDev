@@ -1,43 +1,25 @@
-import { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Layout } from './components/Layout/Layout'
 import { ToastContainer } from './components/Toast/Toast'
 import { DevLogin } from './components/DevLogin/DevLogin'
-import { Dashboard } from './pages/Dashboard/Dashboard'
-import { Auctions } from './pages/Auctions/Auctions'
-import { CreateAuction } from './pages/CreateAuction/CreateAuction'
-import { AuctionDetail } from './pages/AuctionDetail/AuctionDetail'
-import { Transactions } from './pages/Transactions/Transactions'
 import { useAppSelector } from './store/hooks'
 
 function App() {
   const { devToken } = useAppSelector((state) => state.auth)
-  const [showDevLogin, setShowDevLogin] = useState(false)
-
-  useEffect(() => {
-    setShowDevLogin(!devToken)
-  }, [devToken])
+  const isLoggedIn = Boolean(devToken)
 
   return (
-    <BrowserRouter
-        future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true,
-        }}
-    >
-      {showDevLogin && <DevLogin onLogin={() => setShowDevLogin(false)} />}
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/auctions" element={<Auctions />} />
-          <Route path="/auctions/new" element={<CreateAuction />} />
-          <Route path="/auctions/:id" element={<AuctionDetail />} />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Layout>
+    <>
+      {!isLoggedIn ? (
+        <DevLogin />
+      ) : (
+        <main className="container">
+          <div className="card">
+            <h2>Logged in</h2>
+            <p className="text-hint">JWT сохранен. Минимальный режим без Telegram-зависимостей.</p>
+          </div>
+        </main>
+      )}
       <ToastContainer />
-    </BrowserRouter>
+    </>
   )
 }
 
