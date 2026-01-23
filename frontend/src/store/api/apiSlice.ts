@@ -21,8 +21,11 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState, endpoint }) => {
     const state = getState() as RootState
     const initData = state.telegram.initData
+    const devToken = state.telegram.devToken
 
-    if (initData) {
+    if (devToken) {
+      headers.set('Authorization', `Bearer ${devToken}`)
+    } else if (initData) {
       headers.set('x-telegram-init-data', initData)
     }
 
