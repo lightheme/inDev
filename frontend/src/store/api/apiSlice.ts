@@ -21,8 +21,11 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState, endpoint }) => {
     const state = getState() as RootState
     const initData = state.telegram.initData
+    const devToken = state.telegram.devToken
 
-    if (initData) {
+    if (devToken) {
+      headers.set('Authorization', `Bearer ${devToken}`)
+    } else if (initData) {
       headers.set('x-telegram-init-data', initData)
     }
 
@@ -55,11 +58,13 @@ const baseQueryWithErrorHandling: BaseQueryFn<
   const result = await baseQuery(args, api, extraOptions)
 
   if (result.error) {
+    const errorData = result.error.data as any
     const errorMessage =
-      (result.error.data as any)?.message ||
-      result.error.status === 'FETCH_ERROR'
+      errorData?.error ||
+      errorData?.message ||
+      (result.error.status === 'FETCH_ERROR'
         ? 'Network error. Please check your connection.'
-        : 'An error occurred. Please try again.'
+        : 'An error occurred. Please try again.')
 
     api.dispatch(addToast({
       message: errorMessage,

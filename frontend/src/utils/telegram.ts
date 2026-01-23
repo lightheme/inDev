@@ -60,20 +60,14 @@ export const getTelegramInitData = (): string => {
   if (isTelegramWebApp()) {
     return window.Telegram!.WebApp.initData
   }
-  return localStorage.getItem('dev_telegram_init_data') || ''
+  return ''
 }
 
 export const getTelegramUser = () => {
   if (isTelegramWebApp()) {
     return window.Telegram!.WebApp.initDataUnsafe.user
   }
-  const devUser = localStorage.getItem('dev_telegram_user')
-  return devUser ? JSON.parse(devUser) : null
-}
-
-export const setDevTelegramData = (initData: string, user: any) => {
-  localStorage.setItem('dev_telegram_init_data', initData)
-  localStorage.setItem('dev_telegram_user', JSON.stringify(user))
+  return null
 }
 
 export const getTelegramTheme = () => {

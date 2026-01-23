@@ -9,11 +9,12 @@ import { CreateAuction } from './pages/CreateAuction/CreateAuction'
 import { AuctionDetail } from './pages/AuctionDetail/AuctionDetail'
 import { Transactions } from './pages/Transactions/Transactions'
 import { initTelegramWebApp, getTelegramTheme, getTelegramInitData } from './utils/telegram'
-import { useAppDispatch } from './store/hooks'
+import { useAppDispatch, useAppSelector } from './store/hooks'
 import { updateThemeParams } from './store/slices/telegramSlice'
 
 function App() {
   const dispatch = useAppDispatch()
+  const { isInTelegram, devToken } = useAppSelector((state) => state.telegram)
   const [showDevLogin, setShowDevLogin] = useState(false)
 
   useEffect(() => {
@@ -21,7 +22,7 @@ function App() {
 
     // Check if we need to show dev login
     const initData = getTelegramInitData()
-    if (!initData) {
+    if (!isInTelegram && !devToken && !initData) {
       setShowDevLogin(true)
     }
 
@@ -39,7 +40,7 @@ function App() {
       if (themeParams.button_text_color) root.style.setProperty('--tg-button-text-color', themeParams.button_text_color)
       if (themeParams.secondary_bg_color) root.style.setProperty('--tg-secondary-bg-color', themeParams.secondary_bg_color)
     }
-  }, [dispatch])
+  }, [dispatch, devToken, isInTelegram])
 
   return (
     <BrowserRouter

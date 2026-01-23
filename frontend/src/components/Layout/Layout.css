@@ -23,6 +23,18 @@
   align-items: center;
 }
 
+.dev-mode-banner {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md) var(--spacing-md);
+  font-size: 0.85rem;
+  color: #ffca28;
+}
+
+.dev-mode-banner::before {
+  content: '⚠️ ';
+}
+
 .header-title {
   font-size: 20px;
   font-weight: 600;

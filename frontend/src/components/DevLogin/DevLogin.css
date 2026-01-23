@@ -30,3 +30,7 @@
   flex-direction: column;
   gap: var(--spacing-xs);
 }
+
+.dev-login-modal .error {
+  color: #ff6b6b;
+}
