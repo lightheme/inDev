@@ -1,23 +1,26 @@
-import { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import { ToastContainer } from './components/Toast/Toast'
-import { DevLogin } from './components/DevLogin/DevLogin'
 import { Dashboard } from './pages/Dashboard/Dashboard'
 import { Auctions } from './pages/Auctions/Auctions'
 import { CreateAuction } from './pages/CreateAuction/CreateAuction'
 import { AuctionDetail } from './pages/AuctionDetail/AuctionDetail'
 import { Transactions } from './pages/Transactions/Transactions'
+import { Login } from './pages/Login/Login'
 import { useAppSelector } from './store/hooks'
 
-function App() {
+const RequireAuth = () => {
   const authToken = useAppSelector((state) => state.auth.token)
-  const [showDevLogin, setShowDevLogin] = useState(false)
+  const location = useLocation()
 
-  useEffect(() => {
-    setShowDevLogin(!authToken)
-  }, [authToken])
+  if (!authToken) {
+    return <Navigate to="/login" state={{ from: location }} replace />
+  }
 
+  return <Outlet />
+}
+
+function App() {
   return (
     <BrowserRouter
         future={{
@@ -25,17 +28,52 @@ function App() {
             v7_relativeSplatPath: true,
         }}
     >
-      {showDevLogin && <DevLogin onLogin={() => setShowDevLogin(false)} />}
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/auctions" element={<Auctions />} />
-          <Route path="/auctions/new" element={<CreateAuction />} />
-          <Route path="/auctions/:id" element={<AuctionDetail />} />
-          <Route path="/transactions" element={<Transactions />} />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route element={<RequireAuth />}>
+          <Route
+            path="/"
+            element={(
+              <Layout>
+                <Dashboard />
+              </Layout>
+            )}
+          />
+          <Route
+            path="/auctions"
+            element={(
+              <Layout>
+                <Auctions />
+              </Layout>
+            )}
+          />
+          <Route
+            path="/auctions/new"
+            element={(
+              <Layout>
+                <CreateAuction />
+              </Layout>
+            )}
+          />
+          <Route
+            path="/auctions/:id"
+            element={(
+              <Layout>
+                <AuctionDetail />
+              </Layout>
+            )}
+          />
+          <Route
+            path="/transactions"
+            element={(
+              <Layout>
+                <Transactions />
+              </Layout>
+            )}
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
       <ToastContainer />
     </BrowserRouter>
   )
