@@ -55,7 +55,7 @@ export const Login = () => {
         <p className="text-hint">Use your login and password to get a JWT.</p>
 
         <div className="form-group">
-          <label className="label">Login or Email</label>
+          <label className="label">Login</label>
           <input
             type="text"
             className="input"

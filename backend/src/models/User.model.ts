@@ -5,6 +5,7 @@ export interface UserDocument extends Document {
   login?: string;
   email?: string;
   passwordHash?: string;
+  role?: string;
   username?: string;
   firstName?: string;
   lastName?: string;
@@ -20,6 +21,7 @@ const UserSchema = new Schema<UserDocument>({
   login: { type: String, unique: true, sparse: true, index: true },
   email: { type: String, unique: true, sparse: true, index: true },
   passwordHash: { type: String },
+  role: { type: String, default: 'user' },
   username: { type: String },
   firstName: { type: String },
   lastName: { type: String },

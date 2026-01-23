@@ -1,65 +1,33 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserService } from '../../services/UserService';
-import { AppError, UnauthorizedError } from '../../utils/errors';
-import { config } from '../../config/environment';
+import { UnauthorizedError } from '../../utils/errors';
 import { issueAuthToken } from '../../utils/auth.util';
 import { hashPassword, verifyPassword } from '../../utils/password.util';
 import { UserRepository } from '../../repositories/UserRepository';
 
-const buildSafeUser = (user: {
-  _id: string;
-  telegramId?: number;
-  login?: string;
-  email?: string;
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  balance: number;
-  reservedBalance: number;
-}) => ({
-  id: user._id,
-  telegramId: user.telegramId ?? null,
-  login: user.login,
-  email: user.email,
-  username: user.username,
-  firstName: user.firstName,
-  lastName: user.lastName,
-  balance: user.balance,
-  reservedBalance: user.reservedBalance,
-  availableBalance: user.balance - user.reservedBalance,
-});
-
 export class AuthController {
-  private userService: UserService;
   private userRepository: UserRepository;
 
   constructor() {
-    this.userService = new UserService();
     this.userRepository = new UserRepository();
   }
 
   login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { login, email, password } = req.body as {
-        login?: string;
-        email?: string;
+      const { login, password } = req.body as {
+        login: string;
         password: string;
       };
 
-      const normalizedLogin = login?.trim().toLowerCase();
-      const normalizedEmail = email?.trim().toLowerCase();
+      const normalizedLogin = login.trim().toLowerCase();
 
-      let user = await this.userRepository.findByLoginOrEmail(
-        normalizedLogin,
-        normalizedEmail,
-      );
+      let user = await this.userRepository.findByLogin(normalizedLogin);
 
       if (!user) {
         const passwordHash = await hashPassword(password);
         user = await this.userRepository.create({
           login: normalizedLogin,
-          email: normalizedEmail,
           passwordHash,
+          role: 'user',
         });
       } else {
         if (!user.passwordHash) {
@@ -75,23 +43,9 @@ export class AuthController {
       const token = issueAuthToken({
         sub: user._id.toString(),
         login: user.login,
-        email: user.email,
       });
 
-      res.json({
-        token,
-        user: buildSafeUser({
-          _id: user._id.toString(),
-          telegramId: user.telegramId,
-          login: user.login,
-          email: user.email,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          balance: user.balance,
-          reservedBalance: user.reservedBalance,
-        }),
-      });
+      res.json({ token });
     } catch (error) {
       next(error);
     }

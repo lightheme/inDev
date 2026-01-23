@@ -18,12 +18,21 @@ export class UserRepository {
     return session ? query.session(session) : query;
   }
 
+  async findByLogin(
+    login: string,
+    session?: mongoose.ClientSession,
+  ): Promise<UserDocument | null> {
+    const query = UserModel.findOne({ login });
+    return session ? query.session(session) : query;
+  }
+
   async create(
     data: {
       telegramId?: number;
       login?: string;
       email?: string;
       passwordHash?: string;
+      role?: string;
       username?: string;
       firstName?: string;
       lastName?: string;
@@ -38,6 +47,7 @@ export class UserRepository {
       login: data.login,
       email: data.email,
       passwordHash: data.passwordHash,
+      role: data.role,
       username: data.username,
       firstName: data.firstName,
       lastName: data.lastName,

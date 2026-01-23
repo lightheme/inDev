@@ -5,7 +5,6 @@
 ЦЕЛЬ ПРОЕКТА
 Сделать минимальный, но удобный UI (telegram-like стилистика), который:
 - работает как обычный сайт (для судей),
-- при желании поддерживает открытие внутри Telegram Web App (Mini App) через window.Telegram.WebApp (но глубина интеграции — на твоё инженерное усмотрение; главное — чтобы сайт работал и без Telegram),
 - позволяет симулировать живой аукцион: на экране постоянно видны обновления (polling), чтобы было ощущение “аукцион живёт”.
 
 
@@ -15,14 +14,11 @@ UI-библиотеки использовать можно, но аккурат
 - предпочтение лёгким решениям (Radix + свои стили / shadcn/ui / небольшие готовые компоненты), но без MUI/Ant корпоративного вида.
 - все цвета должны уважать тему (CSS vars), и иметь fallback тему если параметров темы нет.
 
-АВТОРИЗАЦИЯ / DEV LOGIN (обязательно)
+АВТОРИЗАЦИЯ (обязательно)
 Так как судьи будут открывать сайт в браузере:
-- сделай Dev Login режим:
-  - экран/виджет с textarea для initData (Telegram initData)
-  - сохранить initData в localStorage
-  - использовать его для всех запросов как auth (заголовок `x-telegram-init-data`)
-- если приложение открыто внутри Telegram и доступен window.Telegram.WebApp.initData — использовать его автоматически.
-- но приложение обязано полностью работать и без Telegram (через Dev Login).
+- сделай экран логина с `login` и `password`
+- сохраняй JWT в localStorage
+- используй его для всех запросов как auth (заголовок `Authorization: Bearer <token>`)
 
 IDEMPOTENCY (обязательно)
 Для всех POST запросов добавляй заголовок:
@@ -34,7 +30,7 @@ API
 
 Реализуй API слой через RTK Query (createApi + fetchBaseQuery).
 baseQuery должен:
-- добавлять `x-telegram-init-data` (из Telegram WebApp initData или из localStorage dev login)
+- добавлять `Authorization: Bearer <token>` (если JWT есть)
 - добавлять `Idempotency-Key` на POST
 - унифицировать ошибки (показывать toast/snackbar)
 
@@ -56,8 +52,7 @@ baseQuery должен:
 ОБЯЗАТЕЛЬНЫЙ СЦЕНАРИЙ СУДЬИ (UX флоу)
 1) Открыть сайт
 2) Авторизоваться:
-   - если Telegram WebApp — авто
-   - иначе Dev Login (вставить initData)
+   - логин/пароль
 3) Dashboard:
    - карточка “Профиль”: username + balance (+ reserved/available если приходит)
    - быстрые кнопки пополнения: +10, +100, +1000 (POST /balance/topup)
@@ -91,7 +86,7 @@ baseQuery должен:
 Redux Toolkit (обязательно)
 - store.ts configureStore
 - apiSlice (RTK Query)
-- auth/telegramSlice: initData, isInTelegram, devMode, theme params (по желанию)
+- authSlice: JWT токен
 - uiSlice: toast/snackbar очередь
 
 THEME / TELEGRAM-LIKE СТИЛЬ
@@ -100,7 +95,7 @@ THEME / TELEGRAM-LIKE СТИЛЬ
 - CSS variables:
   --tg-bg-color, --tg-text-color, --tg-hint-color, --tg-link-color,
   --tg-button-color, --tg-button-text-color, --tg-secondary-bg-color
-- Если доступен Telegram WebApp themeParams — примени их, иначе fallback palette.
+- Используй fallback palette для темы.
 - Любая UI библиотека должна быть приведена к этому стилю.
 
 ЧТО ВЕРНУТЬ (обязательно)
@@ -117,11 +112,10 @@ THEME / TELEGRAM-LIKE СТИЛЬ
 2) README (frontend):
    - как запустить: npm i, npm run dev
    - VITE_API_BASE_URL
-   - как тестить в Telegram (если используется) и как тестить в браузере через Dev Login initData
+   - как тестить в браузере через логин/пароль
    - краткая инструкция для судьи (bullet list)
 
 ОГРАНИЧЕНИЯ / ПРИОРИТЕТЫ
 - Не усложняй. Главное — рабочий, приятный, быстрый демо-дашборд.
-- Вся логика должна быть устойчивой к отсутствию Telegram API (optional chaining).
+- Вся логика должна быть устойчивой к отсутствию внешних SDK (optional chaining).
 - Код должен быть аккуратным, без лишних абстракций, но с хорошей структурой.
-
