@@ -1,15 +1,12 @@
-# Auth (JWT) & Dev Flow
+# Auth (JWT)
 
 ## Overview
-The backend supports **two** authentication paths:
+The backend supports a single authentication path:
 
-1. **JWT login (production)** — `/auth/login` accepts `login`/`password` (or `email`/`password`),
-   auto-creates the user on first login, and returns a JWT.
-2. **Dev Login (non-production only)** — `/auth/dev/login` issues a short-lived JWT for local
-   browser use.
+1. **JWT login** — `/auth/login` accepts `login`/`password`, auto-creates the user on first
+   login, and returns a JWT.
 
-The middleware expects `Authorization: Bearer <token>` in production. In development, dev tokens
-are still accepted.
+All protected endpoints require `Authorization: Bearer <token>` in every environment.
 
 ## Environment variables
 
@@ -18,16 +15,6 @@ are still accepted.
 NODE_ENV=development
 PORT=3000
 FRONTEND_URL=http://localhost:5173
-
-BOT_TOKEN=your-telegram-bot-token
-# or TELEGRAM_BOT_TOKEN=your-telegram-bot-token
-TELEGRAM_AUTH_MAX_AGE_SECONDS=86400
-
-DEV_AUTH_JWT_SECRET=dev-secret
-DEV_AUTH_TTL_SECONDS=604800
-DEV_AUTH_USERS=[{"login":"admin","password":"admin123","userId":123,"role":"admin"}]
-# DEV_AUTH_LOGIN=admin
-# DEV_AUTH_PASSWORD=admin123
 
 AUTH_JWT_SECRET=prod-secret
 AUTH_JWT_TTL_SECONDS=604800
@@ -55,16 +42,4 @@ Then:
 ```
 curl http://localhost:3000/api/me \
   -H "Authorization: Bearer <token>"
-```
-
-## Local dev flow (browser / localhost)
-1. Start backend and frontend.
-2. Open the frontend in a browser (not inside Telegram).
-3. Use `/auth/dev/login` with credentials from `DEV_AUTH_USERS`.
-
-### curl example
-```
-curl -X POST http://localhost:3000/api/auth/dev/login \
-  -H "Content-Type: application/json" \
-  -d '{"login":"admin","password":"admin123"}'
 ```

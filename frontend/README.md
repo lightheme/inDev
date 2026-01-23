@@ -1,10 +1,10 @@
 # Auction System Frontend
 
-Telegram WebApp frontend for the Auction System built with React, TypeScript, Redux Toolkit, and RTK Query.
+Web frontend for the Auction System built with React, TypeScript, Redux Toolkit, and RTK Query.
 
 ## Features
 
-- **Telegram WebApp Integration**: Native Telegram theme support with automatic color scheme adaptation
+- **JWT Login**: Built-in login form that stores a JWT for API calls
 - **Redux Toolkit & RTK Query**: State management with automatic caching and refetching
 - **Idempotent API Calls**: All POST requests include unique `Idempotency-Key` headers
 - **Mobile-First Design**: Optimized for mobile devices with responsive layout
@@ -37,12 +37,11 @@ src/
 │   └── Transactions/   # Transaction history
 ├── store/              # Redux store
 │   ├── api/           # RTK Query API slice
-│   ├── slices/        # Redux slices (telegram, ui)
+│   ├── slices/        # Redux slices (auth, ui)
 │   ├── store.ts       # Store configuration
 │   └── hooks.ts       # Typed hooks
 ├── types/             # TypeScript type definitions
 ├── utils/             # Utility functions
-│   ├── telegram.ts    # Telegram WebApp helpers
 │   └── uuid.ts        # UUID generation
 └── styles/            # Global styles
 
@@ -95,7 +94,7 @@ npm run preview
 
 All API calls are handled through RTK Query with the following features:
 
-- **Automatic Authentication**: `x-telegram-init-data` header added to all requests
+- **Automatic Authentication**: `Authorization: Bearer <jwt>` header added to all requests
 - **Idempotency**: `Idempotency-Key` (UUID v4) added to all POST requests
 - **Error Handling**: Unified error handling with toast notifications
 - **Caching**: Automatic caching and cache invalidation
@@ -112,28 +111,6 @@ All API calls are handled through RTK Query with the following features:
 - `POST /api/auctions/:id/increase-bid` - Increase existing bid
 - `GET /api/auctions/:id/leaderboard` - Get leaderboard
 - `GET /api/transactions` - Get transaction history
-
-## Telegram WebApp
-
-The app is designed to run as a Telegram WebApp with:
-
-- Automatic theme detection and application
-- Telegram user authentication
-- Native button integration
-- Mobile-optimized UX
-
-### Development Mode
-
-For local development without Telegram, you can set mock data:
-
-```javascript
-localStorage.setItem('dev_telegram_init_data', 'mock_init_data')
-localStorage.setItem('dev_telegram_user', JSON.stringify({
-  id: 123,
-  first_name: 'Dev',
-  username: 'dev_user'
-}))
-```
 
 ## Contributing
 
