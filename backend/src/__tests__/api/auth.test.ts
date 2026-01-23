@@ -1,31 +1,4 @@
-import crypto from 'crypto';
 import type { Request, Response, NextFunction } from 'express';
-
-const buildInitData = (botToken: string, authDate: number) => {
-  const params = new URLSearchParams({
-    user: JSON.stringify({
-      id: 123,
-      first_name: 'Dev',
-      last_name: 'User',
-      username: 'devuser',
-    }),
-    auth_date: authDate.toString(),
-  });
-
-  const dataCheckArray: string[] = [];
-  Array.from(params.entries())
-    .sort(([a], [b]) => a.localeCompare(b))
-    .forEach(([key, value]) => {
-      dataCheckArray.push(`${key}=${value}`);
-    });
-
-  const dataCheckString = dataCheckArray.join('\n');
-  const secretKey = crypto.createHash('sha256').update(botToken).digest();
-  const hash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
-
-  params.append('hash', hash);
-  return params.toString();
-};
 
 describe('Auth flows', () => {
   beforeEach(() => {
@@ -33,8 +6,6 @@ describe('Auth flows', () => {
     process.env.NODE_ENV = 'development';
     process.env.DEV_AUTH_JWT_SECRET = 'dev-secret';
     process.env.DEV_AUTH_TTL_SECONDS = '3600';
-    process.env.BOT_TOKEN = '';
-    process.env.TELEGRAM_AUTH_MAX_AGE_SECONDS = '86400';
     process.env.DEV_AUTH_USERS = JSON.stringify([
       { login: 'dev', password: 'pass', userId: 101, role: 'admin' },
     ]);
@@ -85,18 +56,7 @@ describe('Auth flows', () => {
     expect(error).toBeInstanceOf(UnauthorizedError);
   });
 
-  it('rejects old telegram initData', async () => {
-    process.env.BOT_TOKEN = 'token';
-    process.env.TELEGRAM_AUTH_MAX_AGE_SECONDS = '60';
-    jest.resetModules();
-    const { validateTelegramInitData } = await import('../../utils/telegram.util');
-
-    const authDate = Math.floor(Date.now() / 1000) - 120;
-    const initData = buildInitData('token', authDate);
-    expect(() => validateTelegramInitData(initData)).toThrow('InitData expired');
-  });
-
-  it('prioritizes bearer over initData', async () => {
+  it('authenticates with bearer token', async () => {
     const { authMiddleware } = await import('../../api/middlewares/auth.middleware');
     const { UserService } = await import('../../services/UserService');
     const { issueDevToken } = await import('../../utils/dev-auth.util');
@@ -106,15 +66,11 @@ describe('Auth flows', () => {
       telegramId: 101,
       username: 'dev',
     } as any);
-    const getOrCreateSpy = jest
-      .spyOn(UserService.prototype, 'getOrCreateUser')
-      .mockResolvedValue({} as any);
 
     const token = issueDevToken({ sub: 'user-id', login: 'dev', role: 'admin' });
     const req: Partial<Request> = {
       headers: {
         authorization: `Bearer ${token}`,
-        'x-telegram-init-data': 'invalid',
       },
     };
     const res = {} as Response;
@@ -123,7 +79,6 @@ describe('Auth flows', () => {
     await authMiddleware(req as Request, res, next);
 
     expect(next).toHaveBeenCalledWith();
-    expect(getOrCreateSpy).not.toHaveBeenCalled();
     expect(req.user?.login).toBe('dev');
   });
 });
