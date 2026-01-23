@@ -7,3 +7,4 @@ export interface BalanceOperationDTO {
   refId: string;
   commandId: string;
 }
+
