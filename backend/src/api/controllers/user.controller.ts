@@ -23,7 +23,6 @@ export class UserController {
         success: true,
         data: {
           id: user._id,
-          telegramId: user.telegramId,
           username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,

@@ -14,16 +14,24 @@ export class TestHelpers {
   private static bidRepository = new BidRepository();
 
   static async createUser(data: {
-    telegramId: number;
     balance?: number;
     reservedBalance?: number;
     username?: string;
+    login?: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    isDev?: boolean;
   }): Promise<UserDocument> {
     return await this.userRepository.create({
-      telegramId: data.telegramId,
+      login: data.login,
+      email: data.email,
       balance: data.balance ?? 1000,
       reservedBalance: data.reservedBalance ?? 0,
       username: data.username,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      isDev: data.isDev ?? false,
     });
   }
 

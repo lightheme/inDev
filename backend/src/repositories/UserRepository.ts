@@ -10,14 +10,6 @@ export class UserRepository {
     return session ? query.session(session) : query;
   }
 
-  async findByTelegramId(
-    telegramId: number,
-    session?: mongoose.ClientSession,
-  ): Promise<UserDocument | null> {
-    const query = UserModel.findOne({ telegramId });
-    return session ? query.session(session) : query;
-  }
-
   async findByLogin(
     login: string,
     session?: mongoose.ClientSession,
@@ -28,7 +20,6 @@ export class UserRepository {
 
   async create(
     data: {
-      telegramId?: number;
       login?: string;
       email?: string;
       passwordHash?: string;
@@ -43,7 +34,6 @@ export class UserRepository {
     session?: mongoose.ClientSession,
   ): Promise<UserDocument> {
     const user = new UserModel({
-      telegramId: data.telegramId,
       login: data.login,
       email: data.email,
       passwordHash: data.passwordHash,

@@ -17,10 +17,10 @@ describe('WinnerCalculator', () => {
 
     // Create test users
     users = [
-      await TestHelpers.createUser({ telegramId: 1, balance: 1000 }),
-      await TestHelpers.createUser({ telegramId: 2, balance: 1000 }),
-      await TestHelpers.createUser({ telegramId: 3, balance: 1000 }),
-      await TestHelpers.createUser({ telegramId: 4, balance: 1000 }),
+      await TestHelpers.createUser({ balance: 1000 }),
+      await TestHelpers.createUser({ balance: 1000 }),
+      await TestHelpers.createUser({ balance: 1000 }),
+      await TestHelpers.createUser({ balance: 1000 }),
     ];
   });
 

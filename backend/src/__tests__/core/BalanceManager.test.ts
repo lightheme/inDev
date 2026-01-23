@@ -20,7 +20,6 @@ describe('BalanceManager', () => {
   describe('reserve', () => {
     it('should reserve balance correctly', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 12,
         balance: 1000,
         reservedBalance: 0,
       });
@@ -48,7 +47,6 @@ describe('BalanceManager', () => {
 
     it('should throw error if insufficient balance', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 100,
         reservedBalance: 0,
       });
@@ -68,7 +66,6 @@ describe('BalanceManager', () => {
 
     it('should be idempotent - same commandId should not reserve twice', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 0,
       });
@@ -103,7 +100,6 @@ describe('BalanceManager', () => {
 
     it('should throw error if amount is zero or negative', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
       });
 
@@ -124,7 +120,6 @@ describe('BalanceManager', () => {
   describe('charge', () => {
     it('should charge reserved balance correctly', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 200,
       });
@@ -153,7 +148,6 @@ describe('BalanceManager', () => {
 
     it('should throw error if insufficient reserved balance', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 100,
       });
@@ -173,7 +167,6 @@ describe('BalanceManager', () => {
 
     it('should throw error if insufficient total balance', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 50,
         reservedBalance: 100,
       });
@@ -195,7 +188,6 @@ describe('BalanceManager', () => {
   describe('release', () => {
     it('should release reserved balance correctly', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 200,
       });
@@ -224,7 +216,6 @@ describe('BalanceManager', () => {
 
     it('should throw error if insufficient reserved balance to release', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 100,
       });
@@ -246,7 +237,6 @@ describe('BalanceManager', () => {
   describe('topup', () => {
     it('should topup balance correctly', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 200,
       });
@@ -276,7 +266,6 @@ describe('BalanceManager', () => {
   describe('hasAvailableBalance', () => {
     it('should return true if user has sufficient available balance', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 200,
       });
@@ -287,7 +276,6 @@ describe('BalanceManager', () => {
 
     it('should return false if user has insufficient available balance', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 800,
       });
@@ -305,7 +293,6 @@ describe('BalanceManager', () => {
   describe('Financial correctness - complex scenarios', () => {
     it('should maintain balance integrity through reserve -> charge flow', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 0,
       });
@@ -347,7 +334,6 @@ describe('BalanceManager', () => {
 
     it('should maintain balance integrity through reserve -> release flow', async () => {
       const user = await TestHelpers.createUser({
-        telegramId: 123,
         balance: 1000,
         reservedBalance: 0,
       });

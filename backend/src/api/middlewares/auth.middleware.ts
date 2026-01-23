@@ -9,7 +9,6 @@ declare global {
     interface Request {
       user?: {
         id: string;
-        telegramId: string;
         username?: string;
         login?: string;
         email?: string;
@@ -40,7 +39,6 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
       req.user = {
         id: user._id.toString(),
-        telegramId: user.telegramId?.toString() ?? '',
         username: user.username,
         login: authPayload.login,
         email: authPayload.email,

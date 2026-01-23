@@ -70,7 +70,6 @@ describe('Auth flows', () => {
 
     jest.spyOn(UserService.prototype, 'getUserById').mockResolvedValue({
       _id: 'user-id',
-      telegramId: 101,
       username: 'dev',
     } as any);
 

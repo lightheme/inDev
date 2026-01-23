@@ -16,11 +16,11 @@ describe('AuctionEngine', () => {
 
   beforeEach(async () => {
     auctionEngine = new AuctionEngine();
-    creator = await TestHelpers.createUser({ telegramId: 999, balance: 1000 });
+    creator = await TestHelpers.createUser({ balance: 1000 });
     users = [
-      await TestHelpers.createUser({ telegramId: 1, balance: 1000 }),
-      await TestHelpers.createUser({ telegramId: 2, balance: 1000 }),
-      await TestHelpers.createUser({ telegramId: 3, balance: 1000 }),
+      await TestHelpers.createUser({ balance: 1000 }),
+      await TestHelpers.createUser({ balance: 1000 }),
+      await TestHelpers.createUser({ balance: 1000 }),
     ];
     auctionRepository = new AuctionRepository();
     bidRepository = new BidRepository();
