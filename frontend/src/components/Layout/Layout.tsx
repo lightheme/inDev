@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useGetMeQuery } from '../../store/api/apiSlice'
-import { useAppSelector } from '../../store/hooks'
 import './Layout.css'
 
 interface LayoutProps {
@@ -11,7 +10,6 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation()
   const { data: user } = useGetMeQuery()
-  const { devMode, isInTelegram } = useAppSelector((state) => state.telegram)
 
   return (
     <div className="layout">
@@ -25,11 +23,6 @@ export const Layout = ({ children }: LayoutProps) => {
             </div>
           )}
         </div>
-        {devMode && !isInTelegram && (
-          <div className="dev-mode-banner">
-            Running outside Telegram — using Dev Login
-          </div>
-        )}
       </header>
 
       <main className="main">

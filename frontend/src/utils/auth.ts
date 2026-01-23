@@ -1,13 +1,13 @@
-const DEV_AUTH_TOKEN_KEY = 'dev_auth_token'
+const AUTH_TOKEN_KEY = 'auth_token'
 
-export const getDevAuthToken = (): string => {
-  return localStorage.getItem(DEV_AUTH_TOKEN_KEY) || ''
+export const getAuthToken = (): string => {
+  return localStorage.getItem(AUTH_TOKEN_KEY) || ''
 }
 
-export const setDevAuthToken = (token: string) => {
-  localStorage.setItem(DEV_AUTH_TOKEN_KEY, token)
+export const setAuthToken = (token: string) => {
+  localStorage.setItem(AUTH_TOKEN_KEY, token)
 }
 
-export const clearDevAuthToken = () => {
-  localStorage.removeItem(DEV_AUTH_TOKEN_KEY)
+export const clearAuthToken = () => {
+  localStorage.removeItem(AUTH_TOKEN_KEY)
 }
