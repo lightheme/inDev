@@ -1,7 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { UserService } from '../../services/UserService';
 import { UnauthorizedError } from '../../utils/errors';
-import { verifyDevToken } from '../../utils/dev-auth.util';
 import { verifyAuthToken } from '../../utils/auth.util';
 import { config } from '../../config/environment';
 
@@ -45,29 +44,6 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
         username: user.username,
         login: authPayload.login,
         email: authPayload.email,
-      };
-
-      return next();
-    }
-
-    if (config.nodeEnv !== 'production') {
-      const payload = verifyDevToken(token);
-
-      if (!payload) {
-        throw new UnauthorizedError('Invalid bearer token');
-      }
-
-      const user = await userService.getUserById(payload.sub);
-      if (!user) {
-        throw new UnauthorizedError('Invalid bearer token');
-      }
-
-      req.user = {
-        id: user._id.toString(),
-        telegramId: user.telegramId?.toString() ?? '',
-        username: user.username,
-        login: payload.login,
-        role: payload.role,
       };
 
       return next();

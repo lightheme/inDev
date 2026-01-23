@@ -18,14 +18,6 @@ export const config = {
     password: process.env.REDIS_PASSWORD || '',
   },
 
-  devAuth: {
-    jwtSecret: process.env.DEV_AUTH_JWT_SECRET || '',
-    ttlSeconds: parseInt(process.env.DEV_AUTH_TTL_SECONDS || '604800'),
-    users: process.env.DEV_AUTH_USERS || '',
-    login: process.env.DEV_AUTH_LOGIN || '',
-    password: process.env.DEV_AUTH_PASSWORD || '',
-  },
-
   auth: {
     jwtSecret: process.env.AUTH_JWT_SECRET || '',
     ttlSeconds: parseInt(process.env.AUTH_JWT_TTL_SECONDS || '604800'),
