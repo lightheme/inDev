@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery, BaseQueryFn, FetchArgs, FetchBaseQueryError 
 import type { RootState } from '../store'
 import { addToast } from '../slices/uiSlice'
 import { generateIdempotencyKey } from '../../utils/uuid'
+import { getApiBaseUrl } from '../../utils/apiBase'
 import type {
   User,
   Auction,
@@ -14,7 +15,7 @@ import type {
   TopUpRequest
 } from '../../types'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
+const API_BASE_URL = getApiBaseUrl()
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
