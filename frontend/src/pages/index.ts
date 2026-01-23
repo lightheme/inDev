@@ -1,4 +1,5 @@
 export { Dashboard } from './Dashboard/Dashboard'
+export { Login } from './Login/Login'
 export { Auctions } from './Auctions/Auctions'
 export { CreateAuction } from './CreateAuction/CreateAuction'
 export { AuctionDetail } from './AuctionDetail/AuctionDetail'
