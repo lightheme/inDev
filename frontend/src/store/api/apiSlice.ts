@@ -58,11 +58,13 @@ const baseQueryWithErrorHandling: BaseQueryFn<
   const result = await baseQuery(args, api, extraOptions)
 
   if (result.error) {
+    const errorData = result.error.data as any
     const errorMessage =
-      (result.error.data as any)?.message ||
-      result.error.status === 'FETCH_ERROR'
+      errorData?.error ||
+      errorData?.message ||
+      (result.error.status === 'FETCH_ERROR'
         ? 'Network error. Please check your connection.'
-        : 'An error occurred. Please try again.'
+        : 'An error occurred. Please try again.')
 
     api.dispatch(addToast({
       message: errorMessage,

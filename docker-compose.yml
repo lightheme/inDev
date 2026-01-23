@@ -28,7 +28,7 @@ services:
     environment:
       NODE_ENV: development
       PORT: 3000
-      FRONTEND_URL: http://localhost:5173
+      FRONTEND_URLS: http://localhost:5173,http://127.0.0.1:5173
       MONGODB_URI: mongodb://admin:password@mongo:27017/auction?authSource=admin
       REDIS_HOST: redis
       REDIS_PORT: 6379
