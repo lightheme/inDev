@@ -35,10 +35,10 @@ const ensureBotUsers = async (): Promise<string[]> => {
   const botIds: string[] = existingBots.map((bot) => bot._id.toString());
 
   for (let i = existingBots.length; i < BOT_COUNT; i += 1) {
-    const telegramId = 9_000_000_000 + i;
     const username = `${BOT_PREFIX}${i + 1}`;
+    const login = username;
     const bot = await userRepository.create({
-      telegramId,
+      login,
       username,
       firstName: 'Auto',
       lastName: 'Bid',

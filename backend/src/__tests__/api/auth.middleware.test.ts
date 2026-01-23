@@ -2,7 +2,6 @@ import request from 'supertest';
 
 const buildUser = () => ({
   _id: 'user-id',
-  telegramId: 123,
   username: 'devuser',
   firstName: 'Dev',
   lastName: 'User',

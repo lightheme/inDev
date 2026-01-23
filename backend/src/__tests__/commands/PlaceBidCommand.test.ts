@@ -14,7 +14,7 @@ describe('PlaceBidCommand', () => {
   let userRepository: UserRepository;
 
   beforeEach(async () => {
-    user = await TestHelpers.createUser({ telegramId: 123456 });
+    user = await TestHelpers.createUser({ username: 'user-123456' });
     auction = await TestHelpers.createAuction({ creatorId: user._id });
     bidRepository = new BidRepository();
     userRepository = new UserRepository();
@@ -94,7 +94,7 @@ describe('PlaceBidCommand', () => {
 
     it('should throw error if insufficient balance', async () => {
       const poorUser = await TestHelpers.createUser({
-        telegramId: 456,
+        username: 'user-456',
         balance: 50,
         reservedBalance: 0,
       });

@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface UserDocument extends Document {
-  telegramId?: number;
   login?: string;
   email?: string;
   passwordHash?: string;
@@ -17,7 +16,6 @@ export interface UserDocument extends Document {
 }
 
 const UserSchema = new Schema<UserDocument>({
-  telegramId: { type: Number, unique: true, index: true, sparse: true },
   login: { type: String, unique: true, sparse: true, index: true },
   email: { type: String, unique: true, sparse: true, index: true },
   passwordHash: { type: String },
@@ -38,7 +36,6 @@ UserSchema.virtual('availableBalance').get(function () {
 // Если нужна конвертация в JSON
 UserSchema.set('toJSON', { virtuals: true });
 
-UserSchema.index({ telegramId: 1 }, { unique: true, sparse: true });
 UserSchema.index({ login: 1 }, { unique: true, sparse: true });
 UserSchema.index({ email: 1 }, { unique: true, sparse: true });
 

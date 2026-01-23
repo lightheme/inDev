@@ -15,9 +15,9 @@ describe('IncreaseBidCommand', () => {
   let userRepository: UserRepository;
 
   beforeEach(async () => {
-    user = await TestHelpers.createUser({ telegramId: 12345 });
+    user = await TestHelpers.createUser({ username: 'user-12345' });
 
-    otherUser = await TestHelpers.createUser({ telegramId: 456 });
+    otherUser = await TestHelpers.createUser({ username: 'user-456' });
 
     auction = await TestHelpers.createAuction({ creatorId: user._id });
     // Create an existing bid
@@ -62,7 +62,7 @@ describe('IncreaseBidCommand', () => {
 
     it('should throw error if insufficient balance', async () => {
       const poorUser = await TestHelpers.createUser({
-        telegramId: 789,
+        username: 'user-789',
         balance: 10,
         reservedBalance: 0,
       });
