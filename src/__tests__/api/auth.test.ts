@@ -117,7 +117,7 @@ describe('Auth flows', () => {
         authorization: `Bearer ${token}`,
         'x-telegram-init-data': 'invalid',
       },
-    } as unknown as Request;
+    } as Request;
     const res = {} as Response;
     const next = jest.fn() as NextFunction;
 
