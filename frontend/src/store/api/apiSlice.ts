@@ -20,13 +20,10 @@ const baseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
   prepareHeaders: (headers, { getState, endpoint }) => {
     const state = getState() as RootState
-    const initData = state.telegram.initData
-    const devToken = state.telegram.devToken
+    const authToken = state.auth.token
 
-    if (devToken) {
-      headers.set('Authorization', `Bearer ${devToken}`)
-    } else if (initData) {
-      headers.set('x-telegram-init-data', initData)
+    if (authToken) {
+      headers.set('Authorization', `Bearer ${authToken}`)
     }
 
     // Add Idempotency-Key for all POST requests

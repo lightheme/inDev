@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { setDevAuthToken } from '../../utils/auth'
+import { setAuthToken } from '../../utils/auth'
 import { useAppDispatch } from '../../store/hooks'
-import { setDevAuthToken as setDevAuthTokenAction } from '../../store/slices/telegramSlice'
+import { setAuthToken as setAuthTokenAction } from '../../store/slices/authSlice'
 import './DevLogin.css'
 
 interface DevLoginProps {
@@ -22,7 +22,7 @@ export const DevLogin = ({ onLogin }: DevLoginProps) => {
     setError(null)
 
     try {
-      const response = await fetch(`${apiBaseUrl}/auth/dev/login`, {
+      const response = await fetch(`${apiBaseUrl}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -42,8 +42,8 @@ export const DevLogin = ({ onLogin }: DevLoginProps) => {
         return
       }
 
-      setDevAuthToken(payload.token)
-      dispatch(setDevAuthTokenAction({ token: payload.token }))
+      setAuthToken(payload.token)
+      dispatch(setAuthTokenAction({ token: payload.token }))
       onLogin()
     } catch (err) {
       setError('Failed to login. Please check the backend is running.')
@@ -55,10 +55,7 @@ export const DevLogin = ({ onLogin }: DevLoginProps) => {
   return (
     <div className="dev-login">
       <div className="dev-login-modal">
-        <h2>Development Login</h2>
-        <p className="text-hint">
-          Running outside Telegram. Use dev credentials to get a JWT.
-        </p>
+        <h2>Login</h2>
 
         <div className="form-group">
           <label className="label">Login</label>

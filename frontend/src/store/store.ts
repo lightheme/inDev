@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from './api/apiSlice'
-import telegramReducer from './slices/telegramSlice'
+import authReducer from './slices/authSlice'
 import uiReducer from './slices/uiSlice'
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
-    telegram: telegramReducer,
+    auth: authReducer,
     ui: uiReducer
   },
   middleware: (getDefaultMiddleware) =>
