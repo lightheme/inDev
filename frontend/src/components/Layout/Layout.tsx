@@ -11,7 +11,7 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation()
   const { data: user } = useGetMeQuery()
-  const { devMode, isInTelegram } = useAppSelector((state) => state.telegram)
+  const { devToken } = useAppSelector((state) => state.auth)
 
   return (
     <div className="layout">
@@ -25,9 +25,9 @@ export const Layout = ({ children }: LayoutProps) => {
             </div>
           )}
         </div>
-        {devMode && !isInTelegram && (
+        {devToken && (
           <div className="dev-mode-banner">
-            Running outside Telegram — using Dev Login
+            Using Dev Login
           </div>
         )}
       </header>
