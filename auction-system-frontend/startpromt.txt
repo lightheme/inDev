@@ -1,0 +1,127 @@
+Ты — топовый senior full-stack разработчик (продуктовый инженер) с сильным вкусом к UX и аккуратной архитектуре. Твоя задача — сгенерировать полностью рабочий фронтенд для демонстрации backend-аукциона, чтобы судья мог открыть сайт и за 2–3 минуты воспроизвести весь сценарий (баланс → создание аукциона → участие → ставки/перебивания → просмотр результатов).
+
+Сгенерируй полноценный проект: React + Vite + TypeScript + Redux Toolkit (обязательно) + RTK Query (обязательно) + react-router-dom.
+
+ЦЕЛЬ ПРОЕКТА
+Сделать минимальный, но удобный UI (telegram-like стилистика), который:
+- работает как обычный сайт (для судей),
+- при желании поддерживает открытие внутри Telegram Web App (Mini App) через window.Telegram.WebApp (но глубина интеграции — на твоё инженерное усмотрение; главное — чтобы сайт работал и без Telegram),
+- позволяет симулировать живой аукцион: на экране постоянно видны обновления (polling), чтобы было ощущение “аукцион живёт”.
+
+
+UI-БИБЛИОТЕКИ
+UI-библиотеки использовать можно, но аккуратно:
+- стиль должен оставаться “телеграммовским”: спокойные цвета, карточки, кнопки, отступы, типографика, минимум визуального шума.
+- предпочтение лёгким решениям (Radix + свои стили / shadcn/ui / небольшие готовые компоненты), но без MUI/Ant корпоративного вида.
+- все цвета должны уважать тему (CSS vars), и иметь fallback тему если параметров темы нет.
+
+АВТОРИЗАЦИЯ / DEV LOGIN (обязательно)
+Так как судьи будут открывать сайт в браузере:
+- сделай Dev Login режим:
+  - экран/виджет с textarea для initData (Telegram initData)
+  - сохранить initData в localStorage
+  - использовать его для всех запросов как auth (заголовок `x-telegram-init-data`)
+- если приложение открыто внутри Telegram и доступен window.Telegram.WebApp.initData — использовать его автоматически.
+- но приложение обязано полностью работать и без Telegram (через Dev Login).
+
+IDEMPOTENCY (обязательно)
+Для всех POST запросов добавляй заголовок:
+- `Idempotency-Key: <uuid v4>`
+
+API
+База URL:
+- env `VITE_API_BASE_URL`, по умолчанию `http://localhost:3000/api`
+
+Реализуй API слой через RTK Query (createApi + fetchBaseQuery).
+baseQuery должен:
+- добавлять `x-telegram-init-data` (из Telegram WebApp initData или из localStorage dev login)
+- добавлять `Idempotency-Key` на POST
+- унифицировать ошибки (показывать toast/snackbar)
+
+Используй эти endpoints (точно такие пути):
+- GET  /api/me
+- POST /api/balance/topup              body:{ amount }
+- GET  /api/auctions
+- POST /api/auctions/create            body:{ title, totalGifts, giftsPerRound:number[], roundDurations:number[] }
+- GET  /api/auctions/:id
+- POST /api/auctions/:id/place-bid     body:{ amount }
+- POST /api/auctions/:id/increase-bid  body:{ bidId, amount }
+- GET  /api/auctions/:id/leaderboard?round=1
+- (добавь в UI просмотр собственных транзакций пользователя:
+   предполагаемый endpoint: GET /api/transactions?me=1
+   если такого endpoint нет в бекенде — реализуй UI модуль так, чтобы:
+   1) он был готов, аккуратно спрятан/помечен как “не доступен” при 404,
+   2) и чтобы его можно было включить без переделок, как только endpoint появится.)
+
+ОБЯЗАТЕЛЬНЫЙ СЦЕНАРИЙ СУДЬИ (UX флоу)
+1) Открыть сайт
+2) Авторизоваться:
+   - если Telegram WebApp — авто
+   - иначе Dev Login (вставить initData)
+3) Dashboard:
+   - карточка “Профиль”: username + balance (+ reserved/available если приходит)
+   - быстрые кнопки пополнения: +10, +100, +1000 (POST /balance/topup)
+4) Создать аукцион:
+   - title
+   - totalGifts
+   - giftsPerRound как строка “10,5,5” -> парсинг number[]
+   - roundDurations (минуты) “1,1,2” -> парсинг number[]
+   - submit -> POST /auctions/create
+5) Страница аукциона:
+   - статус, текущий раунд, таймер (endTime - now)
+   - лидерборд (polling)
+   - place bid (amount)
+   - increase bid (bidId + amount)
+   - после place-bid сохраняй bidId из ответа (id/_id) в state и localStorage по auctionId, чтобы переживать refresh
+   - если bidId нет — покажи подсказку: “сделайте новую ставку, чтобы получить bidId для increase”
+6) “Живость”:
+   - на странице аукциона сделай polling каждые 2 секунды:
+     - GET /auctions/:id
+     - GET /auctions/:id/leaderboard?round=<currentRound>
+   - визуально подсвечивай изменения лидерборда (простая анимация/transition допустима)
+
+СТРУКТУРА ПРИЛОЖЕНИЯ
+Роутинг (react-router-dom):
+- /              Dashboard
+- /auctions      Auctions list
+- /auctions/new  Create auction
+- /auctions/:id  Auction page
+- /transactions  My transactions (как описано выше)
+
+Redux Toolkit (обязательно)
+- store.ts configureStore
+- apiSlice (RTK Query)
+- auth/telegramSlice: initData, isInTelegram, devMode, theme params (по желанию)
+- uiSlice: toast/snackbar очередь
+
+THEME / TELEGRAM-LIKE СТИЛЬ
+- Mobile-first, ширина контента до ~520px, центрирование
+- Карточки, аккуратные отступы, спокойная типографика
+- CSS variables:
+  --tg-bg-color, --tg-text-color, --tg-hint-color, --tg-link-color,
+  --tg-button-color, --tg-button-text-color, --tg-secondary-bg-color
+- Если доступен Telegram WebApp themeParams — примени их, иначе fallback palette.
+- Любая UI библиотека должна быть приведена к этому стилю.
+
+ЧТО ВЕРНУТЬ (обязательно)
+1) Полная структура проекта и полный код ключевых файлов:
+   - package.json
+   - vite config (если нужен)
+   - src/main.tsx, src/App.tsx, router
+   - src/store/store.ts
+   - src/store/api/apiSlice.ts
+   - slices
+   - pages
+   - UI components
+   - styles
+2) README (frontend):
+   - как запустить: npm i, npm run dev
+   - VITE_API_BASE_URL
+   - как тестить в Telegram (если используется) и как тестить в браузере через Dev Login initData
+   - краткая инструкция для судьи (bullet list)
+
+ОГРАНИЧЕНИЯ / ПРИОРИТЕТЫ
+- Не усложняй. Главное — рабочий, приятный, быстрый демо-дашборд.
+- Вся логика должна быть устойчивой к отсутствию Telegram API (optional chaining).
+- Код должен быть аккуратным, без лишних абстракций, но с хорошей структурой.
+
