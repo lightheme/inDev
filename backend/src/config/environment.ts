@@ -26,6 +26,12 @@ export const config = {
     password: process.env.DEV_AUTH_PASSWORD || '',
   },
 
+  auth: {
+    jwtSecret: process.env.AUTH_JWT_SECRET || '',
+    ttlSeconds: parseInt(process.env.AUTH_JWT_TTL_SECONDS || '604800'),
+    passwordSaltRounds: parseInt(process.env.AUTH_PASSWORD_SALT_ROUNDS || '10'),
+  },
+
   queue: {
     name: process.env.QUEUE_NAME || 'main',
     jobLockMs: parseInt(process.env.JOB_LOCK_MS || '30000'),

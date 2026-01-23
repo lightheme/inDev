@@ -13,14 +13,10 @@ npm install
 npm run dev
 ```
 
-## Development Mode
+## Login Flow
 
-The app will automatically show a dev login screen if no Telegram WebApp data is detected.
-
-Default dev credentials:
-- User ID: 12345
-- First Name: Dev User
-- Username: dev_user
+The app shows a login form that posts to `/auth/login` and stores the JWT in
+`localStorage`. The backend will create the user automatically on first login.
 
 ## Testing with Telegram
 
@@ -43,7 +39,7 @@ VITE_API_BASE_URL=http://localhost:3000/api
 ### API Layer
 - ✅ RTK Query with automatic caching
 - ✅ `Idempotency-Key` (UUID v4) on all POST requests
-- ✅ `x-telegram-init-data` authentication header
+- ✅ `Authorization: Bearer <jwt>` authentication header
 - ✅ Unified error handling with toast notifications
 
 ### Pages
@@ -56,7 +52,7 @@ VITE_API_BASE_URL=http://localhost:3000/api
 ### Features
 - ✅ Mobile-first responsive design
 - ✅ Telegram WebApp theme integration
-- ✅ Dev mode for local testing
+- ✅ Login flow for local testing
 - ✅ Real-time auction updates
 - ✅ Toast notifications
 - ✅ Bottom navigation
@@ -87,6 +83,5 @@ src/
 ## Notes
 
 - All POST requests automatically include `Idempotency-Key` header
-- Authentication is handled via `x-telegram-init-data` header
+- Authentication is handled via `Authorization: Bearer <jwt>` header
 - The app uses Telegram WebApp SDK for theme and user data
-- Dev mode allows testing without Telegram integration

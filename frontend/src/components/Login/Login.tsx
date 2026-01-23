@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { setDevAuthToken } from '../../utils/auth'
+import { setAuthToken } from '../../utils/auth'
 import { useAppDispatch } from '../../store/hooks'
-import { setDevAuthToken as setDevAuthTokenAction } from '../../store/slices/authSlice'
-import './DevLogin.css'
+import { setAuthToken as setAuthTokenAction } from '../../store/slices/authSlice'
+import './Login.css'
 
-export const DevLogin = () => {
+export const Login = () => {
   const dispatch = useAppDispatch()
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
@@ -12,9 +12,7 @@ export const DevLogin = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
-  const loginUrl = import.meta.env.DEV
-    ? 'http://localhost:3000/api/auth/dev/login'
-    : `${apiBaseUrl}/auth/dev/login`
+  const loginUrl = `${apiBaseUrl}/auth/login`
 
   const handleLogin = async () => {
     setIsSubmitting(true)
@@ -41,8 +39,8 @@ export const DevLogin = () => {
         return
       }
 
-      setDevAuthToken(payload.token)
-      dispatch(setDevAuthTokenAction({ token: payload.token }))
+      setAuthToken(payload.token)
+      dispatch(setAuthTokenAction({ token: payload.token }))
     } catch (err) {
       setError('Failed to login. Please check the backend is running.')
     } finally {
@@ -51,15 +49,13 @@ export const DevLogin = () => {
   }
 
   return (
-    <div className="dev-login">
-      <div className="dev-login-modal">
-        <h2>Development Login</h2>
-        <p className="text-hint">
-          Running outside Telegram. Use dev credentials to get a JWT.
-        </p>
+    <div className="login">
+      <div className="login-modal">
+        <h2>Login</h2>
+        <p className="text-hint">Use your login and password to get a JWT.</p>
 
         <div className="form-group">
-          <label className="label">Login</label>
+          <label className="label">Login or Email</label>
           <input
             type="text"
             className="input"

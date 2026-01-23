@@ -20,7 +20,10 @@ export class UserRepository {
 
   async create(
     data: {
-      telegramId: number;
+      telegramId?: number;
+      login?: string;
+      email?: string;
+      passwordHash?: string;
       username?: string;
       firstName?: string;
       lastName?: string;
@@ -32,6 +35,9 @@ export class UserRepository {
   ): Promise<UserDocument> {
     const user = new UserModel({
       telegramId: data.telegramId,
+      login: data.login,
+      email: data.email,
+      passwordHash: data.passwordHash,
       username: data.username,
       firstName: data.firstName,
       lastName: data.lastName,
@@ -56,6 +62,25 @@ export class UserRepository {
     session?: mongoose.ClientSession,
   ): Promise<UserDocument[]> {
     const query = UserModel.find({ username: new RegExp(`^${prefix}`) });
+    return session ? query.session(session) : query;
+  }
+
+  async findByLoginOrEmail(
+    login?: string,
+    email?: string,
+    session?: mongoose.ClientSession,
+  ): Promise<UserDocument | null> {
+    if (!login && !email) {
+      return null;
+    }
+
+    const query = UserModel.findOne({
+      $or: [
+        ...(login ? [{ login }] : []),
+        ...(email ? [{ email }] : []),
+      ],
+    });
+
     return session ? query.session(session) : query;
   }
 

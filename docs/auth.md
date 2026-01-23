@@ -1,15 +1,15 @@
-# Telegram Mini App Auth & Dev Flow
+# Auth (JWT) & Dev Flow
 
 ## Overview
 The backend supports **two** authentication paths:
 
-1. **Telegram WebApp (production-safe)** — validates `initData` signed by Telegram.
-2. **Dev Login (non-production only)** — issues a short-lived JWT for local browser use.
+1. **JWT login (production)** — `/auth/login` accepts `login`/`password` (or `email`/`password`),
+   auto-creates the user on first login, and returns a JWT.
+2. **Dev Login (non-production only)** — `/auth/dev/login` issues a short-lived JWT for local
+   browser use.
 
-The middleware always:
-
-* **Prefers** `Authorization: Bearer <token>` when present (only allowed outside production).
-* Otherwise uses `x-telegram-init-data` with **raw** `initData` from Telegram WebApp.
+The middleware expects `Authorization: Bearer <token>` in production. In development, dev tokens
+are still accepted.
 
 ## Environment variables
 
@@ -28,6 +28,10 @@ DEV_AUTH_TTL_SECONDS=604800
 DEV_AUTH_USERS=[{"login":"admin","password":"admin123","userId":123,"role":"admin"}]
 # DEV_AUTH_LOGIN=admin
 # DEV_AUTH_PASSWORD=admin123
+
+AUTH_JWT_SECRET=prod-secret
+AUTH_JWT_TTL_SECONDS=604800
+AUTH_PASSWORD_SALT_ROUNDS=10
 ```
 
 ### Frontend (`frontend/.env`)
@@ -35,15 +39,14 @@ DEV_AUTH_USERS=[{"login":"admin","password":"admin123","userId":123,"role":"admi
 VITE_API_BASE_URL=http://localhost:3000/api
 ```
 
-## Local dev flow (browser / localhost)
-1. Start backend and frontend.
-2. Open the frontend in a browser (not inside Telegram).
-3. The **Dev Login** form will appear. Enter credentials from `DEV_AUTH_USERS` (or `DEV_AUTH_LOGIN` / `DEV_AUTH_PASSWORD`).
-4. The frontend stores the JWT in `localStorage` and sends it as `Authorization: Bearer <token>`.
+## Production login flow
+1. Send login credentials to `/auth/login`.
+2. The backend returns a JWT and creates the user record if it does not exist.
+3. Store the token and send it as `Authorization: Bearer <token>` for all API requests.
 
 ### curl example
 ```
-curl -X POST http://localhost:3000/api/auth/dev/login \
+curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"login":"admin","password":"admin123"}'
 ```
@@ -54,16 +57,14 @@ curl http://localhost:3000/api/me \
   -H "Authorization: Bearer <token>"
 ```
 
-## Telegram WebApp flow (inside Telegram)
-1. Open the Mini App **inside Telegram**.
-2. The frontend uses **raw** `window.Telegram.WebApp.initData` and sends it as:
-   * `x-telegram-init-data: <initDataRaw>`
-3. The backend verifies the signature and TTL.
+## Local dev flow (browser / localhost)
+1. Start backend and frontend.
+2. Open the frontend in a browser (not inside Telegram).
+3. Use `/auth/dev/login` with credentials from `DEV_AUTH_USERS`.
 
 ### curl example
 ```
-curl http://localhost:3000/api/me \
-  -H "x-telegram-init-data: <initDataRaw>"
+curl -X POST http://localhost:3000/api/auth/dev/login \
+  -H "Content-Type: application/json" \
+  -d '{"login":"admin","password":"admin123"}'
 ```
-
-> ⚠️ Do **not** URL-decode or reconstruct the query string manually. Use the raw `initData` from Telegram.
