@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useGetMeQuery } from '../../store/api/apiSlice'
 import { useAppSelector } from '../../store/hooks'
+import { formatCurrency } from '../../utils/formatCurrency'
 import './Layout.css'
 
 interface LayoutProps {
@@ -21,7 +22,7 @@ export const Layout = ({ children }: LayoutProps) => {
           {user && (
             <div className="header-balance">
               <span className="balance-label">Balance:</span>
-              <span className="balance-amount">{user.balance.toFixed(2)} ₽</span>
+              <span className="balance-amount">{formatCurrency(user.balance)}</span>
             </div>
           )}
         </div>

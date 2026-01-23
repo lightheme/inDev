@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { Auction } from '../../types'
+import { formatCurrency } from '../../utils/formatCurrency'
 import './AuctionCard.css'
 
 interface AuctionCardProps {
@@ -8,15 +9,17 @@ interface AuctionCardProps {
 
 export const AuctionCard = ({ auction }: AuctionCardProps) => {
   const statusColors = {
-    pending: '#ff9800',
+    draft: '#ff9800',
     active: '#4caf50',
-    completed: '#707579'
+    completed: '#707579',
+    cancelled: '#b0bec5'
   }
 
   const statusLabels = {
-    pending: 'Pending',
+    draft: 'Draft',
     active: 'Active',
-    completed: 'Completed'
+    completed: 'Completed',
+    cancelled: 'Cancelled'
   }
 
   return (
@@ -49,7 +52,7 @@ export const AuctionCard = ({ auction }: AuctionCardProps) => {
         {auction.totalAmount !== undefined && (
           <div className="auction-detail">
             <span className="detail-label">Total Amount:</span>
-            <span className="detail-value">{auction.totalAmount.toFixed(2)} ₽</span>
+            <span className="detail-value">{formatCurrency(auction.totalAmount)}</span>
           </div>
         )}
       </div>

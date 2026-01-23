@@ -1,12 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserService } from '../../services/UserService';
+import { LedgerService } from '../../ledger/LedgerService';
 import { AppError } from '../../utils/errors';
 
 export class UserController {
   private userService: UserService;
+  private ledgerService: LedgerService;
 
   constructor() {
     this.userService = new UserService();
+    this.ledgerService = new LedgerService();
   }
 
   getMe = async (req: Request, res: Response, next: NextFunction) => {
@@ -55,6 +58,31 @@ export class UserController {
           reservedBalance: user.reservedBalance,
           availableBalance: user.balance - user.reservedBalance,
         },
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getTransactions = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = req.user!.id;
+      const limit = req.query.limit ? Number(req.query.limit) : undefined;
+
+      const entries = await this.ledgerService.getUserLedger(userId, limit);
+
+      res.json({
+        success: true,
+        data: entries.map((entry) => ({
+          id: entry._id.toString(),
+          userId: entry.userId.toString(),
+          type: entry.type,
+          amount: entry.amount,
+          refType: entry.refType,
+          refId: entry.refId.toString(),
+          commandId: entry.commandId,
+          createdAt: entry.createdAt,
+        })),
       });
     } catch (error) {
       next(error);

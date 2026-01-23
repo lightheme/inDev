@@ -7,7 +7,7 @@ import './Auctions.css'
 
 export const Auctions = () => {
   const { data: auctions = [], isLoading } = useGetAuctionsQuery()
-  const [filter, setFilter] = useState<'all' | 'active' | 'pending' | 'completed'>('all')
+  const [filter, setFilter] = useState<'all' | 'active' | 'draft' | 'completed'>('all')
 
   const filteredAuctions = auctions.filter(auction => {
     if (filter === 'all') return true
@@ -41,10 +41,10 @@ export const Auctions = () => {
           Active ({auctions.filter(a => a.status === 'active').length})
         </button>
         <button
-          className={`filter-tab ${filter === 'pending' ? 'active' : ''}`}
-          onClick={() => setFilter('pending')}
+          className={`filter-tab ${filter === 'draft' ? 'active' : ''}`}
+          onClick={() => setFilter('draft')}
         >
-          Pending ({auctions.filter(a => a.status === 'pending').length})
+          Draft ({auctions.filter(a => a.status === 'draft').length})
         </button>
         <button
           className={`filter-tab ${filter === 'completed' ? 'active' : ''}`}

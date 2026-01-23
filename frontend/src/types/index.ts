@@ -1,11 +1,33 @@
+export interface ApiResponse<T> {
+  success: boolean
+  data: T
+}
+
 export interface User {
   id: string
-  telegramId: string
-  username: string
-  firstName: string
+  username?: string
+  firstName?: string
   lastName?: string
   balance: number
-  createdAt: string
+  reservedBalance?: number
+  availableBalance?: number
+  createdAt?: string
+}
+
+export interface UserBalance {
+  balance: number
+  reservedBalance: number
+  availableBalance: number
+}
+
+export interface AuctionRound {
+  roundNumber: number
+  giftsToDistribute: number
+  startTime: string
+  endTime: string
+  duration: number
+  status: 'pending' | 'active' | 'completed'
+  winnerIds?: Array<string | { id?: string; _id?: string; username?: string; firstName?: string; lastName?: string }>
 }
 
 export interface Auction {
@@ -14,8 +36,9 @@ export interface Auction {
   totalGifts: number
   giftsPerRound: number[]
   roundDurations: number[]
+  rounds?: AuctionRound[]
   currentRound: number
-  status: 'pending' | 'active' | 'completed'
+  status: 'draft' | 'active' | 'completed' | 'cancelled'
   startedAt?: string
   completedAt?: string
   createdAt: string
@@ -27,37 +50,41 @@ export interface Bid {
   id: string
   auctionId: string
   userId: string
+  roundNumber: number
   amount: number
-  round: number
-  rank?: number
-  createdAt: string
+  placedAt: string
+  status: 'active' | 'won' | 'refunded'
+  idempotencyKey?: string
   user?: {
-    username: string
-    firstName: string
+    username?: string
+    firstName?: string
+    lastName?: string
   }
 }
 
 export interface LeaderboardEntry {
   userId: string
-  username: string
-  firstName: string
   totalAmount: number
-  bidCount: number
   rank: number
-  isWinner: boolean
+  placedAt?: string
+  user?: {
+    username?: string
+    firstName?: string
+    lastName?: string
+  }
 }
 
 export interface Transaction {
   id: string
   userId: string
-  type: 'topup' | 'bid' | 'bid_increase' | 'refund' | 'win'
+  type: 'topup' | 'reserve' | 'charge' | 'refund'
   amount: number
-  balanceBefore: number
-  balanceAfter: number
-  auctionId?: string
-  bidId?: string
+  refType?: 'auction' | 'round' | 'bid' | 'user'
+  refId?: string
+  commandId?: string
   metadata?: Record<string, any>
   createdAt: string
+  balanceAfter?: number
 }
 
 export interface CreateAuctionRequest {

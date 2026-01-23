@@ -16,4 +16,6 @@ router.post(
   userController.topUpBalance,
 );
 
+router.get('/transactions', authMiddleware, userController.getTransactions);
+
 export default router;
