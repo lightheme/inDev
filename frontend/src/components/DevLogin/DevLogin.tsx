@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { setAuthToken } from '../../utils/auth'
+import { getApiBaseUrl } from '../../utils/apiBase'
 import { useAppDispatch } from '../../store/hooks'
 import { setAuthToken as setAuthTokenAction } from '../../store/slices/authSlice'
 import './DevLogin.css'
@@ -15,7 +16,7 @@ export const DevLogin = ({ onLogin }: DevLoginProps) => {
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
+  const apiBaseUrl = getApiBaseUrl()
 
   const handleLogin = async () => {
     setIsSubmitting(true)

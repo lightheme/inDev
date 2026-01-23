@@ -42,6 +42,7 @@ src/
 │   └── hooks.ts       # Typed hooks
 ├── types/             # TypeScript type definitions
 ├── utils/             # Utility functions
+│   ├── apiBase.ts     # API base URL normalization
 │   └── uuid.ts        # UUID generation
 └── styles/            # Global styles
 
@@ -68,6 +69,7 @@ cp .env.example .env
 ```env
 VITE_API_BASE_URL=http://localhost:3000/api
 ```
+You can also set `VITE_API_BASE_URL` without `/api` (for example, `http://localhost:3000`); the frontend will normalize it to include `/api`.
 
 ### Development
 

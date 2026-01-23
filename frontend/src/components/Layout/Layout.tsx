@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useGetMeQuery } from '../../store/api/apiSlice'
+import { useAppSelector } from '../../store/hooks'
 import './Layout.css'
 
 interface LayoutProps {
@@ -9,7 +10,8 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation()
-  const { data: user } = useGetMeQuery()
+  const token = useAppSelector((state) => state.auth.token)
+  const { data: user } = useGetMeQuery(undefined, { skip: !token })
 
   return (
     <div className="layout">
