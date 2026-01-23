@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useGetMeQuery, useTopUpBalanceMutation, useGetAuctionsQuery } from '../../store/api/apiSlice.ts'
-import { useAppDispatch } from '../../store/hooks.ts'
+import { useAppDispatch, useAppSelector } from '../../store/hooks.ts'
 import { addToast } from '../../store/slices/uiSlice.ts'
 import { Loading } from '../../components'
 import './Dashboard.css'
 
 export const Dashboard = () => {
-  const { data: user, isLoading: userLoading } = useGetMeQuery()
+  const token = useAppSelector((state) => state.auth.token)
+  const { data: user, isLoading: userLoading } = useGetMeQuery(undefined, { skip: !token })
   const { data } = useGetAuctionsQuery()
   const auctions =
         Array.isArray(data) ? data :
