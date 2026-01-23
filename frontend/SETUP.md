@@ -18,6 +18,10 @@ npm run dev
 The app will automatically show a login screen if no JWT is stored.
 Use the backend credentials to sign in and receive a JWT.
 
+Login endpoint:
+- `POST /auth/login`
+- Response: `{ success: true, data: { token } }`
+
 ## API Integration
 
 Make sure your backend API is running at the URL specified in `.env`:
