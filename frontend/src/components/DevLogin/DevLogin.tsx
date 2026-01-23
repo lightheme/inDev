@@ -36,14 +36,16 @@ export const DevLogin = ({ onLogin }: DevLoginProps) => {
         setError(payload?.error || 'Failed to login')
         return
       }
+			
+			const token = payload?.data?.token ?? payload?.token
 
-      if (!payload?.data?.token) {
+      if (!token) {
         setError('Missing token in response')
         return
       }
 
-      setAuthToken(payload.data.token)
-      dispatch(setAuthTokenAction({ token: payload.data.token }))
+      setAuthToken(token)
+      dispatch(setAuthTokenAction({ token }))
       onLogin()
     } catch (err) {
       setError('Failed to login. Please check the backend is running.')
