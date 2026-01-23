@@ -18,11 +18,6 @@ export const config = {
     password: process.env.REDIS_PASSWORD || '',
   },
 
-  telegram: {
-    botToken: process.env.BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || '',
-    authMaxAgeSeconds: parseInt(process.env.TELEGRAM_AUTH_MAX_AGE_SECONDS || '86400'),
-  },
-
   devAuth: {
     jwtSecret: process.env.DEV_AUTH_JWT_SECRET || '',
     ttlSeconds: parseInt(process.env.DEV_AUTH_TTL_SECONDS || '604800'),

@@ -37,7 +37,6 @@ export const createApp = (): Application => {
     allowedHeaders: [
       'Content-Type',
       'Authorization',
-      'x-telegram-init-data',
       'Idempotency-Key',
     ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
