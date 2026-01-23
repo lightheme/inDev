@@ -9,6 +9,7 @@ import {
 import { useAppDispatch } from '../../store/hooks'
 import { addToast } from '../../store/slices/uiSlice'
 import { Loading } from '../../components/Loading/Loading'
+import { formatCurrency } from '../../utils/formatCurrency'
 import './AuctionDetail.css'
 
 export const AuctionDetail = () => {
@@ -97,10 +98,13 @@ export const AuctionDetail = () => {
   }
 
   const statusColors = {
-    pending: '#ff9800',
+    draft: '#ff9800',
     active: '#4caf50',
-    completed: '#707579'
+    completed: '#707579',
+    cancelled: '#b0bec5'
   }
+
+  const totalRounds = auction.giftsPerRound.length
 
   return (
     <div className="auction-detail-page">
@@ -129,16 +133,20 @@ export const AuctionDetail = () => {
           <div className="info-item">
             <span className="info-label">Current Round</span>
             <span className="info-value">
-              {auction.currentRound}/{auction.giftsPerRound.length}
+              {auction.currentRound}/{totalRounds}
             </span>
           </div>
           <div className="info-item">
             <span className="info-label">Round Gifts</span>
-            <span className="info-value">{auction.giftsPerRound[auction.currentRound - 1]}</span>
+            <span className="info-value">
+              {auction.giftsPerRound[auction.currentRound - 1] ?? 0}
+            </span>
           </div>
           <div className="info-item">
             <span className="info-label">Round Duration</span>
-            <span className="info-value">{auction.roundDurations[auction.currentRound - 1]}s</span>
+            <span className="info-value">
+              {auction.roundDurations[auction.currentRound - 1] ?? 0}s
+            </span>
           </div>
         </div>
       </div>
@@ -233,18 +241,18 @@ export const AuctionDetail = () => {
               <p className="text-hint">No bids yet</p>
             ) : (
               <div className="leaderboard-list">
-                {leaderboard.map((entry, index) => (
-                  <div key={entry.userId} className={`leaderboard-item ${entry.isWinner ? 'winner' : ''}`}>
+                {leaderboard.map((entry) => (
+                  <div key={entry.userId} className="leaderboard-item">
                     <div className="rank">#{entry.rank}</div>
                     <div className="user-info">
                       <div className="user-name">
-                        {entry.firstName} {entry.isWinner && '🎁'}
+                        {entry.user?.firstName || entry.user?.username || entry.userId}
                       </div>
                       <div className="user-stats text-hint">
-                        {entry.bidCount} bids
+                        {entry.user?.username && `@${entry.user.username}`}
                       </div>
                     </div>
-                    <div className="amount">{entry.totalAmount.toFixed(2)} ₽</div>
+                    <div className="amount">{formatCurrency(entry.totalAmount)}</div>
                   </div>
                 ))}
               </div>

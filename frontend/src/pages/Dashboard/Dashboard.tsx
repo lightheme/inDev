@@ -9,12 +9,7 @@ import './Dashboard.css'
 export const Dashboard = () => {
   const token = useAppSelector((state) => state.auth.token)
   const { data: user, isLoading: userLoading } = useGetMeQuery(undefined, { skip: !token })
-  const { data } = useGetAuctionsQuery()
-  const auctions =
-        Array.isArray(data) ? data :
-            Array.isArray((data as any)?.auctions) ? (data as any).auctions :
-            Array.isArray((data as any)?.items) ? (data as any).items :
-            []
+  const { data: auctions = [] } = useGetAuctionsQuery()
 
   const [topUpBalance, { isLoading: topUpLoading }] = useTopUpBalanceMutation()
   const dispatch = useAppDispatch()

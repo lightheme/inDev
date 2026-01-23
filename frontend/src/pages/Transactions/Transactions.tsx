@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useGetTransactionsQuery } from '../../store/api/apiSlice'
 import { Loading } from '../../components/Loading/Loading'
 import type { Transaction } from '../../types'
+import { formatCurrency } from '../../utils/formatCurrency'
 import './Transactions.css'
 
 export const Transactions = () => {
@@ -21,14 +22,12 @@ export const Transactions = () => {
     switch (type) {
       case 'topup':
         return '💰'
-      case 'bid':
+      case 'reserve':
         return '🎯'
-      case 'bid_increase':
-        return '📈'
+      case 'charge':
+        return '🏆'
       case 'refund':
         return '↩️'
-      case 'win':
-        return '🎁'
       default:
         return '💳'
     }
@@ -38,14 +37,12 @@ export const Transactions = () => {
     switch (type) {
       case 'topup':
         return 'Top Up'
-      case 'bid':
-        return 'Bid Placed'
-      case 'bid_increase':
-        return 'Bid Increased'
+      case 'reserve':
+        return 'Bid Reserved'
+      case 'charge':
+        return 'Charge'
       case 'refund':
         return 'Refund'
-      case 'win':
-        return 'Win'
       default:
         return type
     }
@@ -55,10 +52,10 @@ export const Transactions = () => {
     switch (type) {
       case 'topup':
       case 'refund':
-      case 'win':
         return '#4caf50'
-      case 'bid':
-      case 'bid_increase':
+      case 'charge':
+        return '#e53935'
+      case 'reserve':
         return '#e53935'
       default:
         return 'var(--tg-text-color)'
@@ -83,22 +80,22 @@ export const Transactions = () => {
           Top Up
         </button>
         <button
-          className={`filter-tab ${filter === 'bid' ? 'active' : ''}`}
-          onClick={() => setFilter('bid')}
+          className={`filter-tab ${filter === 'reserve' ? 'active' : ''}`}
+          onClick={() => setFilter('reserve')}
         >
-          Bids
+          Reserve
+        </button>
+        <button
+          className={`filter-tab ${filter === 'charge' ? 'active' : ''}`}
+          onClick={() => setFilter('charge')}
+        >
+          Charge
         </button>
         <button
           className={`filter-tab ${filter === 'refund' ? 'active' : ''}`}
           onClick={() => setFilter('refund')}
         >
           Refunds
-        </button>
-        <button
-          className={`filter-tab ${filter === 'win' ? 'active' : ''}`}
-          onClick={() => setFilter('win')}
-        >
-          Wins
         </button>
       </div>
 
@@ -131,12 +128,14 @@ export const Transactions = () => {
                   className="tx-amount"
                   style={{ color: getTransactionColor(tx.type) }}
                 >
-                  {tx.type === 'topup' || tx.type === 'refund' || tx.type === 'win' ? '+' : '-'}
-                  {Math.abs(tx.amount).toFixed(2)} ₽
+                  {tx.type === 'topup' || tx.type === 'refund' ? '+' : '-'}
+                  {formatCurrency(Math.abs(tx.amount))}
                 </div>
-                <div className="tx-balance text-hint">
-                  Balance: {tx.balanceAfter.toFixed(2)} ₽
-                </div>
+                {tx.balanceAfter !== undefined && (
+                  <div className="tx-balance text-hint">
+                    Balance: {formatCurrency(tx.balanceAfter)}
+                  </div>
+                )}
               </div>
             </div>
           ))}
