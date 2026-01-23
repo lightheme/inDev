@@ -16,14 +16,17 @@ export const DevLogin = ({ onLogin }: DevLoginProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
+  const loginUrl = import.meta.env.DEV
+    ? 'http://localhost:3000/api/auth/dev/login'
+    : `${apiBaseUrl}/auth/dev/login`
 
-  const handleLogin = async () => {
+		const handleLogin = async () => {
     setIsSubmitting(true)
     setError(null)
 
     try {
-      const response = await fetch(`${apiBaseUrl}/auth/dev/login`, {
-        method: 'POST',
+      const response = await fetch(loginUrl, {
+				method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },

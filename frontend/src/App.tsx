@@ -22,9 +22,11 @@ function App() {
 
     // Check if we need to show dev login
     const initData = getTelegramInitData()
+		console.log(isInTelegram)
     if (!isInTelegram && !devToken && !initData) {
       setShowDevLogin(true)
     }
+		console.log(showDevLogin)
 
     const themeParams = getTelegramTheme()
     if (Object.keys(themeParams).length > 0) {

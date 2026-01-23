@@ -53,7 +53,14 @@ declare global {
 }
 
 export const isTelegramWebApp = (): boolean => {
-  return typeof window !== 'undefined' && !!window.Telegram?.WebApp
+	if (typeof window === 'undefined') {
+	    return false
+	}
+	
+	const initData = window.Telegram?.WebApp?.initData
+	const user = window.Telegram?.WebApp?.initDataUnsafe?.user
+	
+	return (typeof initData === 'string' && initData.length > 0) || !!user
 }
 
 export const getTelegramInitData = (): string => {
