@@ -16,6 +16,7 @@ export const createApp = (): Application => {
     cors({
       origin: process.env.FRONTEND_URL || '*',
       credentials: true,
+      allowedHeaders: ['Content-Type', 'Authorization', 'x-telegram-init-data', 'Idempotency-Key'],
     }),
   );
 

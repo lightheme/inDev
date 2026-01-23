@@ -13,30 +13,30 @@ export class UserService {
   }
 
   async getOrCreateUser(telegramData: {
-    id: number;
+    telegramId: number;
     username?: string;
-    first_name?: string;
-    last_name?: string;
+    firstName?: string;
+    lastName?: string;
   }): Promise<UserDocument> {
-    let user = await this.userRepository.findByTelegramId(telegramData.id);
+    let user = await this.userRepository.findByTelegramId(telegramData.telegramId);
 
     if (!user) {
       user = await this.userRepository.create({
-        telegramId: telegramData.id,
+        telegramId: telegramData.telegramId,
         username: telegramData.username,
-        firstName: telegramData.first_name,
-        lastName: telegramData.last_name,
+        firstName: telegramData.firstName,
+        lastName: telegramData.lastName,
       });
     } else {
       const updates: Partial<UserDocument> = {};
       if (telegramData.username && telegramData.username !== user.username) {
         updates.username = telegramData.username;
       }
-      if (telegramData.first_name && telegramData.first_name !== user.firstName) {
-        updates.firstName = telegramData.first_name;
+      if (telegramData.firstName && telegramData.firstName !== user.firstName) {
+        updates.firstName = telegramData.firstName;
       }
-      if (telegramData.last_name && telegramData.last_name !== user.lastName) {
-        updates.lastName = telegramData.last_name;
+      if (telegramData.lastName && telegramData.lastName !== user.lastName) {
+        updates.lastName = telegramData.lastName;
       }
       if (Object.keys(updates).length > 0) {
         Object.assign(user, updates);

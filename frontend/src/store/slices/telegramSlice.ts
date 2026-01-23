@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { getDevAuthToken } from '../../utils/auth'
 import { getTelegramInitData, getTelegramUser, getTelegramTheme, isTelegramWebApp } from '../../utils/telegram'
 
 interface TelegramState {
@@ -20,6 +21,7 @@ interface TelegramState {
     secondary_bg_color?: string
   }
   devMode: boolean
+  devToken: string
 }
 
 const initialState: TelegramState = {
@@ -27,17 +29,17 @@ const initialState: TelegramState = {
   isInTelegram: isTelegramWebApp(),
   user: getTelegramUser(),
   themeParams: getTelegramTheme(),
-  devMode: !isTelegramWebApp()
+  devMode: !isTelegramWebApp(),
+  devToken: getDevAuthToken()
 }
 
 const telegramSlice = createSlice({
   name: 'telegram',
   initialState,
   reducers: {
-    setDevMode: (state, action: PayloadAction<{ initData: string; user: any }>) => {
+    setDevAuthToken: (state, action: PayloadAction<{ token: string }>) => {
       state.devMode = true
-      state.initData = action.payload.initData
-      state.user = action.payload.user
+      state.devToken = action.payload.token
     },
     updateThemeParams: (state, action: PayloadAction<TelegramState['themeParams']>) => {
       state.themeParams = action.payload
@@ -45,5 +47,5 @@ const telegramSlice = createSlice({
   }
 })
 
-export const { setDevMode, updateThemeParams } = telegramSlice.actions
+export const { setDevAuthToken, updateThemeParams } = telegramSlice.actions
 export default telegramSlice.reducer
