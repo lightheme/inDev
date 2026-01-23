@@ -19,7 +19,16 @@ export const config = {
   },
 
   telegram: {
-    botToken: process.env.TELEGRAM_BOT_TOKEN || '',
+    botToken: process.env.BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || '',
+    authMaxAgeSeconds: parseInt(process.env.TELEGRAM_AUTH_MAX_AGE_SECONDS || '86400'),
+  },
+
+  devAuth: {
+    jwtSecret: process.env.DEV_AUTH_JWT_SECRET || '',
+    ttlSeconds: parseInt(process.env.DEV_AUTH_TTL_SECONDS || '604800'),
+    users: process.env.DEV_AUTH_USERS || '',
+    login: process.env.DEV_AUTH_LOGIN || '',
+    password: process.env.DEV_AUTH_PASSWORD || '',
   },
 
   queue: {

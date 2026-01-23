@@ -5,6 +5,7 @@ export interface UserDocument extends Document {
   username?: string;
   firstName?: string;
   lastName?: string;
+  isDev?: boolean;
   balance: number;
   reservedBalance: number;
   createdAt: Date;
@@ -16,6 +17,7 @@ const UserSchema = new Schema<UserDocument>({
   username: { type: String },
   firstName: { type: String },
   lastName: { type: String },
+  isDev: { type: Boolean, default: false },
   balance: { type: Number, default: 0, min: 0 },
   reservedBalance: { type: Number, default: 0, min: 0 },
   createdAt: { type: Date, default: Date.now },
